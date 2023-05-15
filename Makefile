@@ -10,7 +10,6 @@
 #                                                                              #
 # **************************************************************************** #
 
-
 # VAR ---------------------------------------------------------------
 OBJS_DIR		=	.OBJS/
 SRCS			=	SRCS/parsing.c \
@@ -27,14 +26,18 @@ RM				=	rm -rf
 FLAGS			=	-Wall -Wextra -Werror -lm
 FLAGS			+=	-MMD -MP
 
+MLX_NAME		=	libmlx.a
+MLX_DIR			=	mlx/
+MLX_FLAGS		=	-lXext -lX11 -lm -lz
+
 # RULES -------------------------------------------------------------
-all:				$(NAME)
+all:				mlx $(NAME)
 
 run:				all
 					./$(NAME)
 
 $(NAME):			$(OBJS)
-					$(CC) $(FLAGS) $(OBJS) -o $(NAME)
+					$(CC) $(FLAGS) $(OBJS) $(MLX_DIR)$(MLX_NAME) $(MLX_FLAGS) -o $(NAME)
 
 -include $(DEP)
 $(OBJS_DIR)%.o:		%.c | dir
@@ -45,12 +48,16 @@ dir:
 					@mkdir -p $(OBJS_DIR)SRCS
 					@mkdir -p $(OBJS_DIR)UTILS
 
+mlx:
+					make -j -C $(MLX_DIR)
+
 clean:
 					$(RM) $(OBJS_DIR)
+					make clean -C $(MLX_DIR)
 
 fclean:				clean
 					$(RM) $(NAME)
 
 re:					fclean all
 
-.PHONY:				all run dir clean fclean re
+.PHONY:				all run dir mlx clean fclean re
