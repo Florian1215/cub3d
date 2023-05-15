@@ -1,21 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   str_end_with.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fguirama <fguirama@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/09 17:35:00 by fguirama          #+#    #+#             */
-/*   Updated: 2023/05/09 17:35:00 by fguirama         ###   ########lyon.fr   */
+/*   Created: 2023/05/15 18:23:00 by fguirama          #+#    #+#             */
+/*   Updated: 2023/05/15 18:23:00 by fguirama         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "INCLUDES/cub3d.h"
+#include "../INCLUDES/cub3d.h"
 
-int	main(int ac, char **av)
+t_bool	str_end_with(char *s1, char *s2)
 {
-	av++;
-	ac--;
-	parsing(ac, av);
-	return (SUCCESS);
+	int	i1;
+	int	i2;
+
+	if (!*s1 && *s2)
+		return (FALSE);
+	i1 = str_len(s1);
+	i2 = str_len(s2);
+	while (--i1 > 0 && --i2 > 0)
+	{
+		if (s1[i1] != s2[i2])
+			return (FALSE);
+	}
+	return (TRUE);
 }

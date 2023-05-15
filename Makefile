@@ -13,7 +13,7 @@
 # VAR ---------------------------------------------------------------
 OBJS_DIR		=	.OBJS/
 SRCS			=	SRCS/parsing.c \
-					UTILS/atoic.c UTILS/split.c \
+					UTILS/atoic.c UTILS/split.c UTILS/get_next_line.c UTILS/str_len.c \
 					main.c
 OBJS			=	$(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
 DEP				=	$(addprefix $(OBJS_DIR), $(SRCS:.c=.d))

@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   str_len.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fguirama <fguirama@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/09 17:35:00 by fguirama          #+#    #+#             */
-/*   Updated: 2023/05/09 17:35:00 by fguirama         ###   ########lyon.fr   */
+/*   Created: 2023/05/15 18:13:00 by fguirama          #+#    #+#             */
+/*   Updated: 2023/05/15 18:13:00 by fguirama         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "INCLUDES/cub3d.h"
-
-int	main(int ac, char **av)
+int	str_len(char *str)
 {
-	av++;
-	ac--;
-	parsing(ac, av);
-	return (SUCCESS);
+	int	len;
+
+	len = 0;
+	while (str && str[len])
+		len++;
+	return (len);
 }

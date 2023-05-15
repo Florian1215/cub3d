@@ -15,7 +15,7 @@
 static int	count_word(char const *s);
 static int	word_len(char const *s);
 static char	*word_cpy(const char *src, int n);
-char	**free_split(char **split, int i);
+char		**free_split(char **split, int i);
 
 char	**split_(char const *s)
 {

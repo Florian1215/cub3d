@@ -1,21 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   str_nstr.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fguirama <fguirama@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/09 17:35:00 by fguirama          #+#    #+#             */
-/*   Updated: 2023/05/09 17:35:00 by fguirama         ###   ########lyon.fr   */
+/*   Created: 2023/05/15 18:39:00 by fguirama          #+#    #+#             */
+/*   Updated: 2023/05/15 18:39:00 by fguirama         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "INCLUDES/cub3d.h"
+#include "../INCLUDES/cub3d.h"
 
-int	main(int ac, char **av)
+t_bool	str_n_str(char *s1, char *s2, int n)
 {
-	av++;
-	ac--;
-	parsing(ac, av);
-	return (SUCCESS);
+	int	i;
+	int	j;
+
+	i = 0;
+	if (!*s2)
+		return (TRUE);
+	while (s1[i] && i < n)
+	{
+		j = 0;
+		while (s1[i + j] == s2[j] && s1[i + j] && i + j < n)
+			j++;
+		if (!s2[j])
+			return (TRUE);
+		i++;
+	}
+	return (FALSE);
 }
