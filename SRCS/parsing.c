@@ -1,19 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fguirama <fguirama@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/09 17:35:00 by fguirama          #+#    #+#             */
-/*   Updated: 2023/05/09 17:35:00 by fguirama         ###   ########lyon.fr   */
+/*   Created: 2023/05/15 11:44:00 by fguirama          #+#    #+#             */
+/*   Updated: 2023/05/15 11:44:00 by fguirama         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "INCLUDES/cub3d.h"
+#include "../INCLUDES/cub3d.h"
 
-int	main(int ac, char **av)
+t_exit	parsing(int ac, char **av)
 {
-	parsing(ac, av);
+	(void)ac;
+	(void)av;
 	return (SUCCESS);
 }

@@ -1,7 +1,20 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: fguirama <fguirama@student.42lyon.fr>      +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/05/09 22:01:38 by fguirama          #+#    #+#              #
+#    Updated: 2023/05/09 22:01:38 by fguirama         ###   ########lyon.fr    #
+#                                                                              #
+# **************************************************************************** #
+
 
 # VAR ---------------------------------------------------------------
 OBJS_DIR		=	.OBJS/
-SRCS			=	SRCS/.c \
+SRCS			=	SRCS/parsing.c \
+					UTILS/atoic.c UTILS/split.c \
 					main.c
 OBJS			=	$(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
 DEP				=	$(addprefix $(OBJS_DIR), $(SRCS:.c=.d))
@@ -9,9 +22,9 @@ DEP				=	$(addprefix $(OBJS_DIR), $(SRCS:.c=.d))
 NAME			=	cub3d
 HEAD			=	INCLUDES/
 
-CC				=	c++
+CC				=	ccc
 RM				=	rm -rf
-FLAGS			=	-Wall -Wextra -Werror -std=c++98
+FLAGS			=	-Wall -Wextra -Werror -lm
 FLAGS			+=	-MMD -MP
 
 # RULES -------------------------------------------------------------
@@ -30,6 +43,7 @@ $(OBJS_DIR)%.o:		%.c | dir
 dir:
 					@mkdir -p $(OBJS_DIR)
 					@mkdir -p $(OBJS_DIR)SRCS
+					@mkdir -p $(OBJS_DIR)UTILS
 
 clean:
 					$(RM) $(OBJS_DIR)
