@@ -49,7 +49,7 @@ dir:
 					@mkdir -p $(OBJS_DIR)UTILS
 
 mlx:
-					make -j -C $(MLX_DIR)
+					make --jobs=3 -C $(MLX_DIR)
 
 clean:
 					$(RM) $(OBJS_DIR)
