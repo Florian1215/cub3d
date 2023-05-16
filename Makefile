@@ -13,7 +13,7 @@
 # VAR ---------------------------------------------------------------
 OBJS_DIR		=	.OBJS/
 SRCS			=	SRCS/parsing.c \
-					UTILS/atoic.c UTILS/split.c UTILS/get_next_line.c UTILS/str_len.c \
+					UTILS/atoic.c UTILS/split.c UTILS/get_next_line.c UTILS/str_len.c UTILS/atoi.c UTILS/str_nstr.c \
 					main.c
 OBJS			=	$(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
 DEP				=	$(addprefix $(OBJS_DIR), $(SRCS:.c=.d))
@@ -21,14 +21,14 @@ DEP				=	$(addprefix $(OBJS_DIR), $(SRCS:.c=.d))
 NAME			=	cub3d
 HEAD			=	INCLUDES/
 
-CC				=	ccc
+CC				=	cc
 RM				=	rm -rf
-FLAGS			=	-Wall -Wextra -Werror -lm
+FLAGS			=	-Wall -Wextra -Werror
 FLAGS			+=	-MMD -MP
 
 MLX_NAME		=	libmlx.a
 MLX_DIR			=	mlx/
-MLX_FLAGS		=	-lXext -lX11 -lm -lz
+MLX_FLAGS		=	-lXext -lX11 -lmlx -lz
 
 # RULES -------------------------------------------------------------
 all:				mlx $(NAME)
