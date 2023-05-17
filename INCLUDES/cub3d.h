@@ -32,18 +32,6 @@ typedef enum e_exit				t_exit;
 typedef union u_color			t_color;
 
 // STRUCT ---------------------------------------
-struct s_data
-{
-	int		**map;
-	int		color;
-	char	*north_texture;
-	char	*south_texture;
-	char	*west_texture;
-	char	*east_texture;
-	t_color	floor;
-	t_color	ceiling;
-};
-
 struct s_rgb
 {
 	unsigned char	r;
@@ -55,6 +43,18 @@ union u_color
 {
 	unsigned int	color;
 	struct s_rgb	rgb;
+};
+
+struct s_data
+{
+	int		**map;
+	int		color;
+	char	*north_texture;
+	char	*south_texture;
+	char	*west_texture;
+	char	*east_texture;
+	t_color	floor;
+	t_color	ceiling;
 };
 
 // ENUM -----------------------------------------
