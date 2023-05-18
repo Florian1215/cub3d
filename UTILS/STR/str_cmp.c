@@ -1,34 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   str_n_str.c                                        :+:      :+:    :+:   */
+/*   str_cmp.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fguirama <fguirama@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/16 14:13:00 by fguirama          #+#    #+#             */
-/*   Updated: 2023/05/16 14:13:00 by fguirama         ###   ########lyon.fr   */
+/*   Created: 2023/05/17 17:04:00 by fguirama          #+#    #+#             */
+/*   Updated: 2023/05/17 17:04:00 by fguirama         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../INCLUDES/cub3d.h"
-
-t_bool	str_n_str(char *s1, char *s2, int n)
+int	str_cmp(char *s1, char *s2)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	if (!*s2)
-		return (TRUE);
-	while (s1[i] && i < n)
+	while (*s1 && *s1 == *s2)
 	{
-		j = 0;
-		while (s1[i + j] == s2[j] && s1[i + j] && i + j < n)
-			j++;
-		if (!s2[j])
-			return (TRUE);
-		i++;
+		s1++;
+		s2++;
 	}
-	return (FALSE);
+	return (*s1 - *s2);
 }
-
