@@ -12,37 +12,36 @@
 
 #include "../INCLUDES/cub3d.h"
 
-static int	count_word(char const *s);
-static int	word_len(char const *s);
+static int	count_word(char const *s, char sep);
+static int	word_len(char const *s, char sep);
 static char	*word_cpy(const char *src, int n);
-char		**free_split(char **split, int i);
 
-char	**split_(char const *s)
+char	**split_(char const *s, char sep)
 {
 	char	**split;
 	int		n_word;
 	int		i;
 	int		n;
 
-	n_word = count_word(s);
+	n_word = count_word(s, sep);
 	split = malloc((n_word + 1) * sizeof(char *));
 	if (!split)
-		return (0);
+		return (NULL);
 	i = -1;
 	while (++i < n_word)
 	{
-		while (*s && *s == ' ')
+		while (*s && *s == sep)
 			s++;
-		n = word_len(s);
+		n = word_len(s, sep);
 		split[i] = word_cpy(s, n);
 		if (!split[i])
-			return (free_split(split, i - 1));
+			return ((char **)free_n_split((void **)split, i - 1));
 		s += n;
 	}
 	return (split[n_word] = NULL, split);
 }
 
-static int	count_word(char const *s)
+static int	count_word(char const *s, char sep)
 {
 	int	i;
 	int	ct;
@@ -50,9 +49,9 @@ static int	count_word(char const *s)
 	ct = 0;
 	while (*s)
 	{
-		while (*s && *s == ' ')
+		while (*s && *s == sep)
 			s++;
-		i = word_len(s);
+		i = word_len(s, sep);
 		s += i;
 		if (i)
 			ct++;
@@ -60,12 +59,12 @@ static int	count_word(char const *s)
 	return (ct);
 }
 
-static int	word_len(char const *s)
+static int	word_len(char const *s, char sep)
 {
 	int	len;
 
 	len = 0;
-	while (s[len] && s[len] != ' ')
+	while (s[len] && s[len] != sep)
 		len++;
 	return (len);
 }
@@ -83,17 +82,10 @@ static char	*word_cpy(const char *src, int n)
 	return (dest);
 }
 
-char	**free_split(char **split, int i)
+void	**free_n_split(void **split, int i)
 {
-	if (i == -1)
-	{
-		i = 0;
-		while (split[i])
-			i++;
-		i--;
-	}
 	while (i >= 0)
 		free(split[i--]);
 	free(split);
-	return (0);
+	return (NULL);
 }

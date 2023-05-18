@@ -12,8 +12,11 @@
 
 # VAR ---------------------------------------------------------------
 OBJS_DIR		=	.OBJS/
-SRCS			=	SRCS/parsing.c \
-					UTILS/atoic.c UTILS/split.c UTILS/get_next_line.c UTILS/str_len.c UTILS/atoi.c UTILS/str_nstr.c \
+SRCS			=	SRCS/minimap.c \
+					SRCS/PARSING/parsing.c SRCS/PARSING/parse_map.c SRCS/PARSING/parse_content.c SRCS/PARSING/check_close_map.c \
+					SRCS/HOOK/hook.c SRCS/HOOK/key.c SRCS/HOOK/mouse.c \
+					UTILS/STR/str_cmp.c UTILS/STR/str_end_with.c UTILS/STR/str_len.c UTILS/STR/str_str.c UTILS/STR/str_dup.c \
+					UTILS/atoi.c UTILS/get_next_line.c UTILS/split.c UTILS/list.c UTILS/mlx.c UTILS/free.c \
 					main.c
 OBJS			=	$(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
 DEP				=	$(addprefix $(OBJS_DIR), $(SRCS:.c=.d))
@@ -23,18 +26,18 @@ HEAD			=	INCLUDES/
 
 CC				=	cc
 RM				=	rm -rf
-FLAGS			=	-Wall -Wextra -Werror
+FLAGS			=	-Wall -Wextra -Werror -g3 -fsanitize=address
 FLAGS			+=	-MMD -MP
 
 MLX_NAME		=	libmlx.a
 MLX_DIR			=	mlx/
-MLX_FLAGS		=	-lXext -lX11 -lmlx -lz
+MLX_FLAGS		=	-lXext -lX11 -lz
 
 # RULES -------------------------------------------------------------
 all:				mlx $(NAME)
 
 run:				all
-					./$(NAME)
+					./$(NAME) ./MAPS/1/map.cub
 
 $(NAME):			$(OBJS)
 					$(CC) $(FLAGS) $(OBJS) $(MLX_DIR)$(MLX_NAME) $(MLX_FLAGS) -o $(NAME)
@@ -46,7 +49,10 @@ $(OBJS_DIR)%.o:		%.c | dir
 dir:
 					@mkdir -p $(OBJS_DIR)
 					@mkdir -p $(OBJS_DIR)SRCS
+					@mkdir -p $(OBJS_DIR)SRCS/PARSING
+					@mkdir -p $(OBJS_DIR)SRCS/HOOK
 					@mkdir -p $(OBJS_DIR)UTILS
+					@mkdir -p $(OBJS_DIR)UTILS/STR
 
 mlx:
 					make --jobs=3 -C $(MLX_DIR)

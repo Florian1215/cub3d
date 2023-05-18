@@ -74,9 +74,9 @@ static int	find_nl(char *str)
 {
 	int	i;
 
-	i = 0;
-	while (str[i])
-		if (str[i++] == '\n')
+	i = -1;
+	while (str[++i])
+		if (str[i] == '\n')
 			return (i);
 	return (-1);
 }
@@ -97,10 +97,9 @@ static char	*get_line(char *line, char *static_str)
 	i = -1;
 	while (++i < nl)
 		res[i] = line[i];
-	res[i] = '\0';
+	res[i++] = '\0';
 	j = 0;
 	while (line[i])
 		static_str[j++] = line[i++];
 	return (static_str[j] = '\0', free(line), res);
 }
-
