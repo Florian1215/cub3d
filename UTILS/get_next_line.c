@@ -50,7 +50,7 @@ static char	*str_join(char *s1, char *s2)
 	int		i;
 	int		j;
 
-	res = malloc(sizeof(char) * (str_len(s1) + str_len(s2) + 1));
+	res = malloc(sizeof(char) * (str_len_(s1) + str_len_(s2) + 1));
 	if (!res)
 	{
 		if (s2)

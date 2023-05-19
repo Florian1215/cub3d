@@ -17,7 +17,7 @@ char	*str_dup(char *s)
 	char	*res;
 	int		i;
 
-	res = malloc((sizeof(char) * str_len(s) + 1));
+	res = malloc((sizeof(char) * str_len_(s) + 1));
 	if (!res)
 		return (NULL);
 	i = -1;

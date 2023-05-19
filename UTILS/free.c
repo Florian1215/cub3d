@@ -24,8 +24,12 @@ void	free_split(char **split)
 
 int	close_mlx(t_data *data)
 {
+	free_n_split((void **)data->map, data->height - 1);
+	free(data->texture_path[NORTH]);
+	free(data->texture_path[SOUTH]);
+	free(data->texture_path[WEST]);
+	free(data->texture_path[EAST]);
 	mlx_clear_window(data->mlx_ptr, data->win_ptr);
 	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-	free(data->img.addr);
-	return (SUCCESS);
+	exit(SUCCESS);
 }

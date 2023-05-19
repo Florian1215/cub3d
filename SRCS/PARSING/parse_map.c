@@ -67,7 +67,7 @@ static int	get_width(t_list *lst)
 	max = -1;
 	while (lst)
 	{
-		len = str_len(lst->line);
+		len = str_len_(lst->line);
 		if (len > max)
 			max = len;
 		lst = lst->next;

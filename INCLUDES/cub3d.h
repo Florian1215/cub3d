@@ -3,6 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+/*   By: fguirama <fguirama@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/19 18:59:55 by fguirama          #+#    #+#             */
+/*   Updated: 2023/05/19 18:59:55 by fguirama         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
 /*   By: fguirama <fguirama@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 17:36:21 by fguirama          #+#    #+#             */
@@ -27,13 +39,17 @@
 //// open, close, read, write, printf, malloc, free, perror, strerror, exit
 
 // DEFINE --------------------------------------
-# define WIN_WIDTH 1080
-# define WIN_HEIGHT 720
+# define WIN_WIDTH		1080
+# define WIN_HEIGHT		720
+# define MINIMAP_SIZE	300
+
+# define ERROR_SEP		": "
 
 // TYPEDEF --------------------------------------
 typedef struct s_data			t_data;
 typedef struct s_list			t_list;
 typedef struct s_img			t_img;
+typedef struct s_co				t_co;
 typedef enum e_map				t_map;
 typedef enum e_bool				t_bool;
 typedef enum e_exit				t_exit;
@@ -43,6 +59,12 @@ typedef enum e_parsing_state	t_parsing_state;
 typedef union u_color			t_color;
 
 // STRUCT ---------------------------------------
+struct s_co
+{
+	int	x;
+	int	y;
+};
+
 struct s_list
 {
 	char	*line;
@@ -158,7 +180,7 @@ struct s_data
 	int			height;
 	int			width;
 	char		*texture_path[4];
-	t_cardinal	player_orientation;
+	t_cardinal	player_orientation; // TODO remake position player
 	t_color		floor;
 	t_color		ceiling;
 	void		*mlx_ptr;
@@ -174,7 +196,6 @@ t_exit	check_close_map(t_data *data);
 
 // MAP ------------------------------------------
 void	print_minimap(t_data *data);
-void	print_square(t_img *img, int x, int y, int color);
 
 // HOOK -----------------------------------------
 
@@ -185,13 +206,14 @@ void	free_split(char **split);
 void	**free_n_split(void **split, int i);
 int		atoi_(char *s);
 char	*get_next_line(int fd);
+t_exit	print_error(char *s1, char *s2);
 
 	// STR
 t_bool	str_str(char const *s1, char const *s2);
-int		str_len(char *str);
+int		str_len_(char *str);
 t_bool	str_end_with(char *s1, char *s2);
-int		str_cmp(char *s1, char *s2);
 char	*str_dup(char *s);
+void	put_str_fd(char *s, int fd);
 
 	// LST
 t_exit	lst_new(t_list **lst, char *line);
@@ -202,5 +224,9 @@ void	lst_clear(t_list **lst);
 void	mlx_pixel_put_img(t_img *img, int x, int y, int color);
 void	set_hook(t_data *data);
 int		close_mlx(t_data *data);
+
+	// init
+void	init_data(t_data *data);
+t_co	init_coordinate(int x, int y);
 
 #endif

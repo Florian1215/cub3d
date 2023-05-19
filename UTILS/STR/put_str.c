@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   str_cmp.c                                          :+:      :+:    :+:   */
+/*   put_str.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fguirama <fguirama@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/17 17:04:00 by fguirama          #+#    #+#             */
-/*   Updated: 2023/05/17 17:04:00 by fguirama         ###   ########lyon.fr   */
+/*   Created: 2023/05/19 19:34:00 by fguirama          #+#    #+#             */
+/*   Updated: 2023/05/19 19:34:00 by fguirama         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	str_cmp(char *s1, char *s2)
+#include "../../INCLUDES/cub3d.h"
+
+void	put_str_fd(char *s, int fd)
 {
-	while (*s1 && *s1 == *s2)
-	{
-		s1++;
-		s2++;
-	}
-	return (*s1 - *s2);
+	write(fd, s, str_len_(s));
 }

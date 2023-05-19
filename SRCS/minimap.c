@@ -12,69 +12,79 @@
 
 #include "../INCLUDES/cub3d.h"
 
-#define SQSZ 5
-
-void	print_background(t_img *img)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	(void)img;
-	while (i < WIN_HEIGHT)
-	{
-		j = 0;
-		while (j < WIN_WIDTH)
-		{
-//			mlx_pixel_put_img(img, j, i, 0x0B0B61);
-			j++;
-		}
-		i++;
-	}
-}
-
-void	print_square(t_img *img, int x, int y, t_map value)
-{
-	const int	colors[5] = {0x045FB4, 0xFF0000, 0xD7DF01, 0x101010};
-	int			i;
-	int			j;
-	int			size;
-
-	i = 0;
-	size = SQSZ;
-	while (i < size)
-	{
-		j = 0;
-		while (j < size)
-		{
-			printf("%d - %d\n", x + i, y + j);
-			mlx_pixel_put_img(img, x + i, y + j, colors[value]);
-			j++;
-		}
-		i++;
-	}
-}
+static int	get_square_size(t_data *data);
+static void	print_background(t_data *data);
+static void	print_square(t_data *data, t_co co, t_map value, int size);
 
 void	print_minimap(t_data *data)
 {
-	int	i;
-	int	j;
-	int	posx;
-	int	posy;
+	t_co	i;
+	int		square_size;
 
-	i = 0;
-	print_background(data->img.img);
-	posx = 0;
-	posy = 0;
-	while (i < data->height)
+	i.x = 0;
+	square_size = get_square_size(data);
+	print_background(data);
+	while (i.x < data->height)
 	{
-		j = 0;
-		while (j < data->width)
+		i.y = 0;
+		while (i.y < data->width)
 		{
-			printf("(%d, %d) = %d\n", i, j, data->map[i][j]);
-			print_square(data->img.img, posx + (j * SQSZ), posy + (i * SQSZ), data->map[i][j]);
-			j++;
+			print_square(
+				data, \
+				init_coordinate(i.y * square_size, i.x * square_size), \
+				data->map[i.x][i.y], \
+				square_size
+				);
+			i.y++;
 		}
-		i++;
+		i.x++;
+	}
+}
+
+static int	get_square_size(t_data *data)
+{
+	int	max;
+
+	if (data->height > data->width)
+		max = data->height;
+	else
+		max = data->width;
+	return (MINIMAP_SIZE / max);
+}
+
+static void	print_background(t_data *data)
+{
+	t_co	i;
+
+	i.x = 0;
+	while (i.x < WIN_WIDTH)
+	{
+		i.y = 0;
+		while (i.y < WIN_HEIGHT)
+		{
+			mlx_pixel_put_img(&data->img, i.x, i.y, 0x0B0B61);
+			i.y++;
+		}
+		i.x++;
+	}
+}
+
+static void	print_square(t_data *data, t_co co, t_map value, int size)
+{
+	const int	colors[5] = {0x045FB4, 0xFF0000, 0xD7DF01, 0x101010};
+	const int	offset = 10;
+	t_co		i;
+
+	i.x = 0;
+	while (i.x < size)
+	{
+		i.y = 0;
+		while (i.y < size)
+		{
+			mlx_pixel_put_img(&data->img, offset + co.x + i.x, \
+				offset + co.y + i.y, colors[value]);
+			i.y++;
+		}
+		i.x++;
 	}
 }
