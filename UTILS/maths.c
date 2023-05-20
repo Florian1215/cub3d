@@ -17,27 +17,27 @@ int	abs(int n)
 	return (n * (-1 * (n < 0) + (n > 0)));
 }
 
-double my_sqrt(double num)
+double	my_sqrt(double num)
 {
-    double x;
-    double y;
-	double tolerance = 0.000001;
+	const double	tolerance = 0.000001;
+	double			x;
+	double			y;
 
 	x = num;
 	y = 1;
-    if (num <= 0)
-        return -1;
-    while (x - y > tolerance)
+	if (num <= 0)
+		return (-1);
+	while (x - y > tolerance)
 	{
-        x = (x + y) / 2;
-        y = num / x;
-    }
-    return (x);
+		x = (x + y) / 2;
+		y = num / x;
+	}
+	return (x);
 }
 
-double my_pow(double num, int pow)
+double	my_pow(double num, int pow)
 {
-	double res;
+	double	res;
 
 	res = 1;
 	while (pow > 0)
@@ -47,5 +47,3 @@ double my_pow(double num, int pow)
 	}
 	return (res);
 }
-
-double my_atan(double
