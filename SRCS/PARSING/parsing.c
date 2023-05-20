@@ -47,6 +47,7 @@ static t_exit	parse_file(t_data *data, char *filename)
 		if (parse_line(data, line, &lst, &state) >= ERROR)
 			return (lst_clear(&lst), ERROR);
 	}
+	close(fd);
 	if (state == MAP && parse_map(data, lst) == SUCCESS)
 		return (SUCCESS);
 	return (ERROR);

@@ -20,18 +20,15 @@ static t_map	get_char(t_data *data, char c);
 t_exit	parse_map(t_data *data, t_list *lst)
 {
 	t_list	*tmp;
-	int		i;
 
 	if (init_map(data, lst))
 		return (ERROR_MALLOC);
 	tmp = lst;
-	i = 0;
 	while (tmp)
 	{
 		if (parse_line_map(data, tmp->line) == ERROR)
 			return (lst_clear(&lst), ERROR);
 		tmp = tmp->next;
-		i++;
 	}
 	lst_clear(&lst);
 	if (data->player_orientation == NO_PLAYER || check_close_map(data) == ERROR)
@@ -90,6 +87,8 @@ static t_exit	parse_line_map(t_data *data, char *line)
 			data->map[k][i] = get_char(data, line[j]);
 			if (data->map[k][i] == INVALID_CHAR)
 				return (ERROR);
+			if (data->map[k][i] == PLAYER)
+				set_player_position(data, k, i);
 			j++;
 		}
 		else

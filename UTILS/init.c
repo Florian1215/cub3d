@@ -12,7 +12,7 @@
 
 #include "../INCLUDES/cub3d.h"
 
-t_co	init_coordinate(int x, int y)
+t_co	init_coordinate(double x, double y)
 {
 	t_co	co;
 

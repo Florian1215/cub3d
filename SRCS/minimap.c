@@ -14,31 +14,32 @@
 
 static int	get_square_size(t_data *data);
 static void	print_background(t_data *data);
-static void	print_square(t_data *data, t_co co, t_map value, int size);
 
 void	print_minimap(t_data *data)
 {
-	t_co	i;
-	int		square_size;
+	const t_color	colors[3] = {{0x045FB4}, {0xFF0000}, {0x101010}};
+	int				x;
+	int				y;
 
-	i.x = 0;
-	square_size = get_square_size(data);
+	x = 0;
+	data->square_size = get_square_size(data);
 	print_background(data);
-	while (i.x < data->height)
+	while (x < data->height)
 	{
-		i.y = 0;
-		while (i.y < data->width)
+		y = 0;
+		while (y < data->width)
 		{
-			print_square(
+			draw_square(
 				data, \
-				init_coordinate(i.y * square_size, i.x * square_size), \
-				data->map[i.x][i.y], \
-				square_size
+				init_coordinate(y * data->square_size, x * data->square_size), \
+				data->square_size,
+				colors[data->map[x][y]]
 				);
-			i.y++;
+			y++;
 		}
-		i.x++;
+		x++;
 	}
+	print_player(data);
 }
 
 static int	get_square_size(t_data *data)
@@ -54,37 +55,18 @@ static int	get_square_size(t_data *data)
 
 static void	print_background(t_data *data)
 {
-	t_co	i;
+	int	x;
+	int	y;
 
-	i.x = 0;
-	while (i.x < WIN_WIDTH)
+	x = 0;
+	while (x < WIN_WIDTH)
 	{
-		i.y = 0;
-		while (i.y < WIN_HEIGHT)
+		y = 0;
+		while (y < WIN_HEIGHT)
 		{
-			mlx_pixel_put_img(&data->img, i.x, i.y, 0x0B0B61);
-			i.y++;
+			mlx_pixel_put_img(&data->img, x, y, 0x0B0B61);
+			y++;
 		}
-		i.x++;
-	}
-}
-
-static void	print_square(t_data *data, t_co co, t_map value, int size)
-{
-	const int	colors[5] = {0x045FB4, 0xFF0000, 0xD7DF01, 0x101010};
-	const int	offset = 10;
-	t_co		i;
-
-	i.x = 0;
-	while (i.x < size)
-	{
-		i.y = 0;
-		while (i.y < size)
-		{
-			mlx_pixel_put_img(&data->img, offset + co.x + i.x, \
-				offset + co.y + i.y, colors[value]);
-			i.y++;
-		}
-		i.x++;
+		x++;
 	}
 }

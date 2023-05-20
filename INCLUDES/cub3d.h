@@ -6,7 +6,7 @@
 /*   By: fguirama <fguirama@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 18:59:55 by fguirama          #+#    #+#             */
-/*   Updated: 2023/05/19 18:59:55 by fguirama         ###   ########.fr       */
+/*   Updated: 2023/05/20 14:11:40 by fguirama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,12 @@
 
 //// open, close, read, write, printf, malloc, free, perror, strerror, exit
 
-// DEFINE --------------------------------------
+// DEFINE ---------------------------------------
 # define WIN_WIDTH		1080
 # define WIN_HEIGHT		720
 # define MINIMAP_SIZE	300
+
+# define PLAYER_HITBOX	5
 
 # define ERROR_SEP		": "
 
@@ -61,8 +63,8 @@ typedef union u_color			t_color;
 // STRUCT ---------------------------------------
 struct s_co
 {
-	int	x;
-	int	y;
+	double	x;
+	double	y;
 };
 
 struct s_list
@@ -170,8 +172,8 @@ enum e_map
 	INVALID_CHAR = -1,
 	EMPTY_SPACE,
 	WALL,
-	PLAYER,
-	NOTHING
+	NOTHING,
+	PLAYER
 };
 
 struct s_data
@@ -179,8 +181,10 @@ struct s_data
 	t_map		**map;
 	int			height;
 	int			width;
+	double		square_size;
 	char		*texture_path[4];
 	t_cardinal	player_orientation; // TODO remake position player
+	t_co		player_position;
 	t_color		floor;
 	t_color		ceiling;
 	void		*mlx_ptr;
@@ -196,6 +200,11 @@ t_exit	check_close_map(t_data *data);
 
 // MAP ------------------------------------------
 void	print_minimap(t_data *data);
+void	draw_square(t_data *data, t_co co, double size, t_color color);
+
+// PLAYER ---------------------------------------
+void	set_player_position(t_data *data, int k, int i);
+void	print_player(t_data *data);
 
 // HOOK -----------------------------------------
 
@@ -227,6 +236,6 @@ int		close_mlx(t_data *data);
 
 	// init
 void	init_data(t_data *data);
-t_co	init_coordinate(int x, int y);
+t_co	init_coordinate(double x, double y);
 
 #endif
