@@ -6,7 +6,7 @@
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:03:00 by fguirama          #+#    #+#             */
-/*   Updated: 2023/05/20 20:08:37 by mfinette         ###   ########.fr       */
+/*   Updated: 2023/05/20 21:07:08 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,29 @@ void	print_player(t_data *data)
 	const t_color	color = {0xD7DF01};
 
 	draw_square(data, data->player_position, PLAYER_HITBOX, color);
-	printf("init point = %f, %f\n", data->player_position.x + MINIMAP_OFFSET + (PLAYER_HITBOX / 2), data->player_position.y + MINIMAP_OFFSET + (PLAYER_HITBOX / 2));
-	draw_line(data, init_coordinate(data->player_position.x + MINIMAP_OFFSET + (PLAYER_HITBOX / 2), data->player_position.y + MINIMAP_OFFSET + (PLAYER_HITBOX / 2)), get_minimap_fov(data));
-	// init_coordinate(data->player_position.x + MINIMAP_OFFSET + (PLAYER_HITBOX / 2), data->player_position.y + MINIMAP_OFFSET + 40 + (PLAYER_HITBOX / 2))
+	print_fov(data);
 }
 
+void	print_fov(t_data	*data)
+{
+	double	angle;
+
+	angle = angle_to_radian(data->player_direction - (FOV / 2));
+	while (angle <= angle_to_radian(data->player_direction + (FOV / 2)))
+	{
+		draw_line(data, get_player_coordinates(data), get_minimap_fov(data, angle));
+		angle += angle_to_radian(0.1);
+	}	
+}
+
+t_co	get_player_coordinates(t_data *data)
+{
+	t_co	co;
+
+	co.x = data->player_position.x + (PLAYER_HITBOX / 2) + MINIMAP_OFFSET;
+	co.y = data->player_position.y + (PLAYER_HITBOX / 2) + MINIMAP_OFFSET;
+	return (co);
+}
 void	move_player(t_data *data)
 {
 	const double	move_speed = 0.2;
@@ -50,23 +68,27 @@ void	rotate_player(int keycode, t_data *data)
 	data->player_direction = fmod(data->player_direction, 360);
 	if (keycode == A)
 	{
-		data->player_direction -= 2;
+		data->player_direction -= 5;
 	}
 	if (keycode == D)
 	{
-		data->player_direction += 2;
+		data->player_direction += 5;
 	}
 	print_minimap(data);
 }
 
-t_co	get_minimap_fov(t_data *data)
+double	angle_to_radian(double angle)
+{
+	return (angle * (3.14159265358979323846 / 180));
+}
+
+t_co	get_minimap_fov(t_data *data, double angle)
 {
 	t_co	orientation;
 
-	orientation.x = data->player_position.x + cos(data->player_direction) * 60;
-	orientation.y = data->player_position.y + sin(data->player_direction) * 60;
+	orientation.x = data->player_position.x + cos(angle) * 60;
+	orientation.y = data->player_position.y + sin(angle) * 60;
 	orientation.x += MINIMAP_OFFSET + (PLAYER_HITBOX / 2);
 	orientation.y += MINIMAP_OFFSET + (PLAYER_HITBOX / 2);
-	printf("orientation = (%f, %f) with angle = %f\n", orientation.x, orientation.y, data->player_direction);
 	return (orientation);
 }

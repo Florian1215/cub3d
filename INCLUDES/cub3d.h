@@ -6,7 +6,7 @@
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 18:59:55 by fguirama          #+#    #+#             */
-/*   Updated: 2023/05/20 20:05:44 by mfinette         ###   ########.fr       */
+/*   Updated: 2023/05/20 21:07:34 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,10 @@
 # define WIN_HEIGHT		720
 # define MINIMAP_SIZE	300
 # define MINIMAP_OFFSET	20
-
+# define FOV			15
+# define CENTER_FOV		0
+# define LEFT_FOV		1
+# define RIGHT_FOV		2
 # define PLAYER_HITBOX	5
 
 # define ERROR_SEP		": "
@@ -212,7 +215,9 @@ void	set_player_position(t_data *data, int k, int i);
 void	print_player(t_data *data);
 void	move_player(t_data *data);
 void	rotate_player(int keycode, t_data *data);
-t_co	get_minimap_fov(t_data *data);
+t_co	get_minimap_fov(t_data *data, double angle);
+void	print_fov(t_data	*data);
+t_co	get_player_coordinates(t_data *data);
 
 // MATHS ----------------------------------------
 int		abs_(int n);
@@ -226,6 +231,7 @@ void	**free_n_split(void **split, int i);
 int		atoi_(char *s);
 char	*get_next_line(int fd);
 t_exit	print_error(char *s1, char *s2);
+double	angle_to_radian(double angle);
 
 	// STR
 t_bool	str_str(char const *s1, char const *s2);
