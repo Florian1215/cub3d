@@ -6,7 +6,7 @@
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 18:59:55 by fguirama          #+#    #+#             */
-/*   Updated: 2023/05/20 15:47:54 by mfinette         ###   ########.fr       */
+/*   Updated: 2023/05/20 20:05:44 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,11 @@ enum e_keycode
 	SCROLL_IN = 4,
 	SCROLL_OUT = 5,
 	C = 99,
-	D = 100,
 	Q = 113,
+	A = 97,
+	W = 119,
+	S = 115,
+	D = 100,
 	ESQ = 65307,
 	TAB = 65289,
 	SPACE = 32,
@@ -208,6 +211,8 @@ void	draw_line(t_data *data, t_co p0, t_co p1);
 void	set_player_position(t_data *data, int k, int i);
 void	print_player(t_data *data);
 void	move_player(t_data *data);
+void	rotate_player(int keycode, t_data *data);
+t_co	get_minimap_fov(t_data *data);
 
 // MATHS ----------------------------------------
 int		abs_(int n);

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fguirama <fguirama@student.42lyon.fr>      +#+  +:+       +#+         #
+#    By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/09 22:01:38 by fguirama          #+#    #+#              #
-#    Updated: 2023/05/09 22:01:38 by fguirama         ###   ########lyon.fr    #
+#    Updated: 2023/05/20 18:56:55 by mfinette         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ FLAGS			+=	-MMD -MP
 
 MLX_NAME		=	libmlx.a
 MLX_DIR			=	mlx/
-MLX_FLAGS		=	-lXext -lX11 -lz
+MLX_FLAGS		=	-lXext -lX11 -lz -lm
 
 # RULES -------------------------------------------------------------
 all:				mlx $(NAME)

@@ -6,7 +6,7 @@
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 15:32:00 by fguirama          #+#    #+#             */
-/*   Updated: 2023/05/20 18:15:50 by mfinette         ###   ########.fr       */
+/*   Updated: 2023/05/20 18:16:48 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,5 @@ double	pow_(double num, int pow)
 
 double	distance_between_points(t_co p1, t_co p2)
 {
-	return (my_sqrt(my_pow(p2.x - p1.x, 2) + my_pow(p2.y - p1.y, 2)));
+	return (sqrt_(pow_(p2.x - p1.x, 2) + pow_(p2.y - p1.y, 2)));
 }
