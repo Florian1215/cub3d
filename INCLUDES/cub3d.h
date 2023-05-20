@@ -55,6 +55,7 @@ typedef struct s_co				t_co;
 typedef enum e_map				t_map;
 typedef enum e_bool				t_bool;
 typedef enum e_exit				t_exit;
+typedef enum e_side				t_side;
 typedef enum e_keycode			t_keycode;
 typedef enum e_cardinal			t_cardinal;
 typedef enum e_parsing_state	t_parsing_state;
@@ -80,6 +81,14 @@ struct s_rgb
 	unsigned char	b;
 };
 
+enum e_side
+{
+	LEFT,
+	UP,
+	RIGHT,
+	DOWN,
+};
+
 enum e_keycode
 {
 	LEFT_CLICK = 1,
@@ -94,8 +103,10 @@ enum e_keycode
 	SPACE = 32,
 	PLUS = 65451,
 	MINUS = 65453,
-	LEFT = 65361,
-	RIGHT = 65363,
+	LEFT_KEY = 65361,
+	UP_KEY = 65362,
+	RIGHT_KEY = 65363,
+	DOWN_KEY = 65364,
 	NUM_0 = 48,
 	NUM_1 = 49,
 	NUM_2 = 50,
@@ -183,6 +194,7 @@ struct s_data
 	int			width;
 	double		square_size;
 	char		*texture_path[4];
+	t_bool		key_arrow_press[4];
 	t_cardinal	player_orientation; // TODO remake position player
 	t_co		player_position;
 	t_color		floor;
@@ -205,9 +217,10 @@ void	draw_square(t_data *data, t_co co, double size, t_color color);
 // PLAYER ---------------------------------------
 void	set_player_position(t_data *data, int k, int i);
 void	print_player(t_data *data);
+void	move_player(t_data *data);
 
-// HOOK -----------------------------------------
-
+// MATHS ----------------------------------------
+int		abs(int n);
 
 // UTILS ----------------------------------------
 char	**split_(char const *s, char sep);

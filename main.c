@@ -20,7 +20,6 @@ int	main(int ac, char **av)
 	if (parsing(&data, ac, av) >= ERROR)
 		return (print_error("Error", NULL)); // TODO print message "Error\n"
 	print_minimap(&data);
-	mlx_put_image_to_window(data.mlx_ptr, data.win_ptr, data.img.img, 0, 0);
 	set_hook(&data);
 	mlx_loop(data.mlx_ptr);
 	return (SUCCESS);

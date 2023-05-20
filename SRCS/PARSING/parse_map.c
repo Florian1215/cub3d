@@ -16,6 +16,7 @@ static t_exit	init_map(t_data *data, t_list *lst);
 static int		get_width(t_list *lst);
 static t_exit	parse_line_map(t_data *data, char *line);
 static t_map	get_char(t_data *data, char c);
+int				get_square_size(t_data *data);
 
 t_exit	parse_map(t_data *data, t_list *lst)
 {
@@ -46,6 +47,7 @@ static t_exit	init_map(t_data *data, t_list *lst)
 		return (ERROR_MALLOC);
 	data->width = get_width(lst);
 	k = 0;
+	data->square_size = get_square_size(data);
 	while (k < data->height)
 	{
 		data->map[k] = malloc(sizeof(t_map) * data->width);

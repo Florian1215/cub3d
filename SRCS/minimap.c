@@ -12,7 +12,6 @@
 
 #include "../INCLUDES/cub3d.h"
 
-static int	get_square_size(t_data *data);
 static void	print_background(t_data *data);
 
 void	print_minimap(t_data *data)
@@ -22,7 +21,6 @@ void	print_minimap(t_data *data)
 	int				y;
 
 	x = 0;
-	data->square_size = get_square_size(data);
 	print_background(data);
 	while (x < data->height)
 	{
@@ -40,17 +38,7 @@ void	print_minimap(t_data *data)
 		x++;
 	}
 	print_player(data);
-}
-
-static int	get_square_size(t_data *data)
-{
-	int	max;
-
-	if (data->height > data->width)
-		max = data->height;
-	else
-		max = data->width;
-	return (MINIMAP_SIZE / max);
+	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img, 0, 0);
 }
 
 static void	print_background(t_data *data)
@@ -69,4 +57,15 @@ static void	print_background(t_data *data)
 		}
 		x++;
 	}
+}
+
+int	get_square_size(t_data *data)
+{
+	int	max;
+
+	if (data->height > data->width)
+		max = data->height;
+	else
+		max = data->width;
+	return (MINIMAP_SIZE / max);
 }
