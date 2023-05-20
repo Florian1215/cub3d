@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fguirama <fguirama@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 17:35:00 by fguirama          #+#    #+#             */
-/*   Updated: 2023/05/09 17:35:00 by fguirama         ###   ########lyon.fr   */
+/*   Updated: 2023/05/20 14:47:22 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,8 @@ int	main(int ac, char **av)
 	init_data(&data);
 	if (parsing(&data, ac, av) >= ERROR)
 		return (print_error("Error", NULL)); // TODO print message "Error\n"
-
 	print_minimap(&data);
 	mlx_put_image_to_window(data.mlx_ptr, data.win_ptr, data.img.img, 0, 0);
-
 	set_hook(&data);
 	mlx_loop(data.mlx_ptr);
 	return (SUCCESS);
