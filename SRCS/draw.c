@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fguirama <fguirama@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:26:00 by fguirama          #+#    #+#             */
-/*   Updated: 2023/05/20 14:26:00 by fguirama         ###   ########lyon.fr   */
+/*   Updated: 2023/05/20 16:13:28 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,41 +24,39 @@ void	draw_square(t_data *data, t_co co, double size, t_color color)
 		y = 0;
 		while (y < size)
 		{
-			mlx_pixel_put_img(&data->img, offset + co.x + x, \
-				offset + co.y + y, color.color);
+			mlx_pixel_put_img(&data->img, offset + co.x + x, offset + co.y + y, color.color);
 			y++;
 		}
 		x++;
 	}
 }
 
-void	plot_line(int x0, int y0, int x1, int y1)
+void draw_line(int x0, int y0, int x1, int y1, void *mlx_ptr, void *win_ptr)
 {
-	int	dx;
-	int	sx;
-	int	dy;
-	int	sy;
-	int	error;
+    int dx = abs(x1 - x0);
+    int dy = abs(y1 - y0);
+    int sx = x0 < x1 ? 1 : -1;
+    int sy = y0 < y1 ? 1 : -1;
+    int err = (dx > dy ? dx : -dy) / 2;
+    int e2;
 
-	dx = abs(x1 - x0);
-	sx = x0 < x1 ? 1 : -1;
-	dy = -abs(y1 - y0);
-	sy = y0 < y1 ? 1 : -1;
-	error = dx + dy;
+    while (1) {
+        mlx_pixel_put(mlx_ptr, win_ptr, x0, y0, 0x00FFFFFF); // Put a pixel at (x0, y0) with white color
 
-	while true
-		plot(x0, y0)
-		if x0 == x1 && y0 == y1 break
-	e2 = 2 * error
-	if e2 >= dy
-	if x0 == x1 break
-	error = error + dy
-	x0 = x0 + sx
-	end if
-		if e2 <= dx
-	if y0 == y1 break
-	error = error + dx
-	y0 = y0 + sy
-	end if
-		end while
+        if (x0 == x1 && y0 == y1) {
+            break;
+        }
+
+        e2 = err;
+
+        if (e2 > -dx) {
+            err -= dy;
+            x0 += sx;
+        }
+
+        if (e2 < dy) {
+            err += dx;
+            y0 += sy;
+        }
+    }
 }

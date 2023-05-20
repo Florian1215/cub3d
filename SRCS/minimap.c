@@ -6,7 +6,7 @@
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 17:30:22 by mfinette          #+#    #+#             */
-/*   Updated: 2023/05/18 16:36:46 by mfinette         ###   ########.fr       */
+/*   Updated: 2023/05/20 16:10:23 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,13 @@ void	print_minimap(t_data *data)
 		y = 0;
 		while (y < data->width)
 		{
-			draw_square(
-				data, \
-				init_coordinate(y * data->square_size, x * data->square_size), \
-				data->square_size,
-				colors[data->map[x][y]]
-				);
+			if (data->map[x][y] != NOTHING)
+				draw_square(
+					data, \
+					init_coordinate(y * data->square_size, x * data->square_size), \
+					data->square_size,
+					colors[data->map[x][y]]
+					);
 			y++;
 		}
 		x++;
@@ -50,9 +51,20 @@ static void	print_background(t_data *data)
 	while (x < WIN_WIDTH)
 	{
 		y = 0;
+		while (y < WIN_HEIGHT / 2)
+		{
+			mlx_pixel_put_img(&data->img, x, y, 0x198CA4);
+			y++;
+		}
+		x++;
+	}
+	x = 0;
+	while (x < WIN_WIDTH)
+	{
+		y = WIN_HEIGHT / 2;
 		while (y < WIN_HEIGHT)
 		{
-			mlx_pixel_put_img(&data->img, x, y, 0x0B0B61);
+			mlx_pixel_put_img(&data->img, x, y, 0x7E410B);
 			y++;
 		}
 		x++;
