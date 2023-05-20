@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fguirama <fguirama@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 18:59:55 by fguirama          #+#    #+#             */
-/*   Updated: 2023/05/20 14:11:40 by fguirama         ###   ########.fr       */
+/*   Updated: 2023/05/20 15:47:54 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,6 +221,8 @@ void	move_player(t_data *data);
 
 // MATHS ----------------------------------------
 int		abs(int n);
+double my_sqrt(double num);
+double my_pow(double num, int pow);
 
 // UTILS ----------------------------------------
 char	**split_(char const *s, char sep);
