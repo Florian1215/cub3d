@@ -6,7 +6,7 @@
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 15:32:00 by fguirama          #+#    #+#             */
-/*   Updated: 2023/05/20 15:48:00 by mfinette         ###   ########.fr       */
+/*   Updated: 2023/05/20 16:33:39 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,7 @@ double my_pow(double num, int pow)
 	return (res);
 }
 
-double my_atan(double
+double	distance_between_points(t_co p1, t_co p2)
+{
+	return (my_sqrt(my_pow(p2.x - p1.x, 2) + my_pow(p2.y - p1.y, 2)));
+}
