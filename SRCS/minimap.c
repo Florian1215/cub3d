@@ -44,27 +44,17 @@ void	print_minimap(t_data *data)
 
 static void	print_background(t_data *data)
 {
-	int	x;
-	int	y;
+	const t_color	c[2] = {{0x198CA4}, {0x7E410B}};
+	int				x;
+	int				y;
 
 	x = 0;
 	while (x < WIN_WIDTH)
 	{
 		y = 0;
-		while (y < WIN_HEIGHT / 2)
-		{
-			mlx_pixel_put_img(&data->img, x, y, 0x198CA4);
-			y++;
-		}
-		x++;
-	}
-	x = 0;
-	while (x < WIN_WIDTH)
-	{
-		y = WIN_HEIGHT / 2;
 		while (y < WIN_HEIGHT)
 		{
-			mlx_pixel_put_img(&data->img, x, y, 0x7E410B);
+			mlx_pixel_put_img(&data->img, x, y, c[y > WIN_HEIGHT / 2].color);
 			y++;
 		}
 		x++;

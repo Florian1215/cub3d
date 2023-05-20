@@ -25,6 +25,8 @@ void	print_player(t_data *data)
 	const t_color	color = {0xD7DF01};
 
 	draw_square(data, data->player_position, PLAYER_HITBOX, color);
+//	data->player_ori
+	draw_line(data, init_coordinate(data->player_position.x + MINIMAP_OFFSET + (PLAYER_HITBOX / 2), data->player_position.y + MINIMAP_OFFSET + (PLAYER_HITBOX / 2)), init_coordinate(data->player_position.x + MINIMAP_OFFSET + (PLAYER_HITBOX / 2), data->player_position.y + MINIMAP_OFFSET + 20 + (PLAYER_HITBOX / 2)));
 }
 
 void	move_player(t_data *data)

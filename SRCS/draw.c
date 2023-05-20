@@ -14,7 +14,6 @@
 
 void	draw_square(t_data *data, t_co co, double size, t_color color)
 {
-	const int	offset = 10;
 	int			x;
 	int			y;
 
@@ -24,39 +23,66 @@ void	draw_square(t_data *data, t_co co, double size, t_color color)
 		y = 0;
 		while (y < size)
 		{
-			mlx_pixel_put_img(&data->img, offset + co.x + x, offset + co.y + y, color.color);
+			mlx_pixel_put_img(&data->img, MINIMAP_OFFSET + co.x + x, MINIMAP_OFFSET + co.y + y, color.color);
 			y++;
 		}
 		x++;
 	}
 }
 
-void draw_line(int x0, int y0, int x1, int y1, void *mlx_ptr, void *win_ptr)
+//void plotLine(int x0, int y0, int x1, int y1)
+void	draw_line(t_data *data, t_co p0, t_co p1)
 {
-    int dx = abs(x1 - x0);
-    int dy = abs(y1 - y0);
-    int sx = x0 < x1 ? 1 : -1;
-    int sy = y0 < y1 ? 1 : -1;
-    int err = (dx > dy ? dx : -dy) / 2;
-    int e2;
+	int dx =  abs_(p1.x - p0.x);
+	int sx = p0.x < p1.x ? 1 : -1;
+	int dy = -abs_(p1.y - p0.y);
+	int	sy = p0.y < p1.y ? 1 : -1;
+	int err = dx + dy;
+	int	e2;
 
-    while (1) {
-        mlx_pixel_put(mlx_ptr, win_ptr, x0, y0, 0x00FFFFFF); // Put a pixel at (x0, y0) with white color
-
-        if (x0 == x1 && y0 == y1) {
-            break;
-        }
-
-        e2 = err;
-
-        if (e2 > -dx) {
-            err -= dy;
-            x0 += sx;
-        }
-
-        if (e2 < dy) {
-            err += dx;
-            y0 += sy;
-        }
-    }
+	while (TRUE)
+	{
+		mlx_pixel_put_img(&data->img, p0.x, p0.y, 0x0FFFFFF);
+		if (p0.x == p1.x && p0.y == p1.y)
+			break ;
+		e2 = 2 * err;
+		if (e2 >= dy)
+		{
+			err += dy;
+			p0.x += sx;
+		}
+		if (e2 <= dx)
+		{
+			err += dx;
+			p0.y += sy;
+		}
+	}
 }
+
+//void	draw_line(t_data *data, t_co p1, t_co p2)
+//{
+//	int	dx = abs_(p2.x - p1.x);
+//	int	dy = abs_(p2.y - p1.x);
+//	int	sx = p1.x < p2.x ? 1 : -1;
+//	int	sy = p1.x < p2.y ? 1 : -1;
+//	int	err = (dx > dy ? dx : -dy) / 2;
+//	int	e2;
+//
+//	while (p1.x != p2.x || p1.y != p2.y)
+//	{
+//		mlx_pixel_put_img(&data->img, p1.x, p2.y, 0x0FFFFFF);
+//		e2 = err;
+//		if (e2 > -dx)
+//		{
+//			err -= dy;
+//			p1.x += sx;
+//		}
+//		if (e2 < dy)
+//		{
+//			err += dx;
+//			p1.x += sy;
+//		}
+//		if (p1.x == p2.x && p1.x == p2.y)
+//			break ;
+//	}
+//}

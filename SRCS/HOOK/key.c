@@ -14,14 +14,16 @@
 
 int	key_event(int k, t_data *data)
 {
-	if (k == ESQ)
-		close_mlx(data);
+	(void)k;
+	(void)data;
 	return (SUCCESS);
 }
 
 int	key_event_press(int k, t_data *data)
 {
-	if (k == UP_KEY || k == DOWN_KEY || k == LEFT_KEY || k == RIGHT_KEY)
+	if (k == ESQ)
+		close_mlx(data);
+	else if (k == UP_KEY || k == DOWN_KEY || k == LEFT_KEY || k == RIGHT_KEY)
 		data->key_arrow_press[k - LEFT_KEY] = TRUE;
 	return (SUCCESS);
 }

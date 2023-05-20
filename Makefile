@@ -16,7 +16,7 @@ SRCS			=	SRCS/minimap.c SRCS/player.c SRCS/draw.c \
 					SRCS/PARSING/parsing.c SRCS/PARSING/parse_map.c SRCS/PARSING/parse_content.c SRCS/PARSING/check_close_map.c \
 					SRCS/HOOK/hook.c SRCS/HOOK/key.c SRCS/HOOK/mouse.c \
 					UTILS/STR/str_end_with.c UTILS/STR/str_len.c UTILS/STR/str_str.c UTILS/STR/str_dup.c UTILS/STR/put_str.c \
-					UTILS/atoi.c UTILS/get_next_line.c UTILS/split.c UTILS/list.c UTILS/mlx.c UTILS/free.c UTILS/init.c UTILS/error.c \
+					UTILS/atoi.c UTILS/get_next_line.c UTILS/split.c UTILS/maths.c UTILS/list.c UTILS/mlx.c UTILS/free.c UTILS/init.c UTILS/error.c \
 					main.c
 OBJS			=	$(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
 DEP				=	$(addprefix $(OBJS_DIR), $(SRCS:.c=.d))

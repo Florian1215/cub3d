@@ -23,7 +23,7 @@ t_co	init_coordinate(double x, double y)
 
 void	init_data(t_data *data)
 {
-	data->player_orientation = NO_PLAYER;
+	data->player_direction = NO_PLAYER;
 	data->mlx_ptr = mlx_init();
 	data->win_ptr = mlx_new_window(data->mlx_ptr, WIN_WIDTH, WIN_HEIGHT, \
 						"cub3d du bde c la follie");

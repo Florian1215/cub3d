@@ -14,6 +14,8 @@
 
 void	mlx_pixel_put_img(t_img *img, int x, int y, int color)
 {
+	if (x > WIN_WIDTH || x < 0 || y > WIN_HEIGHT || y < 0)
+		return ;
 	*(unsigned int *)(img->addr + (y * img->line_length + x * \
 	(img->bits_per_pixel / 8))) = color;
 }

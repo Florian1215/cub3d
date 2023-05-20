@@ -10,18 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fguirama <fguirama@student.42lyon.fr>      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/09 17:36:21 by fguirama          #+#    #+#             */
-/*   Updated: 2023/05/09 17:36:21 by fguirama         ###   ########lyon.fr   */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef CUB3D_H
 # define CUB3D_H
 
@@ -42,6 +30,7 @@
 # define WIN_WIDTH		1080
 # define WIN_HEIGHT		720
 # define MINIMAP_SIZE	300
+# define MINIMAP_OFFSET	20
 
 # define PLAYER_HITBOX	5
 
@@ -195,7 +184,7 @@ struct s_data
 	double		square_size;
 	char		*texture_path[4];
 	t_bool		key_arrow_press[4];
-	t_cardinal	player_orientation; // TODO remake position player
+	double		player_direction;
 	t_co		player_position;
 	t_color		floor;
 	t_color		ceiling;
@@ -213,6 +202,7 @@ t_exit	check_close_map(t_data *data);
 // MAP ------------------------------------------
 void	print_minimap(t_data *data);
 void	draw_square(t_data *data, t_co co, double size, t_color color);
+void	draw_line(t_data *data, t_co p0, t_co p1);
 
 // PLAYER ---------------------------------------
 void	set_player_position(t_data *data, int k, int i);
@@ -220,9 +210,9 @@ void	print_player(t_data *data);
 void	move_player(t_data *data);
 
 // MATHS ----------------------------------------
-int		abs(int n);
-double my_sqrt(double num);
-double my_pow(double num, int pow);
+int		abs_(int n);
+double	sqrt_(double num);
+double	pow_(double num, int pow);
 
 // UTILS ----------------------------------------
 char	**split_(char const *s, char sep);

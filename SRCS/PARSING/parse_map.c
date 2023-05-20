@@ -32,7 +32,7 @@ t_exit	parse_map(t_data *data, t_list *lst)
 		tmp = tmp->next;
 	}
 	lst_clear(&lst);
-	if (data->player_orientation == NO_PLAYER || check_close_map(data) == ERROR)
+	if (data->player_direction == NO_PLAYER || check_close_map(data) == ERROR)
 		return (ERROR);
 	return (SUCCESS);
 }
@@ -109,14 +109,14 @@ static t_map	get_char(t_data *data, char c)
 		return (WALL);
 	else if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
 	{
-		if (c == 'N')
-			data->player_orientation = NORTH;
-		else if (c == 'S')
-			data->player_orientation = SOUTH;
-		else if (c == 'E')
-			data->player_orientation = WEST;
+		if (c == 'E')
+			data->player_direction = 0;
+		else if (c == 'N')
+			data->player_direction = 90;
+		else if (c == 'W')
+			data->player_direction = 180;
 		else
-			data->player_orientation = EAST;
+			data->player_direction = 270;
 		return (PLAYER);
 	}
 	else if (c == ' ')

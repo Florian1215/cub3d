@@ -12,12 +12,12 @@
 
 #include "../INCLUDES/cub3d.h"
 
-int	abs(int n)
+int	abs_(int n)
 {
 	return (n * (-1 * (n < 0) + (n > 0)));
 }
 
-double	my_sqrt(double num)
+double	sqrt_(double num)
 {
 	const double	tolerance = 0.000001;
 	double			x;
@@ -35,7 +35,7 @@ double	my_sqrt(double num)
 	return (x);
 }
 
-double	my_pow(double num, int pow)
+double	pow_(double num, int pow)
 {
 	double	res;
 
