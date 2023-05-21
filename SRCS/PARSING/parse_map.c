@@ -109,6 +109,7 @@ static t_map	get_char(t_data *data, char c)
 		return (WALL);
 	else if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
 	{
+		// TODO data->player_direction == NO_PLAYER
 		if (c == 'E')
 			data->player_direction = 0;
 		else if (c == 'N')

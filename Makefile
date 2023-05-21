@@ -26,7 +26,7 @@ HEAD			=	INCLUDES/
 
 CC				=	cc
 RM				=	rm -rf
-FLAGS			=	-Wall -Wextra -Werror -g3# -fsanitize=address
+FLAGS			=	-Wall -Wextra -Werror -g3 -fsanitize=address
 FLAGS			+=	-MMD -MP
 
 MLX_NAME		=	libmlx.a
@@ -37,7 +37,7 @@ MLX_FLAGS		=	-lXext -lX11 -lz -lm
 all:				mlx $(NAME)
 
 run:				all
-					./$(NAME) ./MAPS/1/map.cub
+					./$(NAME) ./MAPS/map.cub
 
 $(NAME):			$(OBJS)
 					$(CC) $(FLAGS) $(OBJS) $(MLX_DIR)$(MLX_NAME) $(MLX_FLAGS) -o $(NAME)

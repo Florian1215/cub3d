@@ -17,7 +17,6 @@ void	set_player_position(t_data *data, int k, int i)
 	data->map[k][i] = EMPTY_SPACE;
 	data->player_position.x = (i * data->square_size) + (PLAYER_HITBOX / 4);
 	data->player_position.y = (k * data->square_size) + (PLAYER_HITBOX / 4);
-	printf("%f - %d\n", data->square_size, k);
 }
 
 void	print_player(t_data *data)
@@ -48,19 +47,32 @@ t_co	get_player_coordinates(t_data *data)
 	co.y = data->player_position.y + (PLAYER_HITBOX / 2) + MINIMAP_OFFSET;
 	return (co);
 }
+
+static int	compute_coordinates(t_data *data, double co, double move);
+
 void	move_player(t_data *data)
 {
-	const double	move_speed = 0.2;
+	const double	move_speed = 0.5; // TODO SCALE MOVE SPEED
+	int				x;
+	int				y;
 
-	if (data->key_arrow_press[UP])
+	// TODO check min & max x y
+	x = compute_coordinates(data, data->player_position.x, 0);
+	y = compute_coordinates(data, data->player_position.y, 0);
+	if (data->key_arrow_press[UP] && data->map[compute_coordinates(data, data->player_position.y, -move_speed)][x] == EMPTY_SPACE)
 		data->player_position.y -= move_speed;
-	if (data->key_arrow_press[DOWN])
+	if (data->key_arrow_press[DOWN] && data->map[compute_coordinates(data, data->player_position.y, move_speed)][x] == EMPTY_SPACE)
 		data->player_position.y += move_speed;
-	if (data->key_arrow_press[LEFT])
+	if (data->key_arrow_press[LEFT] && data->map[y][compute_coordinates(data, data->player_position.x, -move_speed)] == EMPTY_SPACE)
 		data->player_position.x -= move_speed;
-	if (data->key_arrow_press[RIGHT])
+	if (data->key_arrow_press[RIGHT]&& data->map[y][compute_coordinates(data, data->player_position.x, move_speed)] == EMPTY_SPACE)
 		data->player_position.x += move_speed;
 	print_minimap(data);
+}
+
+static int	compute_coordinates(t_data *data, double co, double move)
+{
+	return ((int)((co + move + (PLAYER_HITBOX / 2)) / data->square_size));
 }
 
 void	rotate_player(int keycode, t_data *data)

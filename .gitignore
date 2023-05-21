@@ -1,4 +1,7 @@
 .idea
 .OBJS
+obj
 cub3d
-TODO
+libmlx.a
+libmlx_Linux.a
+./TODO
