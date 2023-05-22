@@ -6,7 +6,7 @@
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 18:59:55 by fguirama          #+#    #+#             */
-/*   Updated: 2023/05/20 21:07:34 by mfinette         ###   ########.fr       */
+/*   Updated: 2023/05/22 13:46:23 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,9 @@
 # define WIN_HEIGHT		720
 # define MINIMAP_SIZE	300
 # define MINIMAP_OFFSET	20
-
-# define FOV			2
-# define CENTER_FOV		0
-# define LEFT_FOV		1
-# define RIGHT_FOV		2
-# define PLAYER_HITBOX	5 // TOTO SCALE PLAYER HITBOX
+# define FOV_RANGE		50
+# define FOV			90
+# define PLAYER_HITBOX	5 // TODO SCALE PLAYER HITBOX
 
 # define ERROR_SEP		": "
 
@@ -45,6 +42,7 @@ typedef struct s_data			t_data;
 typedef struct s_list			t_list;
 typedef struct s_img			t_img;
 typedef struct s_co				t_co;
+typedef	struct s_collision		t_collision;
 typedef enum e_map				t_map;
 typedef enum e_bool				t_bool;
 typedef enum e_exit				t_exit;
@@ -140,6 +138,12 @@ struct	s_img
 	int		endian;
 };
 
+struct	s_collision
+{
+	t_co	wall;
+	double	distance;
+};
+
 enum e_bool
 {
 	FALSE,
@@ -224,6 +228,7 @@ t_co	get_player_coordinates(t_data *data);
 int		abs_(int n);
 double	sqrt_(double num);
 double	pow_(double num, int pow);
+double	distance_between_points(t_co p1, t_co p2);
 
 // UTILS ----------------------------------------
 char	**split_(char const *s, char sep);
@@ -250,6 +255,7 @@ void	lst_clear(t_list **lst);
 void	mlx_pixel_put_img(t_img *img, int x, int y, int color);
 void	set_hook(t_data *data);
 int		close_mlx(t_data *data);
+t_collision	draw_fov_line(t_data *data, t_co p1, t_co p2);
 
 	// init
 void	init_data(t_data *data);

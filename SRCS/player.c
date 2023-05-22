@@ -6,7 +6,7 @@
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:03:00 by fguirama          #+#    #+#             */
-/*   Updated: 2023/05/20 21:07:08 by mfinette         ###   ########.fr       */
+/*   Updated: 2023/05/22 13:44:07 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	print_player(t_data *data)
 {
 	const t_color	color = {0xD7DF01};
 
-	draw_square(data, data->player_position, PLAYER_HITBOX, color);
 	print_fov(data);
+	draw_square(data, data->player_position, PLAYER_HITBOX, color);
 }
 
 void	print_fov(t_data	*data)
@@ -34,7 +34,7 @@ void	print_fov(t_data	*data)
 	angle = angle_to_radian(data->player_direction - (FOV / 2));
 	while (angle <= angle_to_radian(data->player_direction + (FOV / 2)))
 	{
-		draw_line(data, get_player_coordinates(data), get_minimap_fov(data, angle));
+		draw_fov_line(data, get_player_coordinates(data), get_minimap_fov(data, angle));
 		angle += angle_to_radian(0.1);
 	}	
 }
@@ -55,17 +55,19 @@ void	move_player(t_data *data)
 	const double	move_speed = 0.5; // TODO SCALE MOVE SPEED
 	int				x;
 	int				y;
+	int				hitbox;
 
 	// TODO check min & max x y
 	x = compute_coordinates(data, data->player_position.x, 0);
 	y = compute_coordinates(data, data->player_position.y, 0);
-	if (data->key_arrow_press[UP] && data->map[compute_coordinates(data, data->player_position.y, -move_speed)][x] == EMPTY_SPACE)
+	hitbox = PLAYER_HITBOX / 2;
+	if (data->key_arrow_press[UP] && data->map[compute_coordinates(data, data->player_position.y, -move_speed - hitbox)][x] == EMPTY_SPACE)
 		data->player_position.y -= move_speed;
-	if (data->key_arrow_press[DOWN] && data->map[compute_coordinates(data, data->player_position.y, move_speed)][x] == EMPTY_SPACE)
+	if (data->key_arrow_press[DOWN] && data->map[compute_coordinates(data, data->player_position.y, move_speed + hitbox)][x] == EMPTY_SPACE)
 		data->player_position.y += move_speed;
-	if (data->key_arrow_press[LEFT] && data->map[y][compute_coordinates(data, data->player_position.x, -move_speed)] == EMPTY_SPACE)
+	if (data->key_arrow_press[LEFT] && data->map[y][compute_coordinates(data, data->player_position.x, -move_speed - hitbox)] == EMPTY_SPACE)
 		data->player_position.x -= move_speed;
-	if (data->key_arrow_press[RIGHT]&& data->map[y][compute_coordinates(data, data->player_position.x, move_speed)] == EMPTY_SPACE)
+	if (data->key_arrow_press[RIGHT]&& data->map[y][compute_coordinates(data, data->player_position.x, move_speed + hitbox)] == EMPTY_SPACE)
 		data->player_position.x += move_speed;
 	print_minimap(data);
 }
