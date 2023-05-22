@@ -16,7 +16,6 @@ static t_exit	init_map(t_data *data, t_list *lst);
 static int		get_width(t_list *lst);
 static t_exit	parse_line_map(t_data *data, char *line);
 static t_map	get_char(t_data *data, char c);
-int				get_square_size(t_data *data);
 
 t_exit	parse_map(t_data *data, t_list *lst)
 {
@@ -32,7 +31,7 @@ t_exit	parse_map(t_data *data, t_list *lst)
 		tmp = tmp->next;
 	}
 	lst_clear(&lst);
-	if (data->player_direction == NO_PLAYER || check_close_map(data) == ERROR)
+	if (data->player.direction == NO_PLAYER || check_close_map(data) == ERROR)
 		return (ERROR);
 	return (SUCCESS);
 }
@@ -47,7 +46,7 @@ static t_exit	init_map(t_data *data, t_list *lst)
 		return (ERROR_MALLOC);
 	data->width = get_width(lst);
 	k = 0;
-	data->square_size = get_square_size(data);
+	data->square_size = MINIMAP_SIZE / fmax(data->height, data->width);
 	while (k < data->height)
 	{
 		data->map[k] = malloc(sizeof(t_map) * data->width);
@@ -77,25 +76,23 @@ static int	get_width(t_list *lst)
 static t_exit	parse_line_map(t_data *data, char *line)
 {
 	static int	k = 0;
-	int			i;
-	int			j;
+	t_ico		i;
 
-	i = 0;
-	j = 0;
-	while (i < data->width)
+	i = (t_ico){0, 0};
+	while (i.x < data->width)
 	{
-		if (line[j])
+		if (line[i.y])
 		{
-			data->map[k][i] = get_char(data, line[j]);
-			if (data->map[k][i] == INVALID_CHAR)
+			data->map[k][i.x] = get_char(data, line[i.y]);
+			if (data->map[k][i.x] == INVALID_CHAR)
 				return (ERROR);
-			if (data->map[k][i] == PLAYER)
-				set_player_position(data, k, i);
-			j++;
+			if (data->map[k][i.x] == PLAYER)
+				set_player_position(data, k, i.x);
+			i.y++;
 		}
 		else
-			data->map[k][i] = NOTHING;
-		i++;
+			data->map[k][i.x] = NOTHING;
+		i.x++;
 	}
 	k++;
 	return (SUCCESS);
@@ -111,13 +108,13 @@ static t_map	get_char(t_data *data, char c)
 	{
 		// TODO data->player_direction == NO_PLAYER
 		if (c == 'E')
-			data->player_direction = 0;
+			data->player.direction = 0;
 		else if (c == 'N')
-			data->player_direction = 90;
+			data->player.direction = 90;
 		else if (c == 'W')
-			data->player_direction = 180;
+			data->player.direction = 180;
 		else
-			data->player_direction = 270;
+			data->player.direction = 270;
 		return (PLAYER);
 	}
 	else if (c == ' ')

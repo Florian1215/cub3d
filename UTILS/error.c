@@ -34,6 +34,3 @@ static void	put_cub3d(void)
 	put_str_fd(ERROR_SEP, STDERR_FILENO);
 	put_str_fd("\033[90m", STDERR_FILENO);
 }
-
-
-

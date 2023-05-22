@@ -25,10 +25,8 @@ int	key_event_press(int k, t_data *data)
 		close_mlx(data);
 	else if (k == UP_KEY || k == DOWN_KEY || k == LEFT_KEY || k == RIGHT_KEY)
 		data->key_arrow_press[k - LEFT_KEY] = TRUE;
-	if (k == A || k == D)
-	{
-		rotate_player(k, data);
-	}
+	else if (k == A || k == D)
+		rotate_player(data, k);
 	return (SUCCESS);
 }
 

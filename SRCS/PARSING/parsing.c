@@ -72,4 +72,3 @@ static t_exit	parse_line(t_data *data, char *line, t_list **lst, \
 	}
 	return (exit_status);
 }
-

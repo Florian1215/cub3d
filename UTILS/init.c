@@ -12,18 +12,12 @@
 
 #include "../INCLUDES/cub3d.h"
 
-t_co	init_coordinate(double x, double y)
-{
-	t_co	co;
-
-	co.x = x;
-	co.y = y;
-	return (co);
-}
-
 void	init_data(t_data *data)
 {
-	data->player_direction = NO_PLAYER;
+	data->player.direction = NO_PLAYER;
+	data->player.hitbox = MINIMAP_SIZE / 60;
+	data->player.hhitbox = data->player.hitbox / 2;
+	data->player.qhitbox = data->player.hitbox / 4;
 	data->mlx_ptr = mlx_init();
 	data->win_ptr = mlx_new_window(data->mlx_ptr, WIN_WIDTH, WIN_HEIGHT, \
 						"cub3d du bde c la follie");

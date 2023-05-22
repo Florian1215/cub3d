@@ -1,21 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   maths.c                                            :+:      :+:    :+:   */
+/*   sqrt.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fguirama <fguirama@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/20 15:32:00 by fguirama          #+#    #+#             */
-/*   Updated: 2023/05/20 18:16:48 by mfinette         ###   ########.fr       */
+/*   Created: 2023/05/22 19:15:00 by fguirama          #+#    #+#             */
+/*   Updated: 2023/05/22 19:15:00 by fguirama         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../INCLUDES/cub3d.h"
-
-int	abs_(int n)
-{
-	return (n * (-1 * (n < 0) + (n > 0)));
-}
+#include "../../INCLUDES/cub3d.h"
 
 double	sqrt_(double num)
 {
@@ -33,22 +28,4 @@ double	sqrt_(double num)
 		y = num / x;
 	}
 	return (x);
-}
-
-double	pow_(double num, int pow)
-{
-	double	res;
-
-	res = 1;
-	while (pow > 0)
-	{
-		res *= num;
-		pow--;
-	}
-	return (res);
-}
-
-double	distance_between_points(t_co p1, t_co p2)
-{
-	return (sqrt_(pow_(p2.x - p1.x, 2) + pow_(p2.y - p1.y, 2)));
 }

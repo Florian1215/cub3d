@@ -21,6 +21,7 @@ void	print_minimap(t_data *data)
 	int				y;
 
 	x = 0;
+	printf("salut\n");
 	print_background(data);
 	while (x < data->height)
 	{
@@ -29,9 +30,8 @@ void	print_minimap(t_data *data)
 		{
 			if (data->map[x][y] != NOTHING)
 				draw_square(
-					data, \
-					init_coordinate(y * data->square_size, x * data->square_size), \
-					data->square_size,
+					data, (t_dco){y * data->square_size, \
+					x * data->square_size}, data->square_size,
 					colors[data->map[x][y]]
 					);
 			y++;
@@ -45,29 +45,23 @@ void	print_minimap(t_data *data)
 static void	print_background(t_data *data)
 {
 	const t_color	c[2] = {{0x198CA4}, {0x7E410B}};
-	int				x;
-	int				y;
+	t_ico			i;
 
-	x = 0;
-	while (x < WIN_WIDTH)
+	i.x = 0;
+	while (i.x < WIN_WIDTH)
 	{
-		y = 0;
-		while (y < WIN_HEIGHT)
+		i.y = 0;
+		while (i.y < WIN_HEIGHT)
 		{
-			mlx_pixel_put_img(&data->img, x, y, c[y > WIN_HEIGHT / 2].color);
-			y++;
+			mlx_pixel_put_img(&data->img, i.x, i.y, \
+				c[i.y > WIN_HEIGHT / 2].color);
+			i.y++;
 		}
-		x++;
+		i.x++;
 	}
 }
 
-int	get_square_size(t_data *data)
+int	get_map_coordinates(t_data *data, double co, double move)
 {
-	int	max;
-
-	if (data->height > data->width)
-		max = data->height;
-	else
-		max = data->width;
-	return (MINIMAP_SIZE / max);
+	return ((int)((co + move + data->player.hhitbox) / data->square_size));
 }
