@@ -33,7 +33,7 @@
 # define MINIMAP_OFFSET	20
 # define FOV_RANGE		50
 # define FOV			360
-# define PLAYER_HITBOX	5 // TOTO SCALE PLAYER HITBOX
+# define PLAYER_HITBOX	5 // TODO SCALE PLAYER HITBOX
 
 # define ERROR_SEP		": "
 
