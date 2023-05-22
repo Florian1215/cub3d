@@ -48,14 +48,12 @@ t_co	get_player_coordinates(t_data *data)
 	return (co);
 }
 
-static int	compute_coordinates(t_data *data, double co, double move);
-
 void	move_player(t_data *data)
 {
-	const double	move_speed = 2; // TODO SCALE MOVE SPEED
 	int				x;
 	int				y;
 	int				hitbox;
+	const double	move_speed = 0.5; // TODO SCALE MOVE SPEED
 
 	// TODO check min & max x y
 	x = compute_coordinates(data, data->player_position.x, 0);
@@ -72,7 +70,7 @@ void	move_player(t_data *data)
 	print_minimap(data);
 }
 
-static int	compute_coordinates(t_data *data, double co, double move)
+int	compute_coordinates(t_data *data, double co, double move)
 {
 	return ((int)((co + move + (PLAYER_HITBOX / 2)) / data->square_size));
 }

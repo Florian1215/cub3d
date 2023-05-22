@@ -29,10 +29,13 @@
 // DEFINE ---------------------------------------
 # define WIN_WIDTH		1080
 # define WIN_HEIGHT		720
-# define MINIMAP_SIZE	1000
+
+# define MINIMAP_SIZE	300
 # define MINIMAP_OFFSET	20
-# define FOV_RANGE		50
-# define FOV			360
+
+# define FOV_RANGE		80
+# define FOV			90
+
 # define PLAYER_HITBOX	5 // TODO SCALE PLAYER HITBOX
 
 # define ERROR_SEP		": "
@@ -238,6 +241,7 @@ int		atoi_(char *s);
 char	*get_next_line(int fd);
 t_exit	print_error(char *s1, char *s2);
 double	angle_to_radian(double angle);
+int		compute_coordinates(t_data *data, double co, double move);
 
 	// STR
 t_bool	str_str(char const *s1, char const *s2);
