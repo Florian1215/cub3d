@@ -68,7 +68,7 @@ void	draw_line(t_data *data, t_co p1, t_co p2)
 // 			collision.distance = distance_between_points(p1, collision.wall);
 // 			return (collision);
 // 		}
-// 		mlx_pixel_put_img(&data->img, (int)p1.x, (int)p1.y,
+// 		mlx_pixel_put_img(&data->img, (int)p1.x, (int)p1.y, 
 // 			0x30888888);
 // 		p1.x += delta.x;
 // 		p1.y += delta.y;
@@ -97,15 +97,15 @@ t_collision	draw_fov_line(t_data *data, t_co p1, t_co p2)
 	delta.y /= max;
 	while (((int)(p1.x - p2.x) || (int)(p1.y - p2.y)))
 	{
-		x = compute_coordinates(data, p1.x, - MINIMAP_OFFSET);
+		x = compute_coordinates(data, p1.x, 0);
 		// (void)x;
 		(void)y;
 		y = compute_coordinates(data, p1.y, 0);
-		if (data->map[compute_coordinates(data, p1.y, - MINIMAP_OFFSET)][x] == WALL)
+		if (data->map[compute_coordinates(data, p1.y, 0)][x] != WALL)
 		{
 			collision.wall = (t_co){(int)(p1.x / data->square_size), (int)(p1.y / data->square_size)};
 			collision.distance = distance_between_points(p1, collision.wall);
-	return (collision);
+			// return (collision);
 		}
 		else
 			mlx_pixel_put_img(&data->img, (int)p1.x, (int)p1.y, \

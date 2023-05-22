@@ -29,11 +29,11 @@
 // DEFINE ---------------------------------------
 # define WIN_WIDTH		1080
 # define WIN_HEIGHT		720
-# define MINIMAP_SIZE	300
+# define MINIMAP_SIZE	1000
 # define MINIMAP_OFFSET	20
 # define FOV_RANGE		50
-# define FOV			90
-# define PLAYER_HITBOX	5 // TODO SCALE PLAYER HITBOX
+# define FOV			360
+# define PLAYER_HITBOX	5 // TOTO SCALE PLAYER HITBOX
 
 # define ERROR_SEP		": "
 

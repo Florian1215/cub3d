@@ -52,7 +52,7 @@ static int	compute_coordinates(t_data *data, double co, double move);
 
 void	move_player(t_data *data)
 {
-	const double	move_speed = 0.5; // TODO SCALE MOVE SPEED
+	const double	move_speed = 2; // TODO SCALE MOVE SPEED
 	int				x;
 	int				y;
 	int				hitbox;
@@ -100,8 +100,8 @@ t_co	get_minimap_fov(t_data *data, double angle)
 {
 	t_co	orientation;
 
-	orientation.x = data->player_position.x + cos(angle) * 60;
-	orientation.y = data->player_position.y + sin(angle) * 60;
+	orientation.x = data->player_position.x + cos(angle) * FOV_RANGE;
+	orientation.y = data->player_position.y + sin(angle) * FOV_RANGE;
 	orientation.x += MINIMAP_OFFSET + (PLAYER_HITBOX / 2);
 	orientation.y += MINIMAP_OFFSET + (PLAYER_HITBOX / 2);
 	return (orientation);
