@@ -14,7 +14,10 @@
 
 // TODO
 static t_ico	find_start_wall(t_data *data);
-static t_ico	check_wall(t_data *data, t_ico c);
+static t_exit	check_right(t_data *data, t_ico *c);
+static t_exit	check_left(t_data *data, t_ico *c);
+static t_exit	check_up(t_data *data, t_ico *c);
+static t_exit	check_down(t_data *data, t_ico *c);
 
 t_exit	check_close_map(t_data *data)
 {
@@ -23,6 +26,7 @@ t_exit	check_close_map(t_data *data)
 	start_wall = find_start_wall(data);
 	if (start_wall.x == -ERROR)
 		return (ERROR);
+	check_right(data, &start_wall);
 	return (SUCCESS);
 }
 
@@ -40,29 +44,98 @@ static t_ico	find_start_wall(t_data *data)
 }
 
 
-static t_ico	check_wall(t_data *data, t_ico c)
+static t_exit	check_right(t_data *data, t_ico *c)
 {
-	int	*i;
-	int	*max;
+	t_exit	res_status;
 
-	set_x(data, i, max);
-	while (c.x < data->height)
+	while (TRUE)
 	{
-		if (wall && data->map[c.y][c.x] == NOTHING &&
-			data->map[c.y + 1][c.x - 1] == WALL)
+		if (data->map[c->y][c->x] == WALL && (c->x - 1 == data->width || data->map[c->y][c->x + 1] != WALL))
 		{
-			printf("line good go left line %d - %d\n", c.x , c.y);
-			return (c);
+			if (c->y != 0 && data->map[c->y - 1][c->x] == WALL)
+				res_status = check_up(data, c);
+			else if (c->y + 1 < data->height && data->map[c->y + 1][c->x] == WALL)
+				res_status = check_down(data, c);
+			else
+			{
+				printf("finish right\n");
+				return (SUCCESS);
+			}
+			if (res_status == ERROR)
+				return (ERROR);
 		}
-		if (!wall && data->map[c.y][c.x] != WALL)
-			break ;
-		c.x++;
+		c->x++;
 	}
-	return ((t_ico){-1, -1});
 }
 
-static void	set_x(t_data *data, int *i, int *max, t_ico c)
+static t_exit	check_left(t_data *data, t_ico *c)
 {
-	*i = c.x;
-	*max = data
+	t_exit	res_status;
+
+	while (TRUE)
+	{
+		if (data->map[c->y][c->x] == WALL && (c->x == 0 || data->map[c->y][c->x - 1] != WALL))
+		{
+			if (c->y != 0 && data->map[c->y - 1][c->x] == WALL)
+				res_status = check_up(data, c);
+			else if (c->y + 1 < data->height && data->map[c->y + 1][c->x] == WALL)
+				res_status = check_down(data, c);
+			else
+			{
+				printf("finish left\n");
+				return (SUCCESS);
+			}
+			if (res_status == ERROR)
+				return (ERROR);
+		}
+		c->x--;
+	}
+}
+
+static t_exit	check_up(t_data *data, t_ico *c)
+{
+	t_exit	res_status;
+
+	while (TRUE)
+	{
+		if (data->map[c->y][c->x] == WALL && (c->x - 1 == data->width || data->map[c->y][c->x + 1] != WALL))
+		{
+			if (c->y != 0 && data->map[c->y - 1][c->x] == WALL)
+				res_status = check_up(data, c);
+			else if (c->y + 1 < data->height && data->map[c->y + 1][c->x] == WALL)
+				res_status = check_down(data, c);
+			else
+			{
+				printf("finish up\n");
+				return (SUCCESS);
+			}
+			if (res_status == ERROR)
+				return (ERROR);
+		}
+		c->y--;
+	}
+}
+
+static t_exit	check_down(t_data *data, t_ico *c)
+{
+	t_exit	res_status;
+
+	while (TRUE)
+	{
+		if (data->map[c->y][c->x] == WALL && (c->y - 1 == data->height || data->map[c->y + 1][c->x] != WALL))
+		{
+			if (c->x != 0 && data->map[c->y][c->x - 1] == WALL)
+				res_status = check_left(data, c);
+			else if (c->x + 1 < data->width && data->map[c->y][c->x + 1] == WALL)
+				res_status = check_right(data, c);
+			else
+			{
+				printf("finish down\n");
+				return (SUCCESS);
+			}
+			if (res_status == ERROR)
+				return (ERROR);
+		}
+		c->y++;
+	}
 }
