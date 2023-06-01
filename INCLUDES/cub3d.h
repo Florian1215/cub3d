@@ -14,6 +14,14 @@
 # define CUB3D_H
 
 // INCLUDE --------------------------------------
+# ifdef __APPLE__
+#  include "../mlx/mac/mlx.h"
+# endif
+
+# ifdef __linux__
+#  include "../mlx/linux/mlx.h"
+# endif
+
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
@@ -22,7 +30,6 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
-# include "../mlx/mlx.h"
 
 //// open, close, read, write, printf, malloc, free, perror, strerror, exit
 

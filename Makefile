@@ -31,8 +31,18 @@ FLAGS			=	-Wall -Wextra -Werror -g3 -fsanitize=address
 FLAGS			+=	-MMD -MP
 
 MLX_NAME		=	libmlx.a
-MLX_DIR			=	mlx/
-MLX_FLAGS		=	-lXext -lX11 -lz -lm
+
+UNAME			=	$(shell uname -s)
+
+ifeq ($(UNAME), Linux)
+MLX_DIR			=	mlx/linux/
+MLX_FLAGS		=	-lXext -lX11 -lm -lz
+endif
+
+ifeq ($(UNAME), Darwin)
+MLX_DIR			=	mlx/mac/
+MLX_FLAGS		=	-framework OpenGL -framework AppKit
+endif
 
 # RULES -------------------------------------------------------------
 all:				mlx $(NAME)
@@ -44,7 +54,7 @@ norm:
 					norminette main.c UTILS/*.c UTILS/*/*.c SRCS/*.c SRCS/*/*.c INCLUDES/*.h
 
 $(NAME):			$(OBJS)
-					$(CC) $(FLAGS) $(OBJS) $(MLX_DIR)$(MLX_NAME) $(MLX_FLAGS) -o $(NAME)
+					$(CC) $(FLAGS) $(OBJS) $(MLX_DIR)$(MLX_NAME) $(MLX_FLAGS) -lm -o $(NAME)
 
 -include $(DEP)
 $(OBJS_DIR)%.o:		%.c | dir
