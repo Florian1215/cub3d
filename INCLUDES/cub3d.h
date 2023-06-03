@@ -269,6 +269,7 @@ struct s_data
 {
 	t_player	player;
 	t_map		**map;
+	t_ico		start_wall;
 	int			height;
 	int			width;
 	double		square_size;

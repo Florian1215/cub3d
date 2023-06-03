@@ -31,7 +31,7 @@ t_exit	parse_map(t_data *data, t_list *lst)
 		tmp = tmp->next;
 	}
 	lst_clear(&lst);
-	if (data->player.direction == NO_PLAYER || check_close_map(data) == ERROR)
+	if (data->player.direction == NO_PLAYER)// || check_close_map(data) == ERROR)
 		return (ERROR);
 	return (SUCCESS);
 }
