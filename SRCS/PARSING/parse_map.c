@@ -16,6 +16,7 @@ static t_exit	init_map(t_data *data, t_list *lst);
 static int		get_width(t_list *lst);
 static t_exit	parse_line_map(t_data *data, char *line);
 static t_map	get_char(t_data *data, char c);
+void			clean_map(t_data *data);
 
 t_exit	parse_map(t_data *data, t_list *lst)
 {
@@ -31,8 +32,10 @@ t_exit	parse_map(t_data *data, t_list *lst)
 		tmp = tmp->next;
 	}
 	lst_clear(&lst);
-	if (data->player.direction == NO_PLAYER)// || check_close_map(data) == ERROR)
+	if (data->player.direction == NO_PLAYER || \
+			check_close_map(data, data->player.start_pos) == ERROR)
 		return (ERROR);
+	clean_map(data);
 	return (SUCCESS);
 }
 

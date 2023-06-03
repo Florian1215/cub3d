@@ -15,6 +15,8 @@
 void	set_player_position(t_data *data, int k, int i)
 {
 	data->map[k][i] = EMPTY_SPACE;
+	data->player.start_pos.x = i;
+	data->player.start_pos.y = k;
 	data->player.pos.x = (i * data->square_size) + data->player.qhitbox;
 	data->player.pos.y = (k * data->square_size) + data->player.qhitbox;
 }
