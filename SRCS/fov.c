@@ -16,12 +16,12 @@ void	print_fov(t_data	*data)
 {
 	double	angle;
 
-	angle = angle_to_radian(data->player.direction - (FOV / 2));
-	while (angle <= angle_to_radian(data->player.direction + (FOV / 2)))
+	angle = degre_to_radian(data->map->direction - (FOV / 2));
+	while (angle <= degre_to_radian(data->map->direction + (FOV / 2)))
 	{
 		draw_fov_line(data, get_player_coordinates(data), \
 			get_minimap_fov(data, angle));
-		angle += angle_to_radian(0.1);
+		angle += degre_to_radian(0.1);
 	}
 }
 
@@ -29,10 +29,10 @@ t_dco	get_minimap_fov(t_data *data, double angle)
 {
 	t_dco	orientation;
 
-	orientation.x = data->player.pos.x + cos(angle) * FOV_RANGE;
-	orientation.y = data->player.pos.y + sin(angle) * FOV_RANGE;
-	orientation.x += MINIMAP_OFFSET + data->player.hhitbox;
-	orientation.y += MINIMAP_OFFSET + data->player.hhitbox;
+	orientation.x = data->map->pos.x + cos(angle) * FOV_RANGE;
+	orientation.y = data->map->pos.y + sin(angle) * FOV_RANGE;
+	orientation.x += MINIMAP_OFFSET + data->map->hhitbox;
+	orientation.y += MINIMAP_OFFSET + data->map->hhitbox;
 	return (orientation);
 }
 
@@ -52,13 +52,13 @@ t_collision	draw_fov_line(t_data *data, t_dco p1, t_dco p2)
 	while (((int)(p1.x - p2.x) || (int)(p1.y - p2.y)))
 	{
 		x = get_map_coordinates(data, p1.x, \
-			-MINIMAP_OFFSET - data->player.hhitbox);
+			-MINIMAP_OFFSET - data->map->hhitbox);
 		y = get_map_coordinates(data, p1.y, \
-			-MINIMAP_OFFSET - data->player.hhitbox);
-		if (data->map[y][x] == WALL)
+			-MINIMAP_OFFSET - data->map->hhitbox);
+		if (data->map->m[y][x] == WALL)
 		{
-			collision.wall = (t_dco){(p1.x / data->square_size), \
-				(p1.y / data->square_size)};
+			collision.wall = (t_dco){(p1.x / data->map->square_size), \
+				(p1.y / data->map->square_size)};
 			collision.distance = distance_between_points(p1, collision.wall);
 			return (collision);
 		}

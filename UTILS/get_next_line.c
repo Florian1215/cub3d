@@ -14,7 +14,7 @@
 
 #define BUFFER_SIZE 1024
 
-static char	*str_join(char *s1, char *s2);
+static char	*str_join_gnl(char *s1, char *s2);
 static int	find_nl(char *str);
 static char	*get_line(char *line, char *static_str);
 
@@ -27,7 +27,7 @@ char	*get_next_line(int fd)
 
 	if (fd == -1 || BUFFER_SIZE <= 0)
 		return (NULL);
-	line = str_join(static_str, NULL);
+	line = str_join_gnl(static_str, NULL);
 	if (!line)
 		return (NULL);
 	read_bytes = 1;
@@ -37,20 +37,20 @@ char	*get_next_line(int fd)
 		if ((*line == '\0' && !read_bytes) || read_bytes < 0)
 			return (free(line), *static_str = '\0', NULL);
 		buff[read_bytes] = '\0';
-		line = str_join(line, buff);
+		line = str_join_gnl(line, buff);
 		if (!line)
 			return (free(line), NULL);
 	}
 	return (get_line(line, static_str));
 }
 
-static char	*str_join(char *s1, char *s2)
+static char	*str_join_gnl(char *s1, char *s2)
 {
 	char	*res;
 	int		i;
 	int		j;
 
-	res = malloc(sizeof(char) * (str_len_(s1) + str_len_(s2) + 1));
+	res = malloc(sizeof(char) * (str_len(s1) + str_len(s2) + 1));
 	if (!res)
 	{
 		if (s2)

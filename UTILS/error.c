@@ -13,24 +13,62 @@
 #include "../INCLUDES/cub3d.h"
 
 static void	put_cub3d(void);
+static void	str_format(char c, va_list	args);
+static void	put_char(int c);
+static void	put_str(char *s);
 
-t_exit	print_error(char *s1, char *s2)
+t_exit	error_msg(t_bool print, const char *format, ...)
 {
+	va_list	args;
+	int		i;
+
+	if (!print)
+		return (ERROR);
 	put_cub3d();
-	put_str_fd(s1, STDERR_FILENO);
-	if (s2)
+	va_start(args, format);
+	i = -1;
+	while (format[++i])
 	{
-		put_str_fd(ERROR_SEP, STDERR_FILENO);
-		put_str_fd(s2, STDERR_FILENO);
+		if (format[i] == '%')
+		{
+			if (!format[++i])
+				break ;
+			str_format(format[i], args);
+		}
+		else
+			put_char(format[i]);
 	}
-	put_str_fd("\033[0m\n", STDERR_FILENO);
+	va_end(args);
+	put_str("\033[0m\n");
+//	close_mlx(data, ERROR);
 	return (ERROR);
 }
 
 static void	put_cub3d(void)
 {
-	put_str_fd("\033[91m", STDERR_FILENO);
-	put_str_fd("cub3d", STDERR_FILENO);
-	put_str_fd(ERROR_SEP, STDERR_FILENO);
-	put_str_fd("\033[90m", STDERR_FILENO);
+	put_str("\033[91m");
+	put_str("cub3d");
+	put_str(": ");
+	put_str("\033[90m");
+}
+
+static void	str_format(char c, va_list	args)
+{
+	if (c == 's')
+		return (put_str(va_arg(args, char *)));
+	if (c == 'c')
+		return (put_char(va_arg(args, int)));
+	put_char(c);
+}
+
+static void	put_char(int c)
+{
+	write(STDERR, &c, 1);
+}
+
+static void	put_str(char *s)
+{
+	if (s == NULL)
+		s = "(null)";
+	write(STDERR, s, str_len(s));
 }

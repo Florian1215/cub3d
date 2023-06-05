@@ -17,7 +17,7 @@ double	distance_between_points(t_dco p1, t_dco p2)
 	return (sqrt_(pow_(p2.x - p1.x, 2) + pow_(p2.y - p1.y, 2)));
 }
 
-double	angle_to_radian(double angle)
+double	degre_to_radian(double angle)
 {
 	return (angle * (3.14159265358979323846 / 180));
 }

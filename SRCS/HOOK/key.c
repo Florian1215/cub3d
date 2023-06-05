@@ -12,6 +12,8 @@
 
 #include "../../INCLUDES/cub3d.h"
 
+void	change_map(t_data *data);
+
 int	key_event(int k, t_data *data)
 {
 	(void)k;
@@ -22,11 +24,13 @@ int	key_event(int k, t_data *data)
 int	key_event_press(int k, t_data *data)
 {
 	if (k == ESQ)
-		close_mlx(data);
+		close_mlx_success(data);
 	else if (k == UP_KEY || k == DOWN_KEY || k == LEFT_KEY || k == RIGHT_KEY)
 		data->key_arrow_press[k - LEFT_KEY] = TRUE;
 	else if (k == A || k == D)
 		rotate_player(data, k);
+	else if (k == Q)
+		change_map(data);
 	return (SUCCESS);
 }
 

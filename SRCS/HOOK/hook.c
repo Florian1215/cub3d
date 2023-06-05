@@ -28,7 +28,7 @@ void	set_hook(t_data *data)
 	mlx_hook(data->win_ptr, 4, (1L << 2), mouse_event_press, data);
 	mlx_hook(data->win_ptr, 5, (1L << 3), mouse_event_release, data);
 	mlx_hook(data->win_ptr, 6, (1L << 13), mouse_event_motion, data);
-	mlx_hook(data->win_ptr, 17, 0, close_mlx, data);
+	mlx_hook(data->win_ptr, 17, 0, close_mlx_success, data);
 	mlx_loop_hook(data->mlx_ptr, hook_loop, data);
 }
 

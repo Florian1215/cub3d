@@ -21,18 +21,18 @@ void	print_minimap(t_data *data)
 	int				y;
 
 	x = 0;
-	printf("salut\n");
+//	printf("salut %f\n", data->map->direction);
 	print_background(data);
-	while (x < data->height)
+	while (x < data->map->height)
 	{
 		y = 0;
-		while (y < data->width)
+		while (y < data->map->width)
 		{
-			if (data->map[x][y] != NOTHING)
+			if (data->map->m[x][y] != NOTHING)
 				draw_square(
-					data, (t_dco){y * data->square_size, \
-					x * data->square_size}, data->square_size,
-					colors[data->map[x][y]]
+					data, (t_dco){y * data->map->square_size, \
+					x * data->map->square_size}, data->map->square_size,
+					colors[data->map->m[x][y]]
 					);
 			y++;
 		}
@@ -63,5 +63,6 @@ static void	print_background(t_data *data)
 
 int	get_map_coordinates(t_data *data, double co, double move)
 {
-	return ((int)((co + move + data->player.hhitbox) / data->square_size));
+	return ((int)((co + move + data->map->hhitbox) \
+		/ data->map->square_size));
 }

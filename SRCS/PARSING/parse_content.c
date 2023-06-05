@@ -12,40 +12,36 @@
 
 #include "../../INCLUDES/cub3d.h"
 
-static t_exit	parse_color(t_data *data, char *line, t_parsing_state state);
+static t_exit	parse_color(t_map *map, char *line);
 
-t_exit	parse_content(t_data *data, char *line, t_parsing_state state)
+t_exit	parse_content(t_map *map, char *line)
 {
-	char const	*identifiers[6] = {"NO", "SO", "WE", "EA", "F", "C"};
-	char		**tab;
+	char const	*identifiers[6] = {"NO ", "SO ", "WE ", "EA ", "F ", "C "};
+	char		*value;
 
-	if (!str_str(line, identifiers[state]))
+	value = str_str(line, (char *)identifiers[map->state]);
+	if (!value)
 		return (ERROR);
-	tab = split_(line, ' ');
-	if (!tab)
-		return (ERROR_MALLOC);
-	if (!tab[1])
-		return (free_split(tab), ERROR);
-	if (state <= EA)
+	if (map->state <= EA)
 	{
-		data->texture_path[state] = str_dup(tab[1]);
-		if (!data->texture_path[state])
-			return (free_split(tab), ERROR_MALLOC);
+		map->texture_path[map->state] = str_dup(value);
+		if (!map->texture_path[map->state])
+			return (ERROR_MALLOC);
 	}
-	else if (state == FLOOR || state == CEILING)
-		parse_color(data, tab[1], state);
-	return (free_split(tab), SUCCESS);
+	else if (map->state == FLOOR || map->state == CEILING)
+		parse_color(map, value);
+	return (SUCCESS);
 }
 
-static t_exit	parse_color(t_data *data, char *line, t_parsing_state state)
+static t_exit	parse_color(t_map *map, char *line)
 {
 	char	**tab;
 	t_color	*color;
 
-	if (state == FLOOR)
-		color = &data->floor;
+	if (map->state == FLOOR)
+		color = &map->floor;
 	else
-		color = &data->ceiling;
+		color = &map->ceiling;
 	tab = split_(line, ',');
 	if (!tab)
 		return (ERROR_MALLOC);

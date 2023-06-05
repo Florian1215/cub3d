@@ -12,12 +12,12 @@
 
 # VAR ---------------------------------------------------------------
 OBJS_DIR		=	.OBJS/
-SRCS			=	SRCS/draw.c SRCS/fov.c SRCS/minimap.c SRCS/player.c \
-					SRCS/PARSING/parsing.c SRCS/PARSING/parse_map.c SRCS/PARSING/parse_content.c SRCS/PARSING/check_close_map.c \
+SRCS			=	SRCS/draw.c SRCS/maps.c SRCS/fov.c SRCS/minimap.c SRCS/player.c \
+					SRCS/PARSING/open_dir.c SRCS/PARSING/parsing.c SRCS/PARSING/parse_map.c SRCS/PARSING/parse_content.c \
 					SRCS/HOOK/hook.c SRCS/HOOK/key.c SRCS/HOOK/mouse.c \
-					UTILS/error.c UTILS/free.c UTILS/get_next_line.c UTILS/init.c UTILS/list.c UTILS/mlx.c UTILS/split.c \
-					UTILS/STR/str_end_with.c UTILS/STR/str_len.c UTILS/STR/str_str.c UTILS/STR/str_dup.c UTILS/STR/put_str.c \
+					UTILS/error.c UTILS/free.c UTILS/get_next_line.c UTILS/init.c UTILS/list.c UTILS/map.c UTILS/mlx.c UTILS/split.c \
 					UTILS/MATHS/atoi.c UTILS/MATHS/compute.c UTILS/MATHS/pow.c UTILS/MATHS/sqrt.c \
+					UTILS/STR/str_dup.c UTILS/STR/str_join.c UTILS/STR/str_end_with.c UTILS/STR/str_len.c UTILS/STR/str_str.c \
 					main.c
 OBJS			=	$(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
 DEP				=	$(addprefix $(OBJS_DIR), $(SRCS:.c=.d))
@@ -49,10 +49,10 @@ endif
 all:				mlx $(NAME)
 
 run:				all
-					./$(NAME) ./MAPS/map.cub
+					./$(NAME) ./MAPS/
 
 norm:
-					norminette main.c UTILS/*.c UTILS/*/*.c SRCS/*.c SRCS/*/*.c INCLUDES/*.h
+					norminette $(SRCS) $(HEAD)/*.h | grep -E "(Error|Warning)"
 
 $(NAME):			$(OBJS)
 					$(CC) $(FLAGS) $(OBJS) $(MLX_DIR)$(MLX_NAME) $(MLX_FLAGS) -lm -o $(NAME)

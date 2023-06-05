@@ -14,10 +14,7 @@
 
 void	init_data(t_data *data)
 {
-	data->player.direction = NO_PLAYER;
-	data->player.hitbox = MINIMAP_SIZE / 60;
-	data->player.hhitbox = data->player.hitbox / 2;
-	data->player.qhitbox = data->player.hitbox / 4;
+	data->map = NULL;
 	data->mlx_ptr = mlx_init();
 	data->win_ptr = mlx_new_window(data->mlx_ptr, \
 		WIN_WIDTH, WIN_HEIGHT, "cub3d du bde c la follie");
@@ -29,4 +26,30 @@ void	init_data(t_data *data)
 	data->key_arrow_press[UP] = FALSE;
 	data->key_arrow_press[RIGHT] = FALSE;
 	data->key_arrow_press[DOWN] = FALSE;
+}
+
+t_exit	init_map(t_map *map)
+{
+	int	k;
+
+	map->height = lst_size(map->lst);
+	map->m = malloc(sizeof(t_map *) * map->height);
+	if (!map->m)
+		return (ERROR_MALLOC);
+	map->width = lst_max_len(map->lst);
+	k = 0;
+	map->square_size = MINIMAP_SIZE / fmax(map->height, map->width);
+	map->hitbox = map->square_size / 2;
+	if (map->hitbox < 4)
+		map->hitbox = 4;
+	map->hhitbox = map->hitbox / 2;
+	map->qhitbox = map->hhitbox / 2;
+	while (k < map->height)
+	{
+		map->m[k] = malloc(sizeof(t_map) * map->width);
+		if (!map->m[k])
+			return (free_n_split((void **)map->m, k - 1), ERROR_MALLOC);
+		k++;
+	}
+	return (SUCCESS);
 }

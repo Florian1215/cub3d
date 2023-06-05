@@ -12,22 +12,22 @@
 
 #include "../../INCLUDES/cub3d.h"
 
-t_bool	str_str(char const *s1, char const *s2)
+char	*str_str(char *s1, char *s2)
 {
 	int	i;
 	int	j;
 
 	i = 0;
 	if (!s2[i])
-		return (TRUE);
+		return (s1);
 	while (s1[i])
 	{
 		j = 0;
 		while (s1[i + j] == s2[j] && s1[i + j])
 			j++;
 		if (!s2[j])
-			return (TRUE);
+			return (s1 + i);
 		i++;
 	}
-	return (FALSE);
+	return (NULL);
 }

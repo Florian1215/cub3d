@@ -44,6 +44,22 @@ int	lst_size(t_list *lst)
 	return (1 + lst_size(lst->next));
 }
 
+int	lst_max_len(t_list *lst)
+{
+	int	max;
+	int	len;
+
+	max = -1;
+	while (lst)
+	{
+		len = str_len(lst->line);
+		if (len > max)
+			max = len;
+		lst = lst->next;
+	}
+	return (max);
+}
+
 void	lst_clear(t_list **lst)
 {
 	t_list	*temp;

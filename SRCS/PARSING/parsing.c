@@ -12,63 +12,81 @@
 
 #include "../INCLUDES/cub3d.h"
 
-static t_exit	parse_file(t_data *data, char *filename);
-static t_exit	parse_line(t_data *data, char *line, t_list **lst, \
-					t_parsing_state *state);
+static t_exit	read_file(t_map *map);
+static t_exit	parse_line(t_map *map, char *line);
 
-t_exit	parsing(t_data *data, int ac, char **av)
+void	parsing(t_data *data, int ac, char **av)
 {
-	av++;
 	ac--;
-	if (ac != 1)
-		return (ERROR);
-	if (!str_end_with(av[0], ".cub"))
-		return (ERROR);
-	return (parse_file(data, av[0]));
+	av++;
+	if (!ac)
+		open_dir(data, NULL);
+	else if (ac == 1)
+	{
+		if (str_end_with(*av, EXT_MAP))
+			parse_file(data, *av, TRUE); // TODO EXIT
+		else
+			open_dir(data, *av);
+	}
+	else
+		error_msg(TRUE, "./cub3d [directory|*.cub]?");
 }
 
-static t_exit	parse_file(t_data *data, char *filename)
+t_exit	parse_file(t_data *data, char *filename, t_bool is_error_msg)
 {
-	int				fd;
-	char			*line;
-	t_list			*lst;
-	t_parsing_state	state;
+	t_map			*map;
+	t_exit			exit_status;
 
-	fd = open(filename, O_RDONLY);
-	if (fd == -1)
-		return (ERROR); // TODO erno str_error perror
-	lst = NULL;
-	state = NO;
-	while (TRUE)
-	{
-		line = get_next_line(fd);
-		if (!line)
-			break ;
-		if (parse_line(data, line, &lst, &state) >= ERROR)
-			return (lst_clear(&lst), ERROR);
-	}
-	close(fd);
-	if (state == MAP && parse_map(data, lst) == SUCCESS)
-		return (SUCCESS);
+	if (!str_end_with(filename, EXT_MAP))
+		return (error_msg(is_error_msg, "%s: file does not extension " \
+			"match .cub", filename));
+	map = map_new();
+	if (!map)
+		error_msg(is_error_msg, "Out of memory");
+	map->is_error_msg = is_error_msg;
+	map->fd = open(filename, O_RDONLY);
+	if (map->fd == -1)
+		return (error_msg(is_error_msg, "%s: %s", filename, strerror(errno)));
+	exit_status = read_file(map);
+	close(map->fd);
+	if (exit_status == SUCCESS && parse_map(map) == SUCCESS)
+		return (map_add_back(&data->map, map), SUCCESS);
+// TODO	free() m
 	return (ERROR);
 }
 
-static t_exit	parse_line(t_data *data, char *line, t_list **lst, \
-					t_parsing_state *state)
+static t_exit	read_file(t_map *map)
+{
+	char			*line;
+
+	while (TRUE)
+	{
+		line = get_next_line(map->fd);
+		if (!line)
+			break ;
+		if (parse_line(map, line) >= ERROR)
+			return (lst_clear(&map->lst), ERROR);
+	}
+	if (map->state == MAP)
+		return (SUCCESS);
+	return (error_msg(map->is_error_msg, "Map: Miss information"));
+}
+
+static t_exit	parse_line(t_map *map, char *line)
 {
 	t_exit	exit_status;
 
-	if (*state != MAP && !*line)
+	if (map->state != MAP && !*line)
 		return (SUCCESS);
-	if (*state == MAP_NEWLINE)
-		++*state;
-	if (*state == MAP)
-		exit_status = lst_new(lst, line);
+	if (map->state == MAP_NEWLINE)
+		++map->state;
+	if (map->state == MAP)
+		exit_status = lst_new(&map->lst, line);
 	else
 	{
-		exit_status = parse_content(data, line, *state);
+		exit_status = parse_content(map, line);
 		free(line);
-		++*state;
+		++map->state;
 	}
 	return (exit_status);
 }

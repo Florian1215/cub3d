@@ -17,9 +17,7 @@ int	main(int ac, char **av)
 	t_data	data;
 
 	init_data(&data);
-	if (parsing(&data, ac, av) >= ERROR)
-		return (print_error("Error", NULL)); // TODO print message "Error\n"
-	print_minimap(&data);
+	parsing(&data, ac, av);
 	set_hook(&data);
 	mlx_loop(data.mlx_ptr);
 	return (SUCCESS);

@@ -12,6 +12,8 @@
 
 #include "../INCLUDES/cub3d.h"
 
+void	map_clear(t_map **map);
+
 void	free_split(char **split)
 {
 	int	i;
@@ -22,14 +24,16 @@ void	free_split(char **split)
 	free(split);
 }
 
-int	close_mlx(t_data *data)
+int	close_mlx_success(t_data *data)
 {
-	free_n_split((void **)data->map, data->height - 1);
-	free(data->texture_path[NORTH]);
-	free(data->texture_path[SOUTH]);
-	free(data->texture_path[WEST]);
-	free(data->texture_path[EAST]);
+	close_mlx(data, SUCCESS);
+	return (SUCCESS);
+}
+
+void	close_mlx(t_data *data, t_exit exit_status)
+{
+	map_clear(&data->map);
 	mlx_clear_window(data->mlx_ptr, data->win_ptr);
 	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-	exit(SUCCESS);
+	exit(exit_status);
 }

@@ -22,14 +22,17 @@
 #  include "../mlx/linux/mlx.h"
 # endif
 
-# include <sys/types.h>
-# include <sys/stat.h>
+# include <dirent.h>
 # include <fcntl.h>
+# include <errno.h>
 # include <math.h>
 # include <unistd.h>
+# include <stdarg.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include <sys/types.h>
+# include <sys/stat.h>
 
 //// open, close, read, write, printf, malloc, free, perror, strerror, exit
 
@@ -43,7 +46,7 @@
 # define FOV_RANGE		80
 # define FOV			90
 
-# define ERROR_SEP		": "
+# define EXT_MAP		".cub"
 
 // TYPEDEF --------------------------------------
 typedef struct s_data			t_data;
@@ -53,7 +56,8 @@ typedef struct s_ico			t_ico;
 typedef struct s_dco			t_dco;
 typedef struct s_collision		t_collision;
 typedef struct s_player			t_player;
-typedef enum e_map				t_map;
+typedef struct s_map			t_map;
+typedef enum e_case				t_case;
 typedef enum e_bool				t_bool;
 typedef enum e_exit				t_exit;
 typedef enum e_side				t_side;
@@ -73,6 +77,13 @@ struct s_ico
 {
 	int	x;
 	int	y;
+};
+
+enum e_fd
+{
+	STDIN,
+	STDOUT,
+	STDERR,
 };
 
 // PARSING --------------------------------------
@@ -170,6 +181,8 @@ enum e_keycode
 
 # endif
 
+// PARSING --------------------------------------
+
 enum e_parsing_state
 {
 	NO,
@@ -191,13 +204,17 @@ enum e_cardinal
 	EAST
 };
 
-t_exit		parsing(t_data *data, int ac, char **av);
-t_exit		parse_map(t_data *data, t_list *lst);
-t_exit		parse_content(t_data *data, char *line, t_parsing_state state);
-t_exit		check_close_map(t_data *data, t_ico p);
+void		parsing(t_data *data, int ac, char **av);
+t_exit		parse_file(t_data *data, char *filename, t_bool is_error_msg);
+t_map		*map_new(void);
+t_map		*map_last(t_map *m);
+void		map_add_back(t_map **start, t_map *new);
+void		open_dir(t_data *data, char *directory);
+t_exit		parse_map(t_map *map);
+t_exit		parse_content(t_map *map, char *line);
 
 // MAP ------------------------------------------
-enum e_map
+enum e_case
 {
 	INVALID_CHAR = -1,
 	EMPTY_SPACE,
@@ -219,17 +236,7 @@ t_collision	draw_fov_line(t_data *data, t_dco p1, t_dco p2);
 int			get_map_coordinates(t_data *data, double co, double move);
 
 // PLAYER ---------------------------------------
-struct s_player
-{
-	double		direction;
-	t_ico		start_pos;
-	t_dco		pos;
-	double		hitbox;
-	double		hhitbox;
-	double		qhitbox;
-};
-
-void		set_player_position(t_data *data, int k, int i);
+void		set_player_position(t_map *map, int k, int i);
 void		print_player(t_data *data);
 void		move_player(t_data *data);
 void		rotate_player(t_data *data, int keycode);
@@ -261,15 +268,15 @@ void		free_split(char **split);
 void		**free_n_split(void **split, int i);
 int			atoi_(char *s);
 char		*get_next_line(int fd);
-t_exit		print_error(char *s1, char *s2);
-double		angle_to_radian(double angle);
+t_exit		error_msg(t_bool print, const char *format, ...);
+double		degre_to_radian(double angle);
 
 	// STR
-t_bool		str_str(char const *s1, char const *s2);
-int			str_len_(char *str);
+char		*str_str(char *s1, char *s2);
+int			str_len(char *str);
+char		*str_join(char *s1, char *s2);
 t_bool		str_end_with(char *s1, char *s2);
 char		*str_dup(char *s);
-void		put_str_fd(char *s, int fd);
 
 	// LST
 struct s_list
@@ -280,6 +287,7 @@ struct s_list
 
 t_exit		lst_new(t_list **lst, char *line);
 int			lst_size(t_list *lst);
+int			lst_max_len(t_list *lst);
 void		lst_clear(t_list **lst);
 
 	// MLX
@@ -315,21 +323,37 @@ struct	s_img
 
 void		mlx_pixel_put_img(t_img *img, int x, int y, int color);
 void		set_hook(t_data *data);
-int			close_mlx(t_data *data);
+int			close_mlx_success(t_data *data);
+void		close_mlx(t_data *data, t_exit exit_status);
 
 	// init
+struct s_map
+{
+	int				idx;
+	t_case			**m;
+	int				height;
+	int				width;
+	double			direction;
+	t_ico			start_pos;
+	t_dco			pos;
+	double			hitbox;
+	double			hhitbox;
+	double			qhitbox;
+	double			square_size;
+	char			*texture_path[4];
+	t_color			floor;
+	t_color			ceiling;
+	t_bool			is_error_msg;
+	int				fd;
+	t_list			*lst;
+	t_parsing_state	state;
+	t_map			*next;
+};
+
 struct s_data
 {
-	t_player	player;
-	t_map		**map;
-	t_ico		start_wall;
-	int			height;
-	int			width;
-	double		square_size;
-	char		*texture_path[4];
+	t_map		*map;
 	t_bool		key_arrow_press[4];
-	t_color		floor;
-	t_color		ceiling;
 	void		*mlx_ptr;
 	void		*win_ptr;
 	t_img		img;

@@ -12,96 +12,61 @@
 
 #include "../../INCLUDES/cub3d.h"
 
-static t_exit	init_map(t_data *data, t_list *lst);
-static int		get_width(t_list *lst);
-static t_exit	parse_line_map(t_data *data, char *line);
-static t_map	get_char(t_data *data, char c);
-void			clean_map(t_data *data);
+t_exit			init_map(t_map *map);
+static t_exit	parse_line_map(t_map *map, char *line, int k);
+static t_case	get_char(t_map *map, char c);
+static t_exit	check_close_map(t_map *map, t_ico p);
+static void		clean_map(t_map *map);
 
-t_exit	parse_map(t_data *data, t_list *lst)
+t_exit	parse_map(t_map *map)
 {
 	t_list	*tmp;
+	int		k;
 
-	if (init_map(data, lst))
+	if (init_map(map))
 		return (ERROR_MALLOC);
-	tmp = lst;
+	tmp = map->lst;
+	k = 0;
 	while (tmp)
 	{
-		if (parse_line_map(data, tmp->line) == ERROR)
-			return (lst_clear(&lst), ERROR);
+		if (parse_line_map(map, tmp->line, k) == ERROR)
+			return (lst_clear(&map->lst), ERROR);
 		tmp = tmp->next;
-	}
-	lst_clear(&lst);
-	if (data->player.direction == NO_PLAYER || \
-			check_close_map(data, data->player.start_pos) == ERROR)
-		return (ERROR);
-	clean_map(data);
-	return (SUCCESS);
-}
-
-static t_exit	init_map(t_data *data, t_list *lst)
-{
-	int	k;
-
-	data->height = lst_size(lst);
-	data->map = malloc(sizeof(t_map *) * data->height);
-	if (!data->map)
-		return (ERROR_MALLOC);
-	data->width = get_width(lst);
-	k = 0;
-	data->square_size = MINIMAP_SIZE / fmax(data->height, data->width);
-	while (k < data->height)
-	{
-		data->map[k] = malloc(sizeof(t_map) * data->width);
-		if (!data->map[k])
-			return (free_n_split((void **)data->map, k - 1), ERROR_MALLOC);
 		k++;
 	}
+	lst_clear(&map->lst);
+	if (map->direction == NO_PLAYER || \
+			check_close_map(map, map->start_pos) == ERROR)
+		return (ERROR);
+	clean_map(map);
 	return (SUCCESS);
 }
 
-static int	get_width(t_list *lst)
+static t_exit	parse_line_map(t_map *map, char *line, int k)
 {
-	int	max;
-	int	len;
-
-	max = -1;
-	while (lst)
-	{
-		len = str_len_(lst->line);
-		if (len > max)
-			max = len;
-		lst = lst->next;
-	}
-	return (max);
-}
-
-static t_exit	parse_line_map(t_data *data, char *line)
-{
-	static int	k = 0;
 	t_ico		i;
 
 	i = (t_ico){0, 0};
-	while (i.x < data->width)
+	while (i.x < map->width)
 	{
 		if (line[i.y])
 		{
-			data->map[k][i.x] = get_char(data, line[i.y]);
-			if (data->map[k][i.x] == INVALID_CHAR)
-				return (ERROR);
-			if (data->map[k][i.x] == PLAYER)
-				set_player_position(data, k, i.x);
+			map->m[k][i.x] = get_char(map, line[i.y]);
+			if (map->m[k][i.x] == INVALID_CHAR)
+				return (error_msg(map->is_error_msg, \
+					"Invalid char '%c'", line[i.y]));
+			if (map->m[k][i.x] == PLAYER)
+				set_player_position(map, k, i.x);
 			i.y++;
 		}
 		else
-			data->map[k][i.x] = NOTHING;
+			map->m[k][i.x] = NOTHING;
 		i.x++;
 	}
-	k++;
 	return (SUCCESS);
 }
 
-static t_map	get_char(t_data *data, char c)
+static t_case	get_char(t_map *map, char c)
 {
 	if (c == '0')
 		return (EMPTY_SPACE);
@@ -109,19 +74,63 @@ static t_map	get_char(t_data *data, char c)
 		return (WALL);
 	else if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
 	{
-		// TODO data->player_direction == NO_PLAYER
+		if (map->direction != NO_PLAYER)
+			return (error_msg(map->is_error_msg, \
+				"Map: To many players"), INVALID_CHAR);
 		if (c == 'E')
-			data->player.direction = 0;
-		else if (c == 'N')
-			data->player.direction = 90;
+			map->direction = 0;
+		else if (c == 'S')
+			map->direction = 90;
 		else if (c == 'W')
-			data->player.direction = 180;
+			map->direction = 180;
 		else
-			data->player.direction = 270;
+			map->direction = 270;
 		return (PLAYER);
 	}
 	else if (c == ' ')
 		return (NOTHING);
 	else
 		return (INVALID_CHAR);
+}
+
+static t_exit	check_close_map(t_map *map, t_ico p)
+{
+	if (p.y == 0 || p.y + 1 == map->height \
+		|| p.x == 0 || p.x + 1 == map->width)
+		return (ERROR);
+	if (map->m[p.y][p.x + 1] == WALL && map->m[p.y + 1][p.x] \
+		== WALL && map->m[p.y + 1][p.x + 1] != WALL)
+		return (ERROR);
+	map->m[p.y][p.x] = VALID;
+	if (map->m[p.y][p.x + 1] == EMPTY_SPACE \
+		&& check_close_map(map, (t_ico){p.x + 1, p.y}) == ERROR)
+		return (ERROR);
+	if (map->m[p.y][p.x - 1] == EMPTY_SPACE \
+		&& check_close_map(map, (t_ico){p.x - 1, p.y}) == ERROR)
+		return (ERROR);
+	if (map->m[p.y + 1][p.x] == EMPTY_SPACE \
+		&& check_close_map(map, (t_ico){p.x, p.y + 1}) == ERROR)
+		return (ERROR);
+	if (map->m[p.y - 1][p.x] == EMPTY_SPACE \
+		&& check_close_map(map, (t_ico){p.x, p.y - 1}) == ERROR)
+		return (ERROR);
+	return (SUCCESS);
+}
+
+static void	clean_map(t_map *map)
+{
+	t_ico	i;
+
+	i.y = 0;
+	while (i.y < map->height)
+	{
+		i.x = 0;
+		while (i.x < map->width)
+		{
+			if (map->m[i.y][i.x] == VALID)
+				map->m[i.y][i.x] = EMPTY_SPACE;
+			i.x++;
+		}
+		i.y++;
+	}
 }
