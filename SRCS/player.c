@@ -76,7 +76,9 @@ void	move_player(t_data *data)
 //		{
 //			i.x = cos(degre_to_radian(data->map->direction)) * move_speed;
 //			i.y = pow_(move_speed, 2) + pow_(i.x, 2);
-//			printf("%f\n%f | %f - %f - %f\n\n", cos(degre_to_radian(data->map->direction)), data->map->direction, move_speed, i.x, i.y);
+//			printf("%f\n%f | %f - %f - %f\n\n", cos(degre_to_radian
+//			(data->map->direction)), data->map->direction,
+//			move_speed, i.x, i.y);
 //			data->map->pos.x += i.x;
 //			data->map->pos.y += i.y;
 //		}
@@ -86,12 +88,16 @@ void	move_player(t_data *data)
 //			data->map->pos.x -= move_speed;
 //
 //		if (data->map->direction < 90) {
-//			printf("90 %f - %f\n", data->map->direction, (data->map->direction * 100 / 90));
-//			data->map->pos.y -= move_speed * (data->map->direction * 100 / 90) / 100;
+//			printf("90 %f - %f\n", data->map->direction,
+//			(data->map->direction * 100 / 90));
+//			data->map->pos.y -= move_speed * (data->map->direction
+//			* 100 / 90) / 100;
 //		}
 //		else if (data->map->direction < 180) {
-//			printf("180 %f - %f\n", data->map->direction, ((180 - data->map->direction) * 100 / 90));
-//			data->map->pos.y += move_speed * ((180 - data->map->direction) * 100 / 90) / 100;
+//			printf("180 %f - %f\n", data->map->direction,
+//			((180 - data->map->direction) * 100 / 90));
+//			data->map->pos.y += move_speed * ((180 -
+//			data->map->direction) * 100 / 90) / 100;
 //		}
 
 //		if (data->map->direction < 180)

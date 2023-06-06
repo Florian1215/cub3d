@@ -12,7 +12,6 @@
 
 #include "../INCLUDES/cub3d.h"
 
-
 void	print_minimap(t_data *data)
 {
 	const t_color	colors[3] = {{0x045FB4}, {0xFF0000}, {0x101010}};
@@ -20,8 +19,6 @@ void	print_minimap(t_data *data)
 	int				y;
 
 	x = 0;
-//	printf("salut %f\n", data->map->direction);
-
 	while (x < data->map->height)
 	{
 		y = 0;

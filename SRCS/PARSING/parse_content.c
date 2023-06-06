@@ -21,15 +21,16 @@ t_exit	parse_content(t_map *map, char *line)
 
 	value = str_str(line, (char *)identifiers[map->state]);
 	if (!value)
-		return (ERROR);
+		return (error_msg(map->is_error_msg, "Map: not valid " \
+			"identifier find '%s'", line));
 	if (map->state <= EA)
 	{
 		map->texture_path[map->state] = str_dup(value);
 		if (!map->texture_path[map->state])
-			return (ERROR_MALLOC);
+			return (error_msg(map->is_error_msg, MALLOC_ERROR_MSG));
 	}
 	else if (map->state == FLOOR || map->state == CEILING)
-		parse_color(map, value);
+		return (parse_color(map, value));
 	return (SUCCESS);
 }
 
@@ -44,7 +45,9 @@ static t_exit	parse_color(t_map *map, char *line)
 		color = &map->ceiling;
 	tab = split_(line, ',');
 	if (!tab)
-		return (ERROR_MALLOC);
+		return (error_msg(map->is_error_msg, MALLOC_ERROR_MSG));
+	if (get_tab_size(tab) != 3)
+		return (error_msg(map->is_error_msg, "Wrong number of arguments"));
 	color->rgb.r = atoi_(tab[0]);
 	color->rgb.g = atoi_(tab[1]);
 	color->rgb.b = atoi_(tab[2]);

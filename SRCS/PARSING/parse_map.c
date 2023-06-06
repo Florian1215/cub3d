@@ -24,7 +24,7 @@ t_exit	parse_map(t_map *map)
 	int		k;
 
 	if (init_map(map))
-		return (ERROR_MALLOC);
+		return (error_msg(map->is_error_msg, MALLOC_ERROR_MSG));
 	tmp = map->lst;
 	k = 0;
 	while (tmp)
@@ -35,9 +35,12 @@ t_exit	parse_map(t_map *map)
 		k++;
 	}
 	lst_clear(&map->lst);
-	if (map->direction == NO_PLAYER || \
-			check_close_map(map, map->start_pos) == ERROR)
-		return (ERROR);
+	if (map->direction == NO_PLAYER)
+		return (error_msg(map->is_error_msg, \
+				"Map: No player on the map"));
+	if (check_close_map(map, map->start_pos) == ERROR)
+		return (error_msg(map->is_error_msg, \
+				"Map: Not close map"));
 	clean_map(map);
 	return (SUCCESS);
 }
@@ -55,6 +58,9 @@ static t_exit	parse_line_map(t_map *map, char *line, int k)
 			if (map->m[k][i.x] == INVALID_CHAR)
 				return (error_msg(map->is_error_msg, \
 					"Invalid char '%c'", line[i.y]));
+			if (map->m[k][i.x] == INVALID_PLAYER)
+				return (error_msg(map->is_error_msg, \
+					"Map: Too many players"));
 			if (map->m[k][i.x] == PLAYER)
 				set_player_position(map, k, i.x);
 			i.y++;
@@ -75,8 +81,7 @@ static t_case	get_char(t_map *map, char c)
 	else if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
 	{
 		if (map->direction != NO_PLAYER)
-			return (error_msg(map->is_error_msg, \
-				"Map: To many players"), INVALID_CHAR);
+			return (INVALID_PLAYER);
 		if (c == 'E')
 			map->direction = 0;
 		else if (c == 'S')

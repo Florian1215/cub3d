@@ -67,6 +67,7 @@ void	lst_clear(t_list **lst)
 	while (*lst)
 	{
 		temp = (*lst)->next;
+		free((*lst)->line);
 		free(*lst);
 		*lst = temp;
 	}

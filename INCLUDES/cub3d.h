@@ -37,16 +37,17 @@
 //// open, close, read, write, printf, malloc, free, perror, strerror, exit
 
 // DEFINE ---------------------------------------
-# define WIN_WIDTH		1080
-# define WIN_HEIGHT		720
+# define WIN_WIDTH			1080
+# define WIN_HEIGHT			720
 
-# define MINIMAP_SIZE	300
-# define MINIMAP_OFFSET	20
+# define MINIMAP_SIZE		300
+# define MINIMAP_OFFSET		20
 
-# define FOV_RANGE		80
-# define FOV			90
+# define FOV_RANGE			80
+# define FOV				90
 
-# define EXT_MAP		".cub"
+# define EXT_MAP			".cub"
+# define MALLOC_ERROR_MSG	"Out of memory"
 
 // TYPEDEF --------------------------------------
 typedef struct s_data			t_data;
@@ -209,13 +210,13 @@ t_exit		parse_file(t_data *data, char *filename, t_bool is_error_msg);
 t_map		*map_new(void);
 t_map		*map_last(t_map *m);
 void		map_add_back(t_map **start, t_map *new);
-void		open_dir(t_data *data, char *directory);
 t_exit		parse_map(t_map *map);
 t_exit		parse_content(t_map *map, char *line);
 
 // MAP ------------------------------------------
 enum e_case
 {
+	INVALID_PLAYER = -2,
 	INVALID_CHAR = -1,
 	EMPTY_SPACE,
 	WALL,
@@ -230,6 +231,7 @@ struct	s_collision
 	double	distance;
 };
 
+void		map_clear(t_map **map);
 void		print_minimap(t_data *data);
 void		draw_square(t_data *data, t_ico co, double size, int color);
 t_collision	draw_fov_line(t_data *data, t_dco p1, t_dco p2);
@@ -274,6 +276,7 @@ int			atoi_(char *s);
 char		*get_next_line(int fd);
 t_exit		error_msg(t_bool print, const char *format, ...);
 double		degre_to_radian(double angle);
+int			get_tab_size(char **tab);
 
 	// STR
 char		*str_str(char *s1, char *s2);

@@ -40,16 +40,15 @@ t_exit	error_msg(t_bool print, const char *format, ...)
 	}
 	va_end(args);
 	put_str("\033[0m\n");
-//	close_mlx(data, ERROR);
 	return (ERROR);
 }
 
 static void	put_cub3d(void)
 {
 	put_str("\033[91m");
-	put_str("cub3d");
-	put_str(": ");
+	put_str("cub3d: ");
 	put_str("\033[90m");
+	put_str("Error: ");
 }
 
 static void	str_format(char c, va_list	args)
