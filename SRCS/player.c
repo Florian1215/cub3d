@@ -26,7 +26,8 @@ void	print_player(t_data *data)
 	const t_color	color = {0xD7DF01};
 
 	print_fov(data);
-	draw_square(data, data->map->pos, data->map->hitbox, color);
+	draw_square(data, (t_ico){MINIMAP_OFFSET + data->map->pos.x, \
+		MINIMAP_OFFSET + data->map->pos.y}, data->map->hitbox, color.color);
 }
 
 t_dco	get_player_coordinates(t_data *data)
@@ -62,7 +63,6 @@ void	move_player(t_data *data)
 			&& data->map->m[y][get_map_coordinates(data, data->map->pos.x, \
 			move_speed + data->map->hhitbox)] == EMPTY_SPACE)
 		data->map->pos.x += move_speed;
-	print_minimap(data);
 }
 
 //void	move_player(t_data *data)

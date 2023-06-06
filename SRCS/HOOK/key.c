@@ -25,6 +25,8 @@ int	key_event_press(int k, t_data *data)
 {
 	if (k == ESQ)
 		close_mlx_success(data);
+	else if (k == TAB)
+		handle_menu(data);
 	else if (k == UP_KEY || k == DOWN_KEY || k == LEFT_KEY || k == RIGHT_KEY)
 		data->key_arrow_press[k - LEFT_KEY] = TRUE;
 	else if (k == A || k == D)

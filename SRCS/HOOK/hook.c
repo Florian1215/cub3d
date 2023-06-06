@@ -34,6 +34,7 @@ void	set_hook(t_data *data)
 
 static int	hook_loop(t_data *data)
 {
-	move_player(data);
+	if (!data->is_menu)
+		render(data);
 	return (SUCCESS);
 }

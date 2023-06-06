@@ -231,7 +231,7 @@ struct	s_collision
 };
 
 void		print_minimap(t_data *data);
-void		draw_square(t_data *data, t_dco co, double size, t_color color);
+void		draw_square(t_data *data, t_ico co, double size, int color);
 t_collision	draw_fov_line(t_data *data, t_dco p1, t_dco p2);
 int			get_map_coordinates(t_data *data, double co, double move);
 
@@ -248,6 +248,10 @@ t_dco		get_player_coordinates(t_data *data);
 double		sqrt_(double num);
 double		pow_(double num, int pow);
 double		distance_between_points(t_dco p1, t_dco p2);
+
+// MENU -----------------------------------------
+void		set_menu(t_data *data);
+void		handle_menu(t_data *data);
 
 // UTILS ----------------------------------------
 enum e_exit
@@ -308,7 +312,7 @@ struct s_rgb
 
 union u_color
 {
-	unsigned int	color;
+	int				color;
 	struct s_rgb	rgb;
 };
 
@@ -352,6 +356,7 @@ struct s_map
 
 struct s_data
 {
+	t_bool		is_menu;
 	t_map		*map;
 	t_bool		key_arrow_press[4];
 	void		*mlx_ptr;
@@ -360,5 +365,6 @@ struct s_data
 };
 
 void		init_data(t_data *data);
+void		render(t_data *data);
 
 #endif

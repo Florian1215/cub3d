@@ -14,6 +14,7 @@
 
 void	init_data(t_data *data)
 {
+	data->is_menu = TRUE;
 	data->map = NULL;
 	data->mlx_ptr = mlx_init();
 	data->win_ptr = mlx_new_window(data->mlx_ptr, \
