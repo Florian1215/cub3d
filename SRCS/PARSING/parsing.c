@@ -13,6 +13,7 @@
 #include "../INCLUDES/cub3d.h"
 
 t_exit			open_dir(t_data *data, char *directory);
+static t_exit	parse_arguments(t_data *data, char **av);
 static t_exit	read_file(t_map *map);
 static t_exit	parse_line(t_map *map, char *line);
 
@@ -26,18 +27,31 @@ void	parsing(t_data *data, int ac, char **av)
 		exit_status = open_dir(data, NULL);
 	else if (ac == 1)
 	{
-		if (str_end_with(*av, EXT_MAP))
-		{
-			data->is_menu = FALSE;
+		if (get_file_type(*av) == FILE_)
 			exit_status = parse_file(data, *av, TRUE);
-		}
-		else
+		else if (get_file_type(*av) == DIRECTORY)
 			exit_status = open_dir(data, *av);
 	}
 	else
-		error_msg(TRUE, "./cub3d [directory|*.cub]?");
+		exit_status = parse_arguments(data, av);
 	if (exit_status == ERROR)
 		close_mlx(data, ERROR);
+}
+
+static t_exit	parse_arguments(t_data *data, char **av)
+{
+	while (*av)
+	{
+		if (get_file_type(*av) == FILE_)
+			parse_file(data, *av, FALSE);
+		else if (get_file_type(*av) == DIRECTORY)
+			open_dir(data, *av);
+		av++;
+	}
+	if (!data->map)
+		return (error_msg(TRUE, "None of the maps passed as " \
+			"arguments are valid"));
+	return (SUCCESS);
 }
 
 t_exit	parse_file(t_data *data, char *filename, t_bool is_error_msg)

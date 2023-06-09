@@ -64,7 +64,7 @@ t_collision	draw_fov_line(t_data *data, t_dco p1, t_dco p2)
 		}
 		else
 			mlx_pixel_put_img(&data->img, (int)p1.x, (int)p1.y, \
-			0x30888888);
+			0x5C8984);
 		p1.x += delta.x;
 		p1.y += delta.y;
 	}

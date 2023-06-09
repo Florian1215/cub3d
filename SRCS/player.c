@@ -21,13 +21,14 @@ void	set_player_position(t_map *map, int k, int i)
 	map->pos.y = (k * map->square_size) + map->qhitbox;
 }
 
-void	print_player(t_data *data)
+void	print_player(t_data *data, t_map *map, t_ico offset)
 {
-	const t_color	color = {0xD7DF01};
+	const t_color	color = {0x4C4C6D};
 
-	print_fov(data);
-	draw_square(data, (t_ico){MINIMAP_OFFSET + data->map->pos.x, \
-		MINIMAP_OFFSET + data->map->pos.y}, data->map->hitbox, color.color);
+	if (!data->is_menu)
+		print_fov(data);
+	draw_square(data, (t_ico){offset.x + map->pos.x, \
+		offset.y + map->pos.y}, map->hitbox, color.color);
 }
 
 t_dco	get_player_coordinates(t_data *data)

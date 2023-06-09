@@ -36,16 +36,23 @@ static void	read_dir(t_data *data, DIR *dir_open, char *directory)
 {
 	struct dirent	*dir_read;
 	char			*abs_path;
+	t_file			type_file;
 
 	while (TRUE)
 	{
 		dir_read = readdir(dir_open);
 		if (!dir_read)
 			break ;
+		if (*dir_read->d_name == '.')
+			continue ;
 		abs_path = str_join(directory, dir_read->d_name);
 		if (!abs_path)
 			break ;
-		parse_file(data, abs_path, FALSE);
+		type_file = get_file_type(abs_path);
+		if (type_file == FILE_)
+			parse_file(data, abs_path, FALSE);
+		else if (type_file == DIRECTORY)
+			open_dir(data, abs_path);
 		free(abs_path);
 	}
 }

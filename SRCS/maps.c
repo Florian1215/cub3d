@@ -23,3 +23,15 @@ void	change_map(t_data *data)
 	tmp->next = NULL;
 	map_last(data->map)->next = tmp;
 }
+
+void	change_n_map(t_data *data, int n)
+{
+	int	i;
+
+	i = 0;
+	while (i < n)
+	{
+		change_map(data);
+		i++;
+	}
+}

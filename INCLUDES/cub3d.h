@@ -59,6 +59,7 @@ typedef struct s_collision		t_collision;
 typedef struct s_player			t_player;
 typedef struct s_map			t_map;
 typedef enum e_case				t_case;
+typedef enum e_file				t_file;
 typedef enum e_bool				t_bool;
 typedef enum e_exit				t_exit;
 typedef enum e_side				t_side;
@@ -85,6 +86,13 @@ enum e_fd
 	STDIN,
 	STDOUT,
 	STDERR,
+};
+
+enum e_file
+{
+	FILE_,
+	DIRECTORY,
+	NO_FILE,
 };
 
 // PARSING --------------------------------------
@@ -232,14 +240,14 @@ struct	s_collision
 };
 
 void		map_clear(t_map **map);
-void		print_minimap(t_data *data);
+void		print_minimap(t_data *data, t_map *map, t_ico offset);
 void		draw_square(t_data *data, t_ico co, double size, int color);
 t_collision	draw_fov_line(t_data *data, t_dco p1, t_dco p2);
 int			get_map_coordinates(t_data *data, double co, double move);
 
 // PLAYER ---------------------------------------
 void		set_player_position(t_map *map, int k, int i);
-void		print_player(t_data *data);
+void		print_player(t_data *data, t_map *map, t_ico offset);
 void		move_player(t_data *data);
 void		rotate_player(t_data *data, int keycode);
 t_dco		get_minimap_fov(t_data *data, double angle);
@@ -276,6 +284,7 @@ int			atoi_(char *s);
 char		*get_next_line(int fd);
 t_exit		error_msg(t_bool print, const char *format, ...);
 double		degre_to_radian(double angle);
+enum e_file	get_file_type(char *path);
 int			get_tab_size(char **tab);
 
 	// STR
@@ -336,7 +345,6 @@ void		close_mlx(t_data *data, t_exit exit_status);
 	// init
 struct s_map
 {
-	int				idx;
 	t_case			**m;
 	int				height;
 	int				width;

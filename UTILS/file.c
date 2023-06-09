@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   file.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fguirama <fguirama@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/09 17:35:00 by fguirama          #+#    #+#             */
-/*   Updated: 2023/05/20 14:47:22 by mfinette         ###   ########.fr       */
+/*   Created: 2023/06/09 15:33:00 by fguirama          #+#    #+#             */
+/*   Updated: 2023/06/09 15:33:00 by fguirama         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "INCLUDES/cub3d.h"
+#include "../INCLUDES/cub3d.h"
 
-int	main(int ac, char **av)
+t_file	get_file_type(char *path)
 {
-	t_data	data;
+	struct stat	s;
 
-	init_data(&data);
-	parsing(&data, ac, av);
-	if (data.map->next)
-		set_menu(&data);
-	set_hook(&data);
-	mlx_loop(data.mlx_ptr);
-	return (SUCCESS);
+	if (stat(path, &s) == 0)
+	{
+		if (s.st_mode & S_IFDIR)
+			return (DIRECTORY);
+		else if (s.st_mode & S_IFREG)
+			return (FILE_);
+	}
+	return (NO_FILE);
 }

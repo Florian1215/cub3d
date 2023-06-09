@@ -15,7 +15,7 @@ OBJS_DIR		=	.OBJS/
 SRCS			=	SRCS/draw.c SRCS/maps.c SRCS/menu.c SRCS/fov.c SRCS/minimap.c SRCS/player.c \
 					SRCS/PARSING/open_dir.c SRCS/PARSING/parsing.c SRCS/PARSING/parse_map.c SRCS/PARSING/parse_content.c \
 					SRCS/HOOK/hook.c SRCS/HOOK/key.c SRCS/HOOK/mouse.c \
-					UTILS/error.c UTILS/tab.c UTILS/free.c UTILS/get_next_line.c UTILS/init.c UTILS/list.c UTILS/map.c UTILS/mlx.c UTILS/split.c \
+					UTILS/error.c UTILS/file.c UTILS/tab.c UTILS/free.c UTILS/get_next_line.c UTILS/init.c UTILS/list.c UTILS/map.c UTILS/mlx.c UTILS/split.c \
 					UTILS/MATHS/atoi.c UTILS/MATHS/compute.c UTILS/MATHS/pow.c UTILS/MATHS/sqrt.c \
 					UTILS/STR/str_dup.c UTILS/STR/str_join.c UTILS/STR/str_end_with.c UTILS/STR/str_len.c UTILS/STR/str_str.c \
 					main.c
@@ -49,13 +49,13 @@ endif
 all:				mlx $(NAME)
 
 run:				all
-					./$(NAME) ./MAPS/
+					./$(NAME) ./MAPS/map.cub ./MAPS/
 
 norm:
 					norminette $(SRCS) $(HEAD)/*.h | grep -E "(Error|Warning)"
 
 $(NAME):			$(OBJS)
-					$(CC) $(FLAGS) $(OBJS) $(MLX_DIR)$(MLX_NAME) $(MLX_FLAGS) -lm -o $(NAME)
+					$(CC) $(FLAGS) $(OBJS) $(MLX_DIR)$(MLX_NAME) $(MLX_FLAGS) -o $(NAME)
 
 -include $(DEP)
 $(OBJS_DIR)%.o:		%.c | dir

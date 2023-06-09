@@ -48,17 +48,17 @@ t_map	*map_last(t_map *m)
 
 void	map_clear(t_map **map)
 {
-	t_map	*temp;
+	t_map	*tmp;
 
 	while (*map)
 	{
-		temp = (*map)->next;
+		tmp = (*map)->next;
 		free_n_split((void **)(*map)->m, (*map)->height - 1);
 		free((*map)->texture_path[NORTH]);
 		free((*map)->texture_path[SOUTH]);
 		free((*map)->texture_path[WEST]);
 		free((*map)->texture_path[EAST]);
 		free(*map);
-		*map = temp;
+		*map = tmp;
 	}
 }
