@@ -6,13 +6,13 @@
 #    By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/09 22:01:38 by fguirama          #+#    #+#              #
-#    Updated: 2023/05/20 18:56:55 by mfinette         ###   ########.fr        #
+#    Updated: 2023/06/03 16:36:52 by mfinette         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # VAR ---------------------------------------------------------------
 OBJS_DIR		=	.OBJS/
-SRCS			=	SRCS/draw.c SRCS/fov.c SRCS/minimap.c SRCS/player.c \
+SRCS			=	SRCS/draw.c SRCS/fov.c SRCS/minimap.c SRCS/player.c SRCS/raycasting.c \
 					SRCS/PARSING/parsing.c SRCS/PARSING/parse_map.c SRCS/PARSING/parse_content.c SRCS/PARSING/check_close_map.c \
 					SRCS/HOOK/hook.c SRCS/HOOK/key.c SRCS/HOOK/mouse.c \
 					UTILS/error.c UTILS/free.c UTILS/get_next_line.c UTILS/init.c UTILS/list.c UTILS/mlx.c UTILS/split.c \

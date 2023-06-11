@@ -6,7 +6,7 @@
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 17:30:22 by mfinette          #+#    #+#             */
-/*   Updated: 2023/05/20 16:10:23 by mfinette         ###   ########.fr       */
+/*   Updated: 2023/06/10 17:37:53 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	print_minimap(t_data *data)
 	int				y;
 
 	x = 0;
-	printf("salut\n");
 	print_background(data);
+	raycasting(data);
 	while (x < data->height)
 	{
 		y = 0;
@@ -44,7 +44,8 @@ void	print_minimap(t_data *data)
 
 static void	print_background(t_data *data)
 {
-	const t_color	c[2] = {{0x198CA4}, {0x7E410B}};
+	// const t_color	c[2] = {{0x198CA4}, {0x7E410B}};
+	const	t_color	c[2] = {{0x00303030}, {0x00000000}};
 	t_ico			i;
 
 	i.x = 0;

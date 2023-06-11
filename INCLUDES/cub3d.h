@@ -6,7 +6,7 @@
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 18:59:55 by fguirama          #+#    #+#             */
-/*   Updated: 2023/06/03 15:48:57 by mfinette         ###   ########.fr       */
+/*   Updated: 2023/06/09 18:08:26 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,9 +124,9 @@ enum e_keycode
 # define MINIMAP_SIZE	300
 # define MINIMAP_OFFSET	20
 
-# define FOV_RANGE		80
+# define FOV_RANGE		800
 # define FOV			90
-
+# define DEFINITION		0.2
 # define ERROR_SEP		": "
 
 // TYPEDEF --------------------------------------
@@ -136,6 +136,7 @@ typedef struct s_img			t_img;
 typedef struct s_ico			t_ico;
 typedef struct s_dco			t_dco;
 typedef struct s_collision		t_collision;
+typedef struct s_distances		t_distances;
 typedef struct s_player			t_player;
 typedef enum e_map				t_map;
 typedef enum e_bool				t_bool;
@@ -200,12 +201,20 @@ struct	s_collision
 {
 	t_dco	wall;
 	double	distance;
+	int		side;
 };
 
-void		print_minimap(t_data *data);
-void		draw_square(t_data *data, t_dco co, double size, t_color color);
-t_collision	draw_fov_line(t_data *data, t_dco p1, t_dco p2);
-int			get_map_coordinates(t_data *data, double co, double move);
+struct	s_distances
+{
+	double	*distance;
+	int		size;
+};
+
+void			print_minimap(t_data *data);
+void			draw_square(t_data *data, t_dco co, double size, t_color color);
+t_collision		draw_fov_line(t_data *data, t_dco p1, t_dco p2);
+void			draw_line(t_data *data, t_dco p1, t_dco p2, int color);
+int				get_map_coordinates(t_data *data, double co, double move);
 
 // PLAYER ---------------------------------------
 struct s_player
@@ -314,15 +323,18 @@ struct s_data
 	int			height;
 	int			width;
 	double		square_size;
+	double		raycast_width;
 	char		*texture_path[4];
 	t_bool		key_arrow_press[4];
 	t_color		floor;
 	t_color		ceiling;
+	t_distances	*distances;
 	void		*mlx_ptr;
 	void		*win_ptr;
 	t_img		img;
 };
 
 void		init_data(t_data *data);
+void	raycasting(t_data *data);
 
 #endif
