@@ -46,7 +46,8 @@ static void	set_maps_selection(t_data *data)
 	{
 		offset_square.x = (i % 2) * (MINIMAP_OFFSET * 2 + size);
 		offset_square.y = (i > 1) * (MINIMAP_OFFSET * 2 + size);
-		draw_square(data, (t_ico){MINIMAP_OFFSET + offset_square.x, MINIMAP_OFFSET + offset_square.y}, size, 0xC2DEDC);
+		draw_square(data, (t_ico){MINIMAP_OFFSET + offset_square.x, \
+			MINIMAP_OFFSET + offset_square.y}, size, 0xC2DEDC);
 		if (map)
 		{
 			offset_map = get_offset_map(map);

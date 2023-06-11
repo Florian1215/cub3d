@@ -27,6 +27,9 @@ void	init_data(t_data *data)
 	data->key_arrow_press[UP] = FALSE;
 	data->key_arrow_press[RIGHT] = FALSE;
 	data->key_arrow_press[DOWN] = FALSE;
+	data->distances = malloc(sizeof(t_distances));
+	data->distances->size = (int)(FOV / DEFINITION);
+	data->distances->distance = malloc(sizeof(double) * data->distances->size);
 }
 
 t_exit	init_map(t_map *map)

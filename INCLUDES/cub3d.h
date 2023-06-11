@@ -45,6 +45,7 @@
 
 # define FOV_RANGE			80
 # define FOV				90
+# define DEFINITION			0.2
 
 # define EXT_MAP			".cub"
 # define MALLOC_ERROR_MSG	"Out of memory"
@@ -58,6 +59,7 @@ typedef struct s_dco			t_dco;
 typedef struct s_collision		t_collision;
 typedef struct s_player			t_player;
 typedef struct s_map			t_map;
+typedef struct s_distances		t_distances;
 typedef enum e_case				t_case;
 typedef enum e_file				t_file;
 typedef enum e_bool				t_bool;
@@ -237,11 +239,19 @@ struct	s_collision
 {
 	t_dco	wall;
 	double	distance;
+	int		side;
+};
+
+struct	s_distances
+{
+	double	*distance;
+	int		size;
 };
 
 void		map_clear(t_map **map);
 void		print_minimap(t_data *data, t_map *map, t_ico offset);
 void		draw_square(t_data *data, t_ico co, double size, int color);
+void		draw_line(t_data *data, t_dco p1, t_dco p2, int color);
 t_collision	draw_fov_line(t_data *data, t_dco p1, t_dco p2);
 int			get_map_coordinates(t_data *data, double co, double move);
 
@@ -258,6 +268,9 @@ t_dco		get_player_coordinates(t_data *data);
 double		sqrt_(double num);
 double		pow_(double num, int pow);
 double		distance_between_points(t_dco p1, t_dco p2);
+
+// RAYCASTING -----------------------------------
+void		raycasting(t_data *data);
 
 // MENU -----------------------------------------
 void		set_menu(t_data *data);
@@ -373,6 +386,8 @@ struct s_data
 	void		*mlx_ptr;
 	void		*win_ptr;
 	t_img		img;
+	t_distances	*distances;
+	double		raycast_width;
 };
 
 void		init_data(t_data *data);

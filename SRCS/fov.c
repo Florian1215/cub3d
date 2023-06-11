@@ -14,14 +14,19 @@
 
 void	print_fov(t_data	*data)
 {
-	double	angle;
+	double		angle;
+	int			i;
+	t_collision	collision;
 
+	i = 0;
 	angle = degre_to_radian(data->map->direction - (FOV / 2));
-	while (angle <= degre_to_radian(data->map->direction + (FOV / 2)))
+	while (angle <= degre_to_radian(data->map->direction + (FOV / 2)) && i < data->distances->size)
 	{
-		draw_fov_line(data, get_player_coordinates(data), \
+		collision = draw_fov_line(data, get_player_coordinates(data), \
 			get_minimap_fov(data, angle));
-		angle += degre_to_radian(0.1);
+		data->distances->distance[i] = collision.distance;
+		angle += degre_to_radian(DEFINITION);
+		i++;
 	}
 }
 
@@ -36,16 +41,29 @@ t_dco	get_minimap_fov(t_data *data, double angle)
 	return (orientation);
 }
 
+t_bool	point_belongs_to_line(t_dco p1, t_dco p2, t_dco p3)
+{
+	if (p1.x <= p2.x && p1.x <= p3.x && p1.y <= p2.y && p1.y <= p3.y)
+		return (TRUE);
+	if (p1.x >= p2.x && p1.x >= p3.x && p1.y >= p2.y && p1.y >= p3.y)
+		return (TRUE);
+	return (FALSE);
+}
+
 t_collision	draw_fov_line(t_data *data, t_dco p1, t_dco p2)
 {
 	t_collision		collision;
 	t_dco			delta;
+	t_dco			initial;
+	t_dco			vector;
 	float			max;
 	int				x;
 	int				y;
 
 	delta.x = p2.x - p1.x;
 	delta.y = p2.y - p1.y;
+	initial.x = p1.x;
+	initial.y = p1.y;
 	max = fmax(fabs(delta.x), fabs(delta.y));
 	delta.x /= max;
 	delta.y /= max;
@@ -57,9 +75,19 @@ t_collision	draw_fov_line(t_data *data, t_dco p1, t_dco p2)
 			-MINIMAP_OFFSET - data->map->hhitbox);
 		if (data->map->m[y][x] == WALL)
 		{
-			collision.wall = (t_dco){(p1.x / data->map->square_size), \
-				(p1.y / data->map->square_size)};
-			collision.distance = distance_between_points(p1, collision.wall);
+			collision.wall = (t_dco){(p1.x), \
+				(p1.y)};
+			vector = (t_dco){initial.x + delta.x * 20, initial.y + delta.y * 20};
+			// if (!point_belongs_to_line(collision.wall, initial, vector))
+				collision.distance = distance_between_points(initial, collision.wall);
+			// else
+			// 	collision.distance = 3;
+			// printf("initial = %f, %f\n", initial.x, initial.y);
+			// printf("collision point = %f, %f\n", collision.wall.x, collision.wall.y);
+			// printf("distance = %f\n", collision.distance);
+			// printf("vector = %f, %f\n\n", vector.x, vector.y);
+			printf("player position = %f, %f\n", data->map->pos.x, data->map->pos.y);
+			printf("direction = %f\n", data->map->direction);
 			return (collision);
 		}
 		else

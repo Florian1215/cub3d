@@ -12,7 +12,7 @@
 
 # VAR ---------------------------------------------------------------
 OBJS_DIR		=	.OBJS/
-SRCS			=	SRCS/draw.c SRCS/maps.c SRCS/menu.c SRCS/fov.c SRCS/minimap.c SRCS/player.c \
+SRCS			=	SRCS/draw.c SRCS/maps.c SRCS/menu.c SRCS/fov.c SRCS/minimap.c SRCS/player.c SRCS/raycasting.c \
 					SRCS/PARSING/open_dir.c SRCS/PARSING/parsing.c SRCS/PARSING/parse_map.c SRCS/PARSING/parse_content.c \
 					SRCS/HOOK/hook.c SRCS/HOOK/key.c SRCS/HOOK/mouse.c \
 					UTILS/error.c UTILS/file.c UTILS/tab.c UTILS/free.c UTILS/get_next_line.c UTILS/init.c UTILS/list.c UTILS/map.c UTILS/mlx.c UTILS/split.c \
@@ -28,8 +28,7 @@ HEAD			=	INCLUDES/
 CC				=	cc
 RM				=	rm -rf
 
-FLAGS			=	-Wall -Wextra -Werror -g3 -fsanitize=address
-FLAGS			+=	-MMD -MP
+FLAGS			=	-Wall -Wextra -Werror -g3 -fsanitize=address -MMD -MP
 
 MLX_NAME		=	libmlx.a
 
@@ -49,7 +48,7 @@ endif
 all:				mlx $(NAME)
 
 run:				all
-					./$(NAME) ./MAPS/map.cub ./MAPS/
+					./$(NAME) ./MAPS/
 
 norm:
 					norminette $(SRCS) $(HEAD)/*.h | grep -E "(Error|Warning)"

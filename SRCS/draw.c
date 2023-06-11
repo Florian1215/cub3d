@@ -18,7 +18,10 @@ void	render(t_data *data)
 {
 	print_background(data);
 	move_player(data);
+	raycasting(data);
 	print_minimap(data, data->map, (t_ico){MINIMAP_OFFSET, MINIMAP_OFFSET});
+	if (!data->is_menu)
+		print_fov(data);
 	print_player(data, data->map, (t_ico){MINIMAP_OFFSET, MINIMAP_OFFSET});
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img, 0, 0);
 }
@@ -59,21 +62,21 @@ static void	print_background(t_data *data)
 	}
 }
 
-//void	draw_line(t_data *data, t_co p1, t_co p2)
-//{
-//	t_co	delta;
-//	float	max;
-//
-//	delta.x = p2.x - p1.x;
-//	delta.y = p2.y - p1.y;
-//	max = fmax(fabs(delta.x), fabs(delta.y));
-//	delta.x /= max;
-//	delta.y /= max;
-//	while (((int)(p1.x - p2.x) || (int)(p1.y - p2.y)))
-//	{
-//		mlx_pixel_put_img(&data->img, (int)p1.x, (int)p1.y,
-//			0x30888888);
-//		p1.x += delta.x;
-//		p1.y += delta.y;
-//	}
-//}
+void	draw_line(t_data *data, t_dco p1, t_dco p2, int color)
+{
+	t_dco	delta;
+	float	max;
+
+	delta.x = p2.x - p1.x;
+	delta.y = p2.y - p1.y;
+	max = fmax(fabs(delta.x), fabs(delta.y));
+	delta.x /= max;
+	delta.y /= max;
+	while (((int)(p1.x - p2.x) || (int)(p1.y - p2.y)))
+	{
+		mlx_pixel_put_img(&data->img, (int)p1.x, (int)p1.y,
+			color);
+		p1.x += delta.x;
+		p1.y += delta.y;
+	}
+}

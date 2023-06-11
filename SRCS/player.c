@@ -25,8 +25,6 @@ void	print_player(t_data *data, t_map *map, t_ico offset)
 {
 	const t_color	color = {0x4C4C6D};
 
-	if (!data->is_menu)
-		print_fov(data);
 	draw_square(data, (t_ico){offset.x + map->pos.x, \
 		offset.y + map->pos.y}, map->hitbox, color.color);
 }
@@ -42,7 +40,7 @@ t_dco	get_player_coordinates(t_data *data)
 
 void	move_player(t_data *data)
 {
-	const double	move_speed = data->map->square_size / 20;
+	const double	move_speed = data->map->square_size / 10;
 	int				x;
 	int				y;
 

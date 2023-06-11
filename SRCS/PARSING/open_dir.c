@@ -16,7 +16,7 @@ static void	read_dir(t_data *data, DIR *dir_open, char *directory);
 
 t_exit	open_dir(t_data *data, char *directory)
 {
-	const char		*default_directory = "./MAPS/";
+	const char		*default_directory = "./MAPS";
 	DIR				*dir_open;
 
 	if (!directory)

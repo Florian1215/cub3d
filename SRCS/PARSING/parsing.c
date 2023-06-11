@@ -31,6 +31,8 @@ void	parsing(t_data *data, int ac, char **av)
 			exit_status = parse_file(data, *av, TRUE);
 		else if (get_file_type(*av) == DIRECTORY)
 			exit_status = open_dir(data, *av);
+		else
+			exit_status = ERROR;
 	}
 	else
 		exit_status = parse_arguments(data, av);
