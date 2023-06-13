@@ -43,7 +43,7 @@
 # define MINIMAP_SIZE		300
 # define MINIMAP_OFFSET		20
 
-# define FOV_RANGE			80
+# define FOV_RANGE			800
 # define FOV				90
 # define DEFINITION			0.2
 
@@ -392,5 +392,7 @@ struct s_data
 
 void		init_data(t_data *data);
 void		render(t_data *data);
+
+# include <string.h>
 
 #endif

@@ -20,13 +20,13 @@ static char	*get_line(char *line, char *static_str);
 
 char	*get_next_line(int fd)
 {
-	static char	static_str[BUFFER_SIZE];
-	char		buff[BUFFER_SIZE + 1];
-	char		*line;
-	int			read_bytes;
+	static char				static_str[BUFFER_SIZE];
+	char					buff[BUFFER_SIZE + 1];
+	char					*line;
+	int						read_bytes;
 
 	if (fd == -1 || BUFFER_SIZE <= 0)
-		return (NULL);
+		return (*static_str = '\0', NULL);
 	line = str_join_gnl(static_str, NULL);
 	if (!line)
 		return (NULL);

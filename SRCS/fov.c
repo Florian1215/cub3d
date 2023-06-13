@@ -55,7 +55,7 @@ t_collision	draw_fov_line(t_data *data, t_dco p1, t_dco p2)
 	t_collision		collision;
 	t_dco			delta;
 	t_dco			initial;
-	t_dco			vector;
+//	t_dco			vector;
 	float			max;
 	int				x;
 	int				y;
@@ -77,7 +77,7 @@ t_collision	draw_fov_line(t_data *data, t_dco p1, t_dco p2)
 		{
 			collision.wall = (t_dco){(p1.x), \
 				(p1.y)};
-			vector = (t_dco){initial.x + delta.x * 20, initial.y + delta.y * 20};
+//			vector = (t_dco){initial.x + delta.x * 20, initial.y + delta.y * 20};
 			// if (!point_belongs_to_line(collision.wall, initial, vector))
 				collision.distance = distance_between_points(initial, collision.wall);
 			// else
@@ -86,8 +86,8 @@ t_collision	draw_fov_line(t_data *data, t_dco p1, t_dco p2)
 			// printf("collision point = %f, %f\n", collision.wall.x, collision.wall.y);
 			// printf("distance = %f\n", collision.distance);
 			// printf("vector = %f, %f\n\n", vector.x, vector.y);
-			printf("player position = %f, %f\n", data->map->pos.x, data->map->pos.y);
-			printf("direction = %f\n", data->map->direction);
+//			printf("player position = %f, %f\n", data->map->pos.x, data->map->pos.y);
+//			printf("direction = %f\n", data->map->direction);
 			return (collision);
 		}
 		else

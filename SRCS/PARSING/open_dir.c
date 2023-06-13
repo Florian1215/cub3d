@@ -14,7 +14,7 @@
 
 static void	read_dir(t_data *data, DIR *dir_open, char *directory);
 
-t_exit	open_dir(t_data *data, char *directory)
+t_exit	open_dir(t_data *data, char *directory, t_bool is_print)
 {
 	const char		*default_directory = "./MAPS";
 	DIR				*dir_open;
@@ -23,12 +23,12 @@ t_exit	open_dir(t_data *data, char *directory)
 		directory = (char *)default_directory;
 	dir_open = opendir(directory);
 	if (!dir_open)
-		return (error_msg(TRUE, "cannot open directory '%s': %s", \
+		return (error_msg(is_print, "cannot open directory '%s': %s", \
 			directory, strerror(errno)));
 	read_dir(data, dir_open, directory);
 	closedir(dir_open);
 	if (!data->map)
-		return (error_msg(TRUE, "no valid map in '%s' directory", directory));
+		return (error_msg(is_print, "no valid map in '%s' directory", directory));
 	return (SUCCESS);
 }
 
@@ -52,7 +52,7 @@ static void	read_dir(t_data *data, DIR *dir_open, char *directory)
 		if (type_file == FILE_)
 			parse_file(data, abs_path, FALSE);
 		else if (type_file == DIRECTORY)
-			open_dir(data, abs_path);
+			open_dir(data, abs_path, FALSE);
 		free(abs_path);
 	}
 }

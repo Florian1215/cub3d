@@ -12,7 +12,7 @@
 
 #include "../INCLUDES/cub3d.h"
 
-t_exit			open_dir(t_data *data, char *directory);
+t_exit			open_dir(t_data *data, char *directory, t_bool is_print);
 static t_exit	parse_arguments(t_data *data, char **av);
 static t_exit	read_file(t_map *map);
 static t_exit	parse_line(t_map *map, char *line);
@@ -24,13 +24,13 @@ void	parsing(t_data *data, int ac, char **av)
 	ac--;
 	av++;
 	if (!ac)
-		exit_status = open_dir(data, NULL);
+		exit_status = open_dir(data, NULL, TRUE);
 	else if (ac == 1)
 	{
 		if (get_file_type(*av) == FILE_)
 			exit_status = parse_file(data, *av, TRUE);
 		else if (get_file_type(*av) == DIRECTORY)
-			exit_status = open_dir(data, *av);
+			exit_status = open_dir(data, *av, TRUE);
 		else
 			exit_status = ERROR;
 	}
@@ -47,7 +47,7 @@ static t_exit	parse_arguments(t_data *data, char **av)
 		if (get_file_type(*av) == FILE_)
 			parse_file(data, *av, FALSE);
 		else if (get_file_type(*av) == DIRECTORY)
-			open_dir(data, *av);
+			open_dir(data, *av, FALSE);
 		av++;
 	}
 	if (!data->map)
@@ -90,7 +90,7 @@ static t_exit	read_file(t_map *map)
 		if (!line)
 			break ;
 		if (parse_line(map, line) >= ERROR)
-			return (lst_clear(&map->lst), ERROR);
+			return (get_next_line(-1), lst_clear(&map->lst), ERROR);
 	}
 	if (map->state == MAP)
 		return (SUCCESS);
