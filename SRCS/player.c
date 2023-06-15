@@ -25,7 +25,7 @@ void	print_player(t_data *data, t_map *map, t_ico offset)
 {
 	const t_color	color = {0x4C4C6D};
 
-	draw_square(data, (t_ico){offset.x + map->pos.x, \
+	draw_square(&data->img, (t_ico){offset.x + map->pos.x, \
 		offset.y + map->pos.y}, map->hitbox, color.color);
 }
 

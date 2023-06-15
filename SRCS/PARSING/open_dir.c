@@ -28,7 +28,8 @@ t_exit	open_dir(t_data *data, char *directory, t_bool is_print)
 	read_dir(data, dir_open, directory);
 	closedir(dir_open);
 	if (!data->map)
-		return (error_msg(is_print, "no valid map in '%s' directory", directory));
+		return (error_msg(is_print, "no valid minimap in '%s' " \
+				"directory", directory));
 	return (SUCCESS);
 }
 

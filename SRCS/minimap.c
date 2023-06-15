@@ -25,7 +25,7 @@ void	print_minimap(t_data *data, t_map *map, t_ico offset)
 		while (y < map->width)
 		{
 			if (map->m[x][y] != NOTHING)
-				draw_square(data, (t_ico){offset.x + y * map \
+				draw_square(&data->img, (t_ico){offset.x + y * map \
 				->square_size, offset.y + x * map->square_size}, \
 				map->square_size, colors[map->m[x][y]].color);
 			y++;

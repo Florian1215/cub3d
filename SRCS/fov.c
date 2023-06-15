@@ -86,8 +86,8 @@ t_collision	draw_fov_line(t_data *data, t_dco p1, t_dco p2)
 			// printf("collision point = %f, %f\n", collision.wall.x, collision.wall.y);
 			// printf("distance = %f\n", collision.distance);
 			// printf("vector = %f, %f\n\n", vector.x, vector.y);
-//			printf("player position = %f, %f\n", data->map->pos.x, data->map->pos.y);
-//			printf("direction = %f\n", data->map->direction);
+//			printf("player position = %f, %f\n", data->minimap->pos.x, data->minimap->pos.y);
+//			printf("direction = %f\n", data->minimap->direction);
 			return (collision);
 		}
 		else

@@ -250,7 +250,7 @@ struct	s_distances
 
 void		map_clear(t_map **map);
 void		print_minimap(t_data *data, t_map *map, t_ico offset);
-void		draw_square(t_data *data, t_ico co, double size, int color);
+void		draw_square(t_img *img, t_ico co, double size, int color);
 void		draw_line(t_data *data, t_dco p1, t_dco p2, int color);
 t_collision	draw_fov_line(t_data *data, t_dco p1, t_dco p2);
 int			get_map_coordinates(t_data *data, double co, double move);
@@ -369,8 +369,7 @@ struct s_map
 	double			qhitbox;
 	double			square_size;
 	char			*texture_path[4];
-	t_color			floor;
-	t_color			ceiling;
+	t_color			color[2];
 	t_bool			is_error_msg;
 	int				fd;
 	t_list			*lst;
@@ -380,6 +379,8 @@ struct s_map
 
 struct s_data
 {
+	// TODO color bg
+	// TODO color sky
 	t_bool		is_menu;
 	t_map		*map;
 	t_bool		key_arrow_press[4];
@@ -392,7 +393,5 @@ struct s_data
 
 void		init_data(t_data *data);
 void		render(t_data *data);
-
-# include <string.h>
 
 #endif

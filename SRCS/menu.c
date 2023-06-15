@@ -27,7 +27,7 @@ void	handle_menu(t_data *data)
 void	set_menu(t_data *data)
 {
 	data->is_menu = TRUE;
-	draw_square(data, (t_ico){0, 0}, WIN_WIDTH, 0x46458C);
+	draw_square(&data->img, (t_ico){0, 0}, WIN_WIDTH, 0x46458C);
 	set_maps_selection(data);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img, 0, 0);
 }
@@ -46,7 +46,7 @@ static void	set_maps_selection(t_data *data)
 	{
 		offset_square.x = (i % 2) * (MINIMAP_OFFSET * 2 + size);
 		offset_square.y = (i > 1) * (MINIMAP_OFFSET * 2 + size);
-		draw_square(data, (t_ico){MINIMAP_OFFSET + offset_square.x, \
+		draw_square(&data->img, (t_ico){MINIMAP_OFFSET + offset_square.x, \
 			MINIMAP_OFFSET + offset_square.y}, size, 0xC2DEDC);
 		if (map)
 		{

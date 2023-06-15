@@ -26,7 +26,7 @@ void	render(t_data *data)
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img, 0, 0);
 }
 
-void	draw_square(t_data *data, t_ico co, double size, int color)
+void	draw_square(t_img *img, t_ico co, double size, int color)
 {
 	t_ico	i;
 
@@ -36,7 +36,7 @@ void	draw_square(t_data *data, t_ico co, double size, int color)
 		i.y = 0;
 		while (i.y < size)
 		{
-			mlx_pixel_put_img(&data->img, co.x + i.x, co.y + i.y, color);
+			mlx_pixel_put_img(img, co.x + i.x, co.y + i.y, color);
 			i.y++;
 		}
 		i.x++;
@@ -45,8 +45,7 @@ void	draw_square(t_data *data, t_ico co, double size, int color)
 
 static void	print_background(t_data *data)
 {
-	const t_color	c[2] = {{0xB6EAFA}, {0x884A39}};
-	t_ico			i;
+	t_ico	i;
 
 	i.x = 0;
 	while (i.x < WIN_WIDTH)
@@ -55,7 +54,7 @@ static void	print_background(t_data *data)
 		while (i.y < WIN_HEIGHT)
 		{
 			mlx_pixel_put_img(&data->img, i.x, i.y, \
-				c[i.y > WIN_HEIGHT / 2].color);
+				data->map->color[i.y > WIN_HEIGHT / 2].color);
 			i.y++;
 		}
 		i.x++;

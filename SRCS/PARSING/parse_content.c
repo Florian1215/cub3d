@@ -37,20 +37,15 @@ t_exit	parse_content(t_map *map, char *line)
 static t_exit	parse_color(t_map *map, char *line)
 {
 	char	**tab;
-	t_color	*color;
 
-	if (map->state == FLOOR)
-		color = &map->floor;
-	else
-		color = &map->ceiling;
 	tab = split_(line, ',');
 	if (!tab)
 		return (error_msg(map->is_error_msg, MALLOC_ERROR_MSG));
 	if (get_tab_size(tab) != 3)
 		return (error_msg(map->is_error_msg, "Wrong number of arguments"));
-	color->rgb.r = atoi_(tab[0]);
-	color->rgb.g = atoi_(tab[1]);
-	color->rgb.b = atoi_(tab[2]);
+	map->color[map->state - FLOOR].rgb.r = atoi_(tab[0]);
+	map->color[map->state - FLOOR].rgb.g = atoi_(tab[1]);
+	map->color[map->state - FLOOR].rgb.b = atoi_(tab[2]);
 	free_split(tab);
 	return (SUCCESS);
 }
