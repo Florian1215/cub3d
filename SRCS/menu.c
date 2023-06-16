@@ -3,6 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   menu.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+/*   By: fguirama <fguirama@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/16 21:25:25 by fguirama          #+#    #+#             */
+/*   Updated: 2023/06/16 21:25:25 by fguirama         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   menu.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
 /*   By: fguirama <fguirama@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 20:27:00 by fguirama          #+#    #+#             */
@@ -46,8 +58,8 @@ static void	set_maps_selection(t_data *data)
 	{
 		offset_square.x = (i % 2) * (MINIMAP_OFFSET * 2 + size);
 		offset_square.y = (i > 1) * (MINIMAP_OFFSET * 2 + size);
-		draw_square(&data->img, (t_ico){MINIMAP_OFFSET + offset_square.x, \
-			MINIMAP_OFFSET + offset_square.y}, size, 0xC2DEDC);
+		draw_round_square(&data->img, (t_ico){MINIMAP_OFFSET + offset_square.x, \
+			MINIMAP_OFFSET + offset_square.y}, size, 20, 0xC2DEDC);
 		if (map)
 		{
 			offset_map = get_offset_map(map);

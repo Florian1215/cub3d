@@ -1,39 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pow.c                                              :+:      :+:    :+:   */
+/*   rectangle.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fguirama <fguirama@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/22 19:15:00 by fguirama          #+#    #+#             */
-/*   Updated: 2023/05/22 19:15:00 by fguirama         ###   ########lyon.fr   */
+/*   Created: 2023/06/16 17:47:00 by fguirama          #+#    #+#             */
+/*   Updated: 2023/06/16 17:47:00 by fguirama         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../INCLUDES/cub3d.h"
 
-double	dpow(double num, int pow)
+void	draw_rectangle(t_img *img, t_ico co, t_ico size, int color)
 {
-	double	res;
+	t_ico	i;
 
-	res = 1;
-	while (pow > 0)
+	i.x = 0;
+	while (i.x <= size.x)
 	{
-		res *= num;
-		pow--;
+		i.y = 0;
+		while (i.y <= size.y)
+		{
+			mlx_pixel_put_img(img, co.x + i.x, co.y + i.y, color);
+			i.y++;
+		}
+		i.x++;
 	}
-	return (res);
-}
-
-int	ipow(int num, int pow)
-{
-	int	res;
-
-	res = 1;
-	while (pow > 0)
-	{
-		res *= num;
-		pow--;
-	}
-	return (res);
 }

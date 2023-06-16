@@ -47,7 +47,6 @@
 # define FOV				90
 # define DEFINITION			0.2
 
-# define EXT_MAP			".cub"
 # define MALLOC_ERROR_MSG	"Out of memory"
 
 // TYPEDEF --------------------------------------
@@ -250,9 +249,13 @@ struct	s_distances
 
 void		map_clear(t_map **map);
 void		print_minimap(t_data *data, t_map *map, t_ico offset);
-void		draw_square(t_img *img, t_ico co, double size, int color);
+void		draw_square(t_img *img, t_ico co, int size, int color);
 void		draw_line(t_data *data, t_dco p1, t_dco p2, int color);
 t_collision	draw_fov_line(t_data *data, t_dco p1, t_dco p2);
+void		draw_rectangle(t_img *img, t_ico co, t_ico size, int color);
+void		draw_circle(t_img *img, t_ico co, int radius, int color);
+void		draw_round_square(t_img *img, t_ico co, int size, int radius, int color);
+void		draw_qcircle(t_img *img, t_ico co, int radius, int q, int color);
 int			get_map_coordinates(t_data *data, double co, double move);
 
 // PLAYER ---------------------------------------
@@ -261,12 +264,14 @@ void		print_player(t_data *data, t_map *map, t_ico offset);
 void		move_player(t_data *data);
 void		rotate_player(t_data *data, int keycode);
 t_dco		get_minimap_fov(t_data *data, double angle);
-void		print_fov(t_data	*data);
+void		draw_fov(t_data	*data);
 t_dco		get_player_coordinates(t_data *data);
 
 // MATHS ----------------------------------------
 double		sqrt_(double num);
-double		pow_(double num, int pow);
+double		dpow(double num, int pow);
+int			ipow(int num, int pow);
+t_bool		is_even(int n);
 double		distance_between_points(t_dco p1, t_dco p2);
 
 // RAYCASTING -----------------------------------

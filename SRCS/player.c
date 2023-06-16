@@ -74,7 +74,7 @@ void	move_player(t_data *data)
 //		if (data->map->direction < 90)
 //		{
 //			i.x = cos(degre_to_radian(data->map->direction)) * move_speed;
-//			i.y = pow_(move_speed, 2) + pow_(i.x, 2);
+//			i.y = pow_(move_speed, 2) + dpow(i.x, 2);
 //			printf("%f\n%f | %f - %f - %f\n\n", cos(degre_to_radian
 //			(data->map->direction)), data->map->direction,
 //			move_speed, i.x, i.y);

@@ -52,7 +52,7 @@ t_exit	parse_file(t_data *data, char *filename, t_bool is_error_msg)
 	t_map			*map;
 	t_exit			exit_status;
 
-	if (!str_end_with(filename, EXT_MAP))
+	if (!str_end_with(filename, ".cub"))
 		return (error_msg(is_error_msg, "Map: %s: file does not match " \
 			"extension .cub", filename));
 	map = map_new();

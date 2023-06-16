@@ -25,11 +25,16 @@ double	distance_between_points(t_dco p1, t_dco p2)
 	// printf("p1.y = %f\n", p1.y);
 	// printf("p2.y = %f\n", p2.y);
 	// printf("y_dist = %f\n", y_dist);
-	// printf("distance = %f\n\n", sqrt_(pow_(x_dist, 2) + pow_(y_dist, 2)));
-	return (sqrt_(pow_(x_dist, 2) + pow_(y_dist, 2)));
+	// printf("distance = %f\n\n", sqrt_(pow_(x_dist, 2) + dpow(y_dist, 2)));
+	return (sqrt_(dpow(x_dist, 2) + dpow(y_dist, 2)));
 }
 
 double	degre_to_radian(double angle)
 {
 	return (angle * (3.14159265358979323846 / 180));
+}
+
+t_bool	is_even(int n)
+{
+	return (n % 2 == 0);
 }

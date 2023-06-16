@@ -1,39 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pow.c                                              :+:      :+:    :+:   */
+/*   background.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fguirama <fguirama@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/22 19:15:00 by fguirama          #+#    #+#             */
-/*   Updated: 2023/05/22 19:15:00 by fguirama         ###   ########lyon.fr   */
+/*   Created: 2023/06/16 17:47:00 by fguirama          #+#    #+#             */
+/*   Updated: 2023/06/16 17:47:00 by fguirama         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../INCLUDES/cub3d.h"
 
-double	dpow(double num, int pow)
+void	print_background(t_data *data)
 {
-	double	res;
+	t_ico	i;
 
-	res = 1;
-	while (pow > 0)
+	i.x = 0;
+	while (i.x < WIN_WIDTH)
 	{
-		res *= num;
-		pow--;
+		i.y = 0;
+		while (i.y < WIN_HEIGHT)
+		{
+			mlx_pixel_put_img(&data->img, i.x, i.y, \
+				data->map->color[i.y > WIN_HEIGHT / 2].color);
+			i.y++;
+		}
+		i.x++;
 	}
-	return (res);
-}
-
-int	ipow(int num, int pow)
-{
-	int	res;
-
-	res = 1;
-	while (pow > 0)
-	{
-		res *= num;
-		pow--;
-	}
-	return (res);
 }

@@ -12,7 +12,7 @@
 
 #include "../INCLUDES/cub3d.h"
 
-void	print_fov(t_data	*data)
+void	draw_fov(t_data	*data)
 {
 	double		angle;
 	int			i;
