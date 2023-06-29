@@ -12,7 +12,7 @@
 
 #include "../INCLUDES/cub3d.h"
 
-void	init_data(t_data *data)
+t_exit	init_data(t_data *data)
 {
 	data->is_menu = FALSE;
 	data->map = NULL;
@@ -27,15 +27,20 @@ void	init_data(t_data *data)
 	data->key_arrow_press[UP] = FALSE;
 	data->key_arrow_press[RIGHT] = FALSE;
 	data->key_arrow_press[DOWN] = FALSE;
-	// TODO secure malloc
 	data->distances = malloc(sizeof(t_distances));
+	if (!data->distances)
+		return (ERROR_MALLOC);
 	data->distances->size = (int)(FOV / DEFINITION);
-	// TODO secure malloc
 	data->distances->distance = malloc(sizeof(double) * data->distances->size);
-	// TODO secure malloc
+	if (!data->distances->distance)
+		return (ERROR_MALLOC);
 	data->distances->angle = malloc(sizeof(double) * data->distances->size);
-	// TODO secure malloc
+	if (!data->distances->angle)
+		return (ERROR_MALLOC);
 	data->distances->face = malloc(sizeof(int) * data->distances->size);
+	if (!data->distances->face)
+		return (ERROR_MALLOC);
+	return (SUCCESS);
 }
 
 t_exit	init_map(t_map *map)

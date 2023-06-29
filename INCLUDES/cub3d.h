@@ -396,8 +396,6 @@ struct s_map
 
 struct s_data
 {
-	// TODO color bg
-	// TODO color sky
 	t_bool		is_menu;
 	t_map		*map;
 	t_bool		key_arrow_press[4];
@@ -405,10 +403,9 @@ struct s_data
 	void		*win_ptr;
 	t_img		img;
 	t_distances	*distances;
-	double		raycast_width;
 };
 
-void		init_data(t_data *data);
+t_exit		init_data(t_data *data);
 void		render(t_data *data);
 
 #endif

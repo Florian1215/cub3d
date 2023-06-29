@@ -43,7 +43,6 @@ static t_exit	parse_color(t_map *map, char *line)
 		return (error_msg(map->is_error_msg, MALLOC_ERROR_MSG));
 	if (get_tab_size(tab) != 3)
 		return (error_msg(map->is_error_msg, "Wrong number of arguments"));
-	// TODO SECURE tab[2]
 	map->color[map->state - FLOOR].rgb.r = atoi_(tab[0]);
 	map->color[map->state - FLOOR].rgb.g = atoi_(tab[1]);
 	map->color[map->state - FLOOR].rgb.b = atoi_(tab[2]);
