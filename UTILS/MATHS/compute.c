@@ -34,6 +34,11 @@ double	degre_to_radian(double angle)
 	return (angle * (3.14159265358979323846 / 180));
 }
 
+double	radian_to_degre(double radian)
+{
+	return (radian * 180 / M_PI);
+}
+
 t_bool	is_even(int n)
 {
 	return (n % 2 == 0);

@@ -45,7 +45,8 @@
 
 # define FOV_RANGE			800
 # define FOV				90
-# define DEFINITION			0.2
+# define DEFINITION			0.05
+# define NUMBER				1
 
 # define MALLOC_ERROR_MSG	"Out of memory"
 
@@ -59,6 +60,7 @@ typedef struct s_collision		t_collision;
 typedef struct s_player			t_player;
 typedef struct s_map			t_map;
 typedef struct s_distances		t_distances;
+typedef struct s_straight		t_straight;
 typedef enum e_case				t_case;
 typedef enum e_file				t_file;
 typedef enum e_bool				t_bool;
@@ -211,7 +213,8 @@ enum e_cardinal
 	NORTH,
 	SOUTH,
 	WEST,
-	EAST
+	EAST,
+	FACE_ERROR
 };
 
 void		parsing(t_data *data, int ac, char **av);
@@ -241,9 +244,17 @@ struct	s_collision
 	int		side;
 };
 
+struct	s_straight
+{
+	double	a;
+	double	b;
+};
+
 struct	s_distances
 {
 	double	*distance;
+	int		*face;
+	double	*angle;
 	int		size;
 };
 
@@ -251,7 +262,7 @@ void		map_clear(t_map **map);
 void		print_minimap(t_data *data, t_map *map, t_ico offset);
 void		draw_square(t_img *img, t_ico co, int size, int color);
 void		draw_line(t_data *data, t_dco p1, t_dco p2, int color);
-t_collision	draw_fov_line(t_data *data, t_dco p1, t_dco p2);
+t_collision	draw_fov_line(t_data *data, t_dco p1, t_dco p2, double angle);
 void		draw_rectangle(t_img *img, t_ico co, t_ico size, int color);
 void		draw_circle(t_img *img, t_ico co, int radius, int color);
 void		draw_round_square(t_img *img, t_ico co, int size, int radius, int color);
@@ -302,6 +313,7 @@ int			atoi_(char *s);
 char		*get_next_line(int fd);
 t_exit		error_msg(t_bool print, const char *format, ...);
 double		degre_to_radian(double angle);
+double		radian_to_degre(double radian);
 enum e_file	get_file_type(char *path);
 int			get_tab_size(char **tab);
 
