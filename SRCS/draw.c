@@ -6,7 +6,7 @@
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 14:26:00 by fguirama          #+#    #+#             */
-/*   Updated: 2023/05/22 13:45:52 by mfinette         ###   ########.fr       */
+/*   Updated: 2023/06/29 13:46:21 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	draw_square(t_data *data, t_ico co, double size, int color)
 
 static void	print_background(t_data *data)
 {
-	const t_color	c[2] = {{0xB6EAFA}, {0x884A39}};
+	const t_color	c[2] = {{0x5DACBD}, {0x2E7553}};
 	t_ico			i;
 
 	i.x = 0;

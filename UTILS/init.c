@@ -6,7 +6,7 @@
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 18:50:00 by fguirama          #+#    #+#             */
-/*   Updated: 2023/05/20 19:03:26 by mfinette         ###   ########.fr       */
+/*   Updated: 2023/06/28 17:52:17 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	init_data(t_data *data)
 	data->distances = malloc(sizeof(t_distances));
 	data->distances->size = (int)(FOV / DEFINITION);
 	data->distances->distance = malloc(sizeof(double) * data->distances->size);
+	data->distances->angle = malloc(sizeof(double) * data->distances->size);
+	data->distances->face = malloc(sizeof(int) * data->distances->size);
 }
 
 t_exit	init_map(t_map *map)

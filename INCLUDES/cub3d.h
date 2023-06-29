@@ -6,7 +6,7 @@
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 18:59:55 by fguirama          #+#    #+#             */
-/*   Updated: 2023/06/03 15:48:57 by mfinette         ###   ########.fr       */
+/*   Updated: 2023/06/28 18:16:08 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,10 @@
 # define MINIMAP_SIZE		300
 # define MINIMAP_OFFSET		20
 
-# define FOV_RANGE			80
+# define FOV_RANGE			800
 # define FOV				90
-# define DEFINITION			0.2
+# define DEFINITION			0.05
+# define NUMBER				1
 
 # define EXT_MAP			".cub"
 # define MALLOC_ERROR_MSG	"Out of memory"
@@ -60,6 +61,7 @@ typedef struct s_collision		t_collision;
 typedef struct s_player			t_player;
 typedef struct s_map			t_map;
 typedef struct s_distances		t_distances;
+typedef struct s_straight		t_straight;
 typedef enum e_case				t_case;
 typedef enum e_file				t_file;
 typedef enum e_bool				t_bool;
@@ -172,12 +174,7 @@ enum e_keycode
 	NUM_1 = 83,
 	NUM_2 = 84,
 	NUM_3 = 85,
-	NUM_4 = 86,
-	NUM_5 = 87,
-	NUM_6 = 88,
-	NUM_7 = 89,
-	NUM_8 = 91,
-	NUM_9 = 92,
+	NUM_4 = 86, Vous allez recevoir à l'adresse maxime.finette1@gmail.com une copie de cette confirmation. 
 	PAV_0 = 82,
 	PAV_1 = 83,
 	PAV_2 = 84,
@@ -212,7 +209,8 @@ enum e_cardinal
 	NORTH,
 	SOUTH,
 	WEST,
-	EAST
+	EAST,
+	FACE_ERROR
 };
 
 void		parsing(t_data *data, int ac, char **av);
@@ -242,9 +240,17 @@ struct	s_collision
 	int		side;
 };
 
+struct	s_straight
+{
+	double	a;
+	double	b;
+};
+
 struct	s_distances
 {
 	double	*distance;
+	int		*face;
+	double	*angle;
 	int		size;
 };
 
@@ -252,7 +258,7 @@ void		map_clear(t_map **map);
 void		print_minimap(t_data *data, t_map *map, t_ico offset);
 void		draw_square(t_data *data, t_ico co, double size, int color);
 void		draw_line(t_data *data, t_dco p1, t_dco p2, int color);
-t_collision	draw_fov_line(t_data *data, t_dco p1, t_dco p2);
+t_collision	draw_fov_line(t_data *data, t_dco p1, t_dco p2, double angle);
 int			get_map_coordinates(t_data *data, double co, double move);
 
 // PLAYER ---------------------------------------
