@@ -20,23 +20,23 @@ void	raycasting(t_data *data)
 	int		color;
 
 	i = 0;
-	width = (double)WIN_WIDTH / data->distances->size;
-	while (i < data->distances->size)
+	width = (double)WIN_WIDTH / data->distances.size;
+	while (i < data->distances.size)
 	{
-		if (data->distances->distance[i])
+		if (data->distances.distance[i])
 		{
-			edge_distance = data->distances->distance[i] * 2.5;
+			edge_distance = data->distances.distance[i] * 2.5;
 			if (edge_distance + 150 < WIN_HEIGHT - edge_distance - 150)
 			{
-				if (data->distances->face[i] == NORTH)
+				if (data->distances.face[i] == NORTH)
 					color = 0x00FF00;
-				else if (data->distances->face[i] == EAST)
+				else if (data->distances.face[i] == EAST)
 					color = 0x0000FF;
-				else if (data->distances->face[i] == WEST)
+				else if (data->distances.face[i] == WEST)
 					color = 0xFF0000;
-				else if (data->distances->face[i] == SOUTH)
+				else if (data->distances.face[i] == SOUTH)
 					color = 0xFFFF00;
-				else if (data->distances->face[i] == FACE_ERROR)
+				else if (data->distances.face[i] == FACE_ERROR)
 					color = 0xFFFFFF;
 				draw_line(data, (t_dco){i * width, 0 + edge_distance + 150}, \
 				(t_dco){i * width, WIN_HEIGHT - edge_distance - 150}, color);

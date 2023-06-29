@@ -19,3 +19,20 @@ void	mlx_pixel_put_img(t_img *img, int x, int y, int color)
 	*(unsigned int *)(img->addr + (y * img->line_length + x * \
 	(img->bits_per_pixel / 8))) = color;
 }
+
+int	close_mlx_success(t_data *data)
+{
+	close_mlx(data, SUCCESS);
+	return (SUCCESS);
+}
+
+void	close_mlx(t_data *data, t_exit exit_status)
+{
+	map_clear(&data->map);
+	free(data->distances.distance);
+	free(data->distances.angle);
+	free(data->distances.face);
+	mlx_clear_window(data->mlx_ptr, data->win_ptr);
+	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+	exit(exit_status);
+}

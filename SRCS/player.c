@@ -29,15 +29,6 @@ void	print_player(t_data *data, t_map *map, t_ico offset)
 		offset.y + map->pos.y}, map->hitbox, color.color);
 }
 
-t_dco	get_player_coordinates(t_data *data)
-{
-	t_dco	co;
-
-	co.x = data->map->pos.x + data->map->hhitbox + MINIMAP_OFFSET;
-	co.y = data->map->pos.y + data->map->hhitbox + MINIMAP_OFFSET;
-	return (co);
-}
-
 void	move_player(t_data *data)
 {
 	const double	move_speed = data->map->square_size / 10;

@@ -12,7 +12,7 @@
 
 # VAR ---------------------------------------------------------------
 OBJS_DIR		=	.OBJS/
-SRCS			=	SRCS/maps.c SRCS/menu.c SRCS/minimap.c SRCS/player.c SRCS/raycasting.c \
+SRCS			=	SRCS/animation.c SRCS/wall.c SRCS/maps.c SRCS/menu.c SRCS/menu_animation.c SRCS/minimap.c SRCS/player.c SRCS/raycasting.c \
 					SRCS/PARSING/open_dir.c SRCS/PARSING/parsing.c SRCS/PARSING/parse_map.c SRCS/PARSING/parse_content.c \
 					SRCS/HOOK/hook.c SRCS/HOOK/key.c SRCS/HOOK/mouse.c \
 					SRCS/DRAW/background.c SRCS/DRAW/circle.c SRCS/DRAW/fov.c SRCS/DRAW/line.c SRCS/DRAW/rectangle.c SRCS/DRAW/render.c SRCS/DRAW/square.c \

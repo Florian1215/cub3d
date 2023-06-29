@@ -12,8 +12,13 @@
 
 #include "../INCLUDES/cub3d.h"
 
-t_exit	init_data(t_data *data)
+static void	init_distance(t_data *data);
+
+void	init_data(t_data *data)
 {
+	data->is_menu = FALSE;
+	data->is_menu_animation = FALSE;
+	data->is_launch_animation = FALSE;
 	data->is_menu = FALSE;
 	data->map = NULL;
 	data->mlx_ptr = mlx_init();
@@ -27,20 +32,25 @@ t_exit	init_data(t_data *data)
 	data->key_arrow_press[UP] = FALSE;
 	data->key_arrow_press[RIGHT] = FALSE;
 	data->key_arrow_press[DOWN] = FALSE;
-	data->distances = malloc(sizeof(t_distances));
-	if (!data->distances)
-		return (ERROR_MALLOC);
-	data->distances->size = (int)(FOV / DEFINITION);
-	data->distances->distance = malloc(sizeof(double) * data->distances->size);
-	if (!data->distances->distance)
-		return (ERROR_MALLOC);
-	data->distances->angle = malloc(sizeof(double) * data->distances->size);
-	if (!data->distances->angle)
-		return (ERROR_MALLOC);
-	data->distances->face = malloc(sizeof(int) * data->distances->size);
-	if (!data->distances->face)
-		return (ERROR_MALLOC);
-	return (SUCCESS);
+	data->offset_minimap = (t_ico){MINIMAP_OFFSET, MINIMAP_OFFSET};
+	init_distance(data);
+}
+
+static void	init_distance(t_data *data)
+{
+	data->distances.distance = NULL;
+	data->distances.angle = NULL;
+	data->distances.face = NULL;
+	data->distances.size = (int)(FOV / DEFINITION);
+	data->distances.distance = malloc(sizeof(double) * data->distances.size);
+	if (!data->distances.distance)
+		exit(ERROR_MALLOC);
+	data->distances.angle = malloc(sizeof(double) * data->distances.size);
+	if (!data->distances.angle)
+		exit(ERROR_MALLOC);
+	data->distances.face = malloc(sizeof(int) * data->distances.size);
+	if (!data->distances.face)
+		exit(ERROR_MALLOC);
 }
 
 t_exit	init_map(t_map *map)

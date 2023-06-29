@@ -26,12 +26,21 @@ void	change_map(t_data *data)
 
 void	change_n_map(t_data *data, int n)
 {
-	int	i;
+	t_map	*tmp;
+	t_map	*prev;
+	int		i;
 
+	if (!n)
+		return ;
 	i = 0;
+	tmp = data->map;
 	while (i < n)
 	{
-		change_map(data);
+		prev = tmp;
+		tmp = tmp->next;
 		i++;
 	}
+	prev->next = tmp->next;
+	tmp->next = data->map;
+	data->map = tmp;
 }

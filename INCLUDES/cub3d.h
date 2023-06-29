@@ -262,10 +262,12 @@ void		map_clear(t_map **map);
 void		print_minimap(t_data *data, t_map *map, t_ico offset);
 void		draw_square(t_img *img, t_ico co, int size, int color);
 void		draw_line(t_data *data, t_dco p1, t_dco p2, int color);
-t_collision	draw_fov_line(t_data *data, t_dco p1, t_dco p2, double angle);
+t_collision	draw_fov_line(t_data *data, t_dco p1, t_dco p2, double angle, \
+				t_ico offset);
 void		draw_rectangle(t_img *img, t_ico co, t_ico size, int color);
 void		draw_circle(t_img *img, t_ico co, int radius, int color);
-void		draw_round_square(t_img *img, t_ico co, int size, int radius, int color);
+void		draw_round_square(t_img *img, t_ico co, int size, int radius, \
+				int color);
 void		draw_qcircle(t_img *img, t_ico co, int radius, int q, int color);
 int			get_map_coordinates(t_data *data, double co, double move);
 
@@ -274,9 +276,7 @@ void		set_player_position(t_map *map, int k, int i);
 void		print_player(t_data *data, t_map *map, t_ico offset);
 void		move_player(t_data *data);
 void		rotate_player(t_data *data, int keycode);
-t_dco		get_minimap_fov(t_data *data, double angle);
-void		draw_fov(t_data	*data);
-t_dco		get_player_coordinates(t_data *data);
+void		draw_fov(t_data	*data, t_ico offset);
 
 // MATHS ----------------------------------------
 double		sqrt_(double num);
@@ -391,21 +391,27 @@ struct s_map
 	int				fd;
 	t_list			*lst;
 	t_parsing_state	state;
+	t_ico			offset_map_menu;
+	t_ico			start_offset_map;
 	t_map			*next;
 };
 
 struct s_data
 {
 	t_bool		is_menu;
+	t_bool		is_launch_animation;
+	t_bool		is_menu_animation;
 	t_map		*map;
 	t_bool		key_arrow_press[4];
 	void		*mlx_ptr;
 	void		*win_ptr;
 	t_img		img;
-	t_distances	*distances;
+	t_ico		offset_minimap;
+	t_distances	distances;
 };
 
-t_exit		init_data(t_data *data);
+void		init_data(t_data *data);
 void		render(t_data *data);
+int			animation(double a, double b, int i);
 
 #endif

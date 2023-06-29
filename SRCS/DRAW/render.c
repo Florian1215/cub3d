@@ -13,15 +13,19 @@
 #include "../../INCLUDES/cub3d.h"
 
 void	print_background(t_data *data);
+t_ico	get_minimap_offset(t_data *data);
 
 void	render(t_data *data)
 {
+	t_ico	offset;
+
+	offset = get_minimap_offset(data);
 	print_background(data);
 	move_player(data);
 	raycasting(data);
-	print_minimap(data, data->map, (t_ico){MINIMAP_OFFSET, MINIMAP_OFFSET});
-	if (!data->is_menu)
-		draw_fov(data);
-	print_player(data, data->map, (t_ico){MINIMAP_OFFSET, MINIMAP_OFFSET});
+	print_minimap(data, data->map, offset);
+	draw_fov(data, (t_ico){offset.x + data->map->hhitbox, offset.y \
+		+ data->map->hhitbox});
+	print_player(data, data->map, offset);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img, 0, 0);
 }

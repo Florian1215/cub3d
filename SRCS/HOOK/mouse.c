@@ -16,12 +16,11 @@ void	select_map(t_data *data, t_ico click);
 
 int	mouse_event_press(int button, int x, int y, t_data *data)
 {
-	(void)button;
-	(void)x;
-	(void)y;
-	(void)data;
 	if (button == LEFT_CLICK && data->is_menu)
 		select_map(data, (t_ico){x, y});
+	if (button == LEFT_CLICK && !data->is_menu && x < MINIMAP_SIZE + \
+		MINIMAP_OFFSET && y < MINIMAP_SIZE + MINIMAP_OFFSET)
+		handle_menu(data);
 	return (SUCCESS);
 }
 

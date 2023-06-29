@@ -34,6 +34,8 @@ void	set_hook(t_data *data)
 
 static int	hook_loop(t_data *data)
 {
+	if (data->is_menu_animation)
+		set_menu(data);
 	if (!data->is_menu)
 		render(data);
 	return (SUCCESS);

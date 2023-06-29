@@ -34,6 +34,26 @@ void	print_minimap(t_data *data, t_map *map, t_ico offset)
 	}
 }
 
+t_ico	get_minimap_offset(t_data *data)
+{
+	static int		i = 0;
+	t_ico			offset;
+
+	if (i == 29)
+	{
+		i = 0;
+		data->is_launch_animation = FALSE;
+	}
+	if (!data->is_launch_animation)
+		return (data->offset_minimap);
+	offset.x = animation(data->map->offset_map_menu.x, \
+		data->offset_minimap.x, i);
+	offset.y = animation(data->map->offset_map_menu.y, \
+		data->offset_minimap.y, i);
+	i++;
+	return (offset);
+}
+
 int	get_map_coordinates(t_data *data, double co, double move)
 {
 	return ((int)((co + move + data->map->hhitbox) \
