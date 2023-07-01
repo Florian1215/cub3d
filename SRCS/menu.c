@@ -35,7 +35,7 @@ void	handle_menu(t_data *data)
 void	set_menu(t_data *data)
 {
 	data->is_menu = TRUE;
-	draw_square(&data->img, (t_ico){0, 0}, WIN_WIDTH, 0x46458C);
+	draw_rectangle(&data->img, (t_ico){0, 0}, (t_ico){WIN_WIDTH - 1, WIN_HEIGHT - 1}, 0x46458C);
 	draw_rounded_squares(data);
 	if (data->is_menu_animation)
 		set_minimap_animation(data);
