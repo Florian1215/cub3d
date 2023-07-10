@@ -29,7 +29,7 @@ HEAD			=	INCLUDES/
 CC				=	cc
 RM				=	rm -rf
 
-FLAGS			=	-Wall -Wextra -Werror -g3 -fsanitize=address -MMD -MP
+FLAGS			=	-Wall -Wextra -Werror -g3 -fsanitize=address -MMD -MP -O3
 
 MLX_NAME		=	libmlx.a
 
