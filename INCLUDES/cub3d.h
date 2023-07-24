@@ -33,6 +33,7 @@
 # include <string.h>
 # include <sys/types.h>
 # include <sys/stat.h>
+# include <sys/time.h>
 
 // DEFINE ---------------------------------------
 # define WIN_WIDTH			1080
@@ -45,6 +46,7 @@
 # define FOV				90
 # define DEFINITION			0.05
 # define NUMBER				1
+# define FRAME				20
 
 # define MALLOC_ERROR_MSG	"Out of memory"
 
@@ -68,6 +70,7 @@ typedef enum e_keycode			t_keycode;
 typedef enum e_cardinal			t_cardinal;
 typedef enum e_parsing_state	t_parsing_state;
 typedef union u_color			t_color;
+typedef unsigned long long int	t_time;
 
 // STRUCT ---------------------------------------
 struct s_dco
@@ -406,10 +409,13 @@ struct s_data
 	t_img		img;
 	t_ico		offset_minimap;
 	t_distances	distances;
+	t_time		start_animation;
 };
 
 void		init_data(t_data *data);
 void		render(t_data *data);
 int			animation(double a, double b, int i);
+t_time		get_timestamp(void);
+void		sleep_until(t_time until);
 
 #endif

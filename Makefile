@@ -16,7 +16,7 @@ SRCS			=	SRCS/animation.c SRCS/wall.c SRCS/maps.c SRCS/menu.c SRCS/menu_animatio
 					SRCS/PARSING/open_dir.c SRCS/PARSING/parsing.c SRCS/PARSING/parse_map.c SRCS/PARSING/parse_content.c \
 					SRCS/HOOK/hook.c SRCS/HOOK/key.c SRCS/HOOK/mouse.c \
 					SRCS/DRAW/background.c SRCS/DRAW/circle.c SRCS/DRAW/fov.c SRCS/DRAW/line.c SRCS/DRAW/rectangle.c SRCS/DRAW/render.c SRCS/DRAW/square.c \
-					UTILS/error.c UTILS/file.c UTILS/tab.c UTILS/free.c UTILS/get_next_line.c UTILS/init.c UTILS/list.c UTILS/map.c UTILS/mlx.c UTILS/split.c \
+					UTILS/error.c UTILS/file.c UTILS/tab.c UTILS/free.c UTILS/get_next_line.c UTILS/init.c UTILS/list.c UTILS/map.c UTILS/mlx.c UTILS/split.c UTILS/time.c \
 					UTILS/MATHS/atoi.c UTILS/MATHS/compute.c UTILS/MATHS/pow.c UTILS/MATHS/sqrt.c \
 					UTILS/STR/str_dup.c UTILS/STR/str_join.c UTILS/STR/str_end_with.c UTILS/STR/str_len.c UTILS/STR/str_str.c \
 					main.c
