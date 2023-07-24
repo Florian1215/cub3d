@@ -15,7 +15,7 @@
 void	sleep_until(t_time until)
 {
 	while (get_timestamp() < until)
-		usleep(10);
+		usleep(1);
 }
 
 t_time	get_timestamp(void)
