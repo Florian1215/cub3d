@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../INCLUDES/cub3d.h"
+#include "cub3d.h"
 
 static t_exit	parse_color(t_map *map, char *line);
 

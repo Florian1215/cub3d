@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../INCLUDES/cub3d.h"
+#include "cub3d.h"
 
 void	draw_rectangle(t_img *img, t_ico co, t_ico size, int color)
 {

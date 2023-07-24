@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../INCLUDES/cub3d.h"
+#include "cub3d.h"
 
 static int	count_word(char const *s, char sep);
 static int	word_len(char const *s, char sep);

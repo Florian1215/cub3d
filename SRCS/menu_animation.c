@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../INCLUDES/cub3d.h"
+#include "cub3d.h"
 
 static t_ico	get_minimap_offset_menu(t_map *map);
 static t_ico	get_start_minimap_offset_menu(t_data *data, t_map *map, int i);

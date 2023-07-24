@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../INCLUDES/cub3d.h"
+#include "cub3d.h"
 
 void			compute_map_offset(t_data *data);
 static void		draw_rounded_squares(t_data *data);

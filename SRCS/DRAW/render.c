@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../INCLUDES/cub3d.h"
+#include "cub3d.h"
 
 void	print_background(t_data *data);
 t_ico	get_minimap_offset(t_data *data);

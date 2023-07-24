@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../INCLUDES/cub3d.h"
+#include "cub3d.h"
 
 t_exit			init_map(t_map *map);
 static t_exit	parse_line_map(t_map *map, char *line, int k);

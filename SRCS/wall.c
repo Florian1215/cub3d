@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../INCLUDES/cub3d.h"
+#include "cub3d.h"
 
 static int	check_vertical_wall(t_data *data, t_dco p1);
 static int	check_horizontal_wall(t_data *data, t_dco p1);

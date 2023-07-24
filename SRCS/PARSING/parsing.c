@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../INCLUDES/cub3d.h"
+#include "cub3d.h"
 
 t_exit			open_dir(t_data *data, char *directory, t_bool is_print);
 static t_exit	parse_arguments(t_data *data, int ac, char **av);
