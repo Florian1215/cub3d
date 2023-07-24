@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../INCLUDES/cub3d.h"
+#include "cub3d.h"
 
 double	distance_between_points(t_dco p1, t_dco p2)
 {

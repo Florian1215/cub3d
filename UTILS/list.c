@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../INCLUDES/cub3d.h"
+#include "cub3d.h"
 
 static t_list	*lst_last(t_list *lst);
 

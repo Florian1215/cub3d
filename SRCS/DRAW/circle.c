@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../INCLUDES/cub3d.h"
+#include "cub3d.h"
 
 static void	set_value_circle(t_bool bool, int *start, int *end, int radius);
 

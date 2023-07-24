@@ -34,8 +34,6 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 
-//// open, close, read, write, printf, malloc, free, perror, strerror, exit
-
 // DEFINE ---------------------------------------
 # define WIN_WIDTH			1080
 # define WIN_HEIGHT			720

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../INCLUDES/cub3d.h"
+#include "cub3d.h"
 
 void	draw_line(t_data *data, t_dco p1, t_dco p2, int color)
 {

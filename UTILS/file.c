@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../INCLUDES/cub3d.h"
+#include "cub3d.h"
 
 t_file	get_file_type(char *path)
 {

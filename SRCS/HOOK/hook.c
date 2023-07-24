@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../INCLUDES/cub3d.h"
+#include "cub3d.h"
 
 int			key_event(int k, t_data *data);
 int			key_event_press(int k, t_data *data);

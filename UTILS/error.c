@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../INCLUDES/cub3d.h"
+#include "cub3d.h"
 
 static void	put_cub3d(void);
 static void	str_format(char c, va_list	args);

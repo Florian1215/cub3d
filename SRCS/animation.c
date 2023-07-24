@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../INCLUDES/cub3d.h"
+#include "cub3d.h"
 
 int	animation(double a, double b, int i)
 {

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../INCLUDES/cub3d.h"
+#include "cub3d.h"
 
 static void	init_distance(t_data *data);
 

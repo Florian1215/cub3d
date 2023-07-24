@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../INCLUDES/cub3d.h"
+#include "cub3d.h"
 
 static t_dco	get_minimap_fov(t_data *data, double angle, t_ico offset);
 int				determine_wall_type(t_data *data, t_dco p1);
