@@ -1,38 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   compute.c                                          :+:      :+:    :+:   */
+/*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fguirama <fguirama@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/22 19:17:00 by fguirama          #+#    #+#             */
-/*   Updated: 2023/05/22 19:17:00 by fguirama         ###   ########lyon.fr   */
+/*   Created: 2023/07/25 17:06:00 by fguirama          #+#    #+#             */
+/*   Updated: 2023/07/25 17:06:00 by fguirama         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-double	distance_between_points(t_dco p1, t_dco p2)
+void	set_player_position(t_map *map, int k, int i)
 {
-	double	x_dist;
-	double	y_dist;
-
-	x_dist = p2.x - p1.x;
-	y_dist = p2.y - p1.y;
-	return (sqrt_(dpow(x_dist, 2) + dpow(y_dist, 2)));
+	map->m[k][i] = EMPTY_SPACE;
+	map->start_pos.x = i;
+	map->start_pos.y = k;
+	map->pos.x = (i * map->square_size) + map->qhitbox;
+	map->pos.y = (k * map->square_size) + map->qhitbox;
 }
 
-double	degre_to_radian(double angle)
+void	print_player(t_data *data, t_map *map, t_ico offset)
 {
-	return (angle * (M_PI / 180));
-}
+	const t_color	color = {0x4C4C6D};
 
-double	radian_to_degre(double radian)
-{
-	return (radian * 180 / M_PI);
-}
-
-t_bool	is_even(int n)
-{
-	return (n % 2 == 0);
+	draw_square(&data->img, (t_ico){offset.x + map->pos.x, \
+		offset.y + map->pos.y}, map->hitbox, color.color);
 }

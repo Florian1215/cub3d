@@ -12,7 +12,8 @@
 
 #include "cub3d.h"
 
-void	change_map(t_data *data);
+static t_keypress	get_keypress(int k);
+void				change_map(t_data *data);
 
 int	key_event(int k, t_data *data)
 {
@@ -27,10 +28,8 @@ int	key_event_press(int k, t_data *data)
 		close_mlx_success(data);
 	else if (k == TAB)
 		handle_menu(data);
-	else if (k == UP_KEY || k == DOWN_KEY || k == LEFT_KEY || k == RIGHT_KEY)
-		data->key_arrow_press[k - LEFT_KEY] = TRUE;
-	else if (k == A || k == D)
-		rotate_player(data, k);
+	else if (get_keypress(k) != KP_ERROR)
+		data->key_arrow_press[get_keypress(k)] = TRUE;
 	else if (k == Q)
 		change_map(data);
 	return (SUCCESS);
@@ -38,7 +37,24 @@ int	key_event_press(int k, t_data *data)
 
 int	key_event_release(int k, t_data *data)
 {
-	if (k == UP_KEY || k == DOWN_KEY || k == LEFT_KEY || k == RIGHT_KEY)
-		data->key_arrow_press[k - LEFT_KEY] = FALSE;
+	if (get_keypress(k) != KP_ERROR)
+		data->key_arrow_press[get_keypress(k)] = FALSE;
 	return (SUCCESS);
+}
+
+static t_keypress	get_keypress(int k)
+{
+	const int	dict[KEYPRESS] = {UP_KEY, DOWN_KEY, LEFT_KEY, RIGHT_KEY, A, D};
+	t_keypress	key;
+
+	key = KP_UP;
+	while (TRUE)
+	{
+		if (key == KEYPRESS)
+			return (KP_ERROR);
+		if (dict[key] == k)
+			break ;
+		key++;
+	}
+	return (key);
 }

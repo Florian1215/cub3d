@@ -19,7 +19,7 @@ t_map	*map_new(void)
 	new = malloc(sizeof(t_map));
 	if (!new)
 		return (NULL);
-	new->direction = NO_PLAYER;
+	new->degre = NO_PLAYER;
 	new->m = NULL;
 	new->texture_path[NORTH] = NULL;
 	new->texture_path[SOUTH] = NULL;

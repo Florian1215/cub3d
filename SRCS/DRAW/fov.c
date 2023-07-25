@@ -22,12 +22,12 @@ void	draw_fov(t_data	*data, t_ico offset)
 	t_collision	collision;
 
 	i = 0;
-	angle = degre_to_radian(data->map->direction - (FOV / 2));
-	while (angle <= degre_to_radian(data->map->direction + (FOV / 2)) \
-		&& i < data->distances.size)
+	angle = degre_to_radian(data->map->degre - (FOV / 2));
+	while (angle <= degre_to_radian(data->map->degre + (FOV / 2)) \
+ && i < data->distances.size)
 	{
 		collision = draw_fov_line(data, data->map->pos, get_minimap_fov(data, \
-		angle, offset), angle - degre_to_radian(data->map->direction), offset);
+		angle, offset), angle - degre_to_radian(data->map->degre), offset);
 		data->distances.distance[i] = collision.distance;
 		data->distances.face[i] = collision.side;
 		data->distances.angle[i] = angle;
@@ -52,7 +52,7 @@ double	calculate_distance(t_data *data, t_dco p1, t_dco p2)
 	double	distance;
 
 	distance = distance_between_points(p1, p2);
-	distance *= cos(degre_to_radian(data->map->direction - \
+	distance *= cos(degre_to_radian(data->map->degre - \
 		radian_to_degre(atan2(p2.y - p1.y, p2.x - p1.x))));
 	return (distance);
 }

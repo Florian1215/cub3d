@@ -12,12 +12,13 @@
 
 # VAR ---------------------------------------------------------------
 OBJS_DIR		=	.OBJS/
-SRCS			=	SRCS/animation.c SRCS/wall.c SRCS/maps.c SRCS/menu.c SRCS/menu_animation.c SRCS/minimap.c SRCS/player.c SRCS/raycasting.c \
+SRCS			=	SRCS/animation.c SRCS/wall.c SRCS/maps.c SRCS/menu.c SRCS/menu_animation.c SRCS/minimap.c SRCS/raycasting.c \
 					SRCS/PARSING/open_dir.c SRCS/PARSING/parsing.c SRCS/PARSING/parse_map.c SRCS/PARSING/parse_content.c \
 					SRCS/HOOK/hook.c SRCS/HOOK/key.c SRCS/HOOK/mouse.c \
+					SRCS/PLAYER/player.c SRCS/PLAYER/position.c SRCS/PLAYER/rotate.c \
 					SRCS/DRAW/background.c SRCS/DRAW/circle.c SRCS/DRAW/fov.c SRCS/DRAW/line.c SRCS/DRAW/rectangle.c SRCS/DRAW/render.c SRCS/DRAW/square.c \
 					UTILS/error.c UTILS/file.c UTILS/tab.c UTILS/free.c UTILS/get_next_line.c UTILS/init.c UTILS/list.c UTILS/map.c UTILS/mlx.c UTILS/split.c UTILS/time.c \
-					UTILS/MATHS/atoi.c UTILS/MATHS/compute.c UTILS/MATHS/pow.c UTILS/MATHS/sqrt.c \
+					UTILS/MATHS/atoi.c UTILS/MATHS/compute.c UTILS/MATHS/coordinate.c UTILS/MATHS/pow.c UTILS/MATHS/sqrt.c \
 					UTILS/STR/str_dup.c UTILS/STR/str_join.c UTILS/STR/str_end_with.c UTILS/STR/str_len.c UTILS/STR/str_str.c \
 					main.c
 OBJS			=	$(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
@@ -66,6 +67,7 @@ dir:
 					@mkdir -p $(OBJS_DIR)SRCS
 					@mkdir -p $(OBJS_DIR)SRCS/PARSING
 					@mkdir -p $(OBJS_DIR)SRCS/HOOK
+					@mkdir -p $(OBJS_DIR)SRCS/PLAYER
 					@mkdir -p $(OBJS_DIR)SRCS/DRAW
 					@mkdir -p $(OBJS_DIR)UTILS
 					@mkdir -p $(OBJS_DIR)UTILS/STR

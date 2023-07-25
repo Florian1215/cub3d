@@ -1,38 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   compute.c                                          :+:      :+:    :+:   */
+/*   coordcoordinate.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fguirama <fguirama@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/22 19:17:00 by fguirama          #+#    #+#             */
-/*   Updated: 2023/05/22 19:17:00 by fguirama         ###   ########lyon.fr   */
+/*   Created: 2023/07/25 15:15:00 by fguirama          #+#    #+#             */
+/*   Updated: 2023/07/25 15:15:00 by fguirama         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-double	distance_between_points(t_dco p1, t_dco p2)
+t_dco	dco_add(t_dco co1, t_dco co2)
 {
-	double	x_dist;
-	double	y_dist;
-
-	x_dist = p2.x - p1.x;
-	y_dist = p2.y - p1.y;
-	return (sqrt_(dpow(x_dist, 2) + dpow(y_dist, 2)));
+	return ((t_dco){co1.x + co2.x, co1.y + co2.y});
 }
 
-double	degre_to_radian(double angle)
+t_dco	dco_mul(t_dco c, double f)
 {
-	return (angle * (M_PI / 180));
-}
-
-double	radian_to_degre(double radian)
-{
-	return (radian * 180 / M_PI);
-}
-
-t_bool	is_even(int n)
-{
-	return (n % 2 == 0);
+	return ((t_dco){c.x * f, c.y * f});
 }

@@ -35,9 +35,10 @@ t_exit	parse_map(t_map *map)
 		k++;
 	}
 	lst_clear(&map->lst);
-	if (map->direction == NO_PLAYER)
+	if (map->degre == NO_PLAYER)
 		return (error_msg(map->is_error_msg, \
 				"Map: No player on the map"));
+	update_direction(map);
 	if (check_close_map(map, map->start_pos) == ERROR)
 		return (error_msg(map->is_error_msg, \
 				"Map: Not close map"));
@@ -80,16 +81,16 @@ static t_case	get_char(t_map *map, char c)
 		return (WALL);
 	else if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
 	{
-		if (map->direction != NO_PLAYER)
+		if (map->degre != NO_PLAYER)
 			return (INVALID_PLAYER);
 		if (c == 'E')
-			map->direction = 0;
+			map->degre = 0;
 		else if (c == 'S')
-			map->direction = 90;
+			map->degre = 90;
 		else if (c == 'W')
-			map->direction = 180;
+			map->degre = 180;
 		else
-			map->direction = 270;
+			map->degre = 270;
 		return (PLAYER);
 	}
 	else if (c == ' ')

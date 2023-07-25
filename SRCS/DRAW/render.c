@@ -12,8 +12,10 @@
 
 #include "cub3d.h"
 
-void	print_background(t_data *data);
 t_ico	get_minimap_offset(t_data *data);
+void	print_background(t_data *data);
+void	rotate_player(t_data *data);
+void	move_player(t_data *data);
 
 void	render(t_data *data)
 {
@@ -21,6 +23,7 @@ void	render(t_data *data)
 
 	offset = get_minimap_offset(data);
 	print_background(data);
+	rotate_player(data);
 	move_player(data);
 	raycasting(data);
 	print_minimap(data, data->map, offset);

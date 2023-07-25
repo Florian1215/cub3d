@@ -16,6 +16,8 @@ static void	init_distance(t_data *data);
 
 void	init_data(t_data *data)
 {
+	int	i;
+
 	data->is_menu = FALSE;
 	data->is_menu_animation = FALSE;
 	data->is_launch_animation = FALSE;
@@ -23,15 +25,14 @@ void	init_data(t_data *data)
 	data->map = NULL;
 	data->mlx_ptr = mlx_init();
 	data->win_ptr = mlx_new_window(data->mlx_ptr, \
-		WIN_WIDTH, WIN_HEIGHT, "cub3d du bde c la follie");
+		WIN_WIDTH, WIN_HEIGHT, "cub3d");
 	data->img.img = mlx_new_image(data->mlx_ptr, \
 		WIN_WIDTH, WIN_HEIGHT);
 	data->img.addr = mlx_get_data_addr(data->img.img, \
 		&data->img.bits_per_pixel, &data->img.line_length, &data->img.endian);
-	data->key_arrow_press[LEFT] = FALSE;
-	data->key_arrow_press[UP] = FALSE;
-	data->key_arrow_press[RIGHT] = FALSE;
-	data->key_arrow_press[DOWN] = FALSE;
+	i = 0;
+	while (i < KEYPRESS)
+		data->key_arrow_press[i++] = FALSE;
 	data->offset_minimap = (t_ico){MINIMAP_OFFSET, MINIMAP_OFFSET};
 	init_distance(data);
 }
@@ -69,6 +70,7 @@ t_exit	init_map(t_map *map)
 		map->hitbox = 4;
 	map->hhitbox = map->hitbox / 2;
 	map->qhitbox = map->hhitbox / 2;
+	map->move_speed = 0.5f * map->hitbox / 15;
 	while (k < map->height)
 	{
 		map->m[k] = malloc(sizeof(t_map) * map->width);
