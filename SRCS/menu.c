@@ -14,8 +14,9 @@
 
 void			compute_map_offset(t_data *data);
 static void		draw_rounded_squares(t_data *data);
-static void		set_minimap(t_data *data);
+void			set_fov_option(t_data *data);
 void			set_minimap_animation(t_data *data);
+static void		set_minimap(t_data *data);
 
 void	handle_menu(t_data *data)
 {
@@ -34,16 +35,17 @@ void	handle_menu(t_data *data)
 void	set_menu(t_data *data)
 {
 	data->in_menu = TRUE;
-	draw_rectangle(&data->img, (t_ico){0, 0}, \
-		(t_ico){WIN_WIDTH - 1, WIN_HEIGHT - 1}, BG_MENU);
+	draw_rectangle((t_draw){&data->img, BG_MENU, 0}, (t_ico){0, 0}, \
+		(t_ico){WIN_WIDTH - 1, WIN_HEIGHT - 1});
 	draw_rounded_squares(data);
+	set_fov_option(data);
 	if (data->menu_animation)
 		set_minimap_animation(data);
 	else
 		set_minimap(data);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img, 0, 0);
-	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->logo, \
-		data->menu[LOGO].pos.x, data->menu[LOGO].pos.y);
+	if (data->logo.img)
+		draw_alpha(&data->img, &data->logo, data->menu[LOGO].pos);
 	if (data->hover_animation)
 		data->hover_animation = FALSE;
 }
@@ -54,10 +56,10 @@ static void	draw_rounded_squares(t_data *data)
 	t_pos			i;
 
 	i = POS_1;
-	while (i < 4)
+	while (i < data->n_map)
 	{
-		draw_round_square(&data->img, data->menu[i].pos, data->menu[i].size.x, \
-			20, colors[i == data->hover].color);
+		draw_round_square((t_draw){&data->img, colors[i == data->hover].color, \
+			20}, data->menu[i].pos, data->menu[i].size.x);
 		i++;
 	}
 }
@@ -70,7 +72,7 @@ static void	set_minimap(t_data *data)
 	compute_map_offset(data);
 	i = POS_1;
 	map = data->map;
-	while (i < 4 && map)
+	while (i < data->n_map && map)
 	{
 		print_minimap(data, map, map->offset_map_menu);
 		print_player(data, map, map->offset_map_menu);
@@ -79,21 +81,18 @@ static void	set_minimap(t_data *data)
 	}
 }
 
-t_pos	select_map(t_data *data, t_ico click)
+t_pos	select_binds(t_data *data, t_ico click)
 {
-	t_map	*map;
 	t_pos	i;
 
 	i = POS_1;
-	map = data->map;
-	while (i < 4 && map)
+	while (i < 7)
 	{
 		if (click.x >= data->menu[i].pos.x && \
 			click.x <= data->menu[i].pos.x + data->menu[i].size.x && \
 			click.y >= data->menu[i].pos.y && \
 			click.y <= data->menu[i].pos.y + data->menu[i].size.y)
 			return (i);
-		map = map->next;
 		i++;
 	}
 	return (POS_ERROR);

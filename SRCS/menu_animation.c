@@ -22,7 +22,7 @@ void	compute_map_offset(t_data *data)
 
 	i = POS_1;
 	map = data->map;
-	while (i < 4 && map)
+	while (i < data->n_map && map)
 	{
 		map->offset_map_menu = get_minimap_offset_menu(map);
 		map->offset_map_menu.x += MINIMAP_OFFSET / 2 + data->menu[i].pos.x;
@@ -72,7 +72,7 @@ void	set_minimap_animation(t_data *data)
 	if (++i == 0)
 		data->start_animation = get_timestamp();
 	sleep_until(i * FRAME + data->start_animation);
-	while (++k < 4 && map)
+	while (++k < data->n_map && map)
 	{
 		offset.x = animation(map->start_offset_map.x, \
 			map->offset_map_menu.x, i);

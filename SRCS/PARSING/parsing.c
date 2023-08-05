@@ -23,12 +23,16 @@ void	parsing(t_data *data, int ac, char **av)
 
 	ac--;
 	av++;
+	data->map = NULL;
 	if (!ac)
 		exit_status = open_dir(data, NULL, TRUE);
 	else
 		exit_status = parse_arguments(data, ac, av);
 	if (exit_status == ERROR)
-		close_mlx(data, ERROR);
+	{
+		map_clear(&data->map);
+		exit(ERROR);
+	}
 }
 
 static t_exit	parse_arguments(t_data *data, int ac, char **av)

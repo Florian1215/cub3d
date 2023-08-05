@@ -20,8 +20,8 @@ enum e_keypress
 	KP_DOWN,
 	KP_LEFT,
 	KP_RIGHT,
-	KP_A,
-	KP_D,
+	KP_I,
+	KP_O,
 };
 
 # ifdef __linux__
@@ -32,12 +32,16 @@ enum e_keycode
 	RIGHT_CLICK = 3,
 	SCROLL_IN = 4,
 	SCROLL_OUT = 5,
+	COMMA = 44,
+	DOT = 46,
 	C = 99,
 	Q = 113,
 	A = 97,
 	W = 119,
 	S = 115,
 	D = 100,
+	I = 105,
+	O = 111,
 	ESQ = 65307,
 	TAB = 65289,
 	SPACE = 32,

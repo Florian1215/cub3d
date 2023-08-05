@@ -17,14 +17,15 @@ int				determine_wall_type(t_data *data, t_dco p1);
 
 void	draw_fov(t_data	*data, t_ico offset)
 {
+	const int	fovs[3] = {70, 90, 110};
 	double		angle;
 	int			i;
 	t_collision	collision;
 
 	i = 0;
-	angle = degre_to_radian(data->map->degre - (FOV / 2));
-	while (angle <= degre_to_radian(data->map->degre + (FOV / 2)) \
- && i < data->distances.size)
+	angle = degre_to_radian(data->map->degre - (fovs[data->fov - 4] / 2));
+	while (angle <= degre_to_radian(data->map->degre + (fovs[data->fov - 4] \
+		/ 2)) && i < data->distances.size)
 	{
 		collision = draw_fov_line(data, data->map->pos, get_minimap_fov(data, \
 		angle, offset), angle - degre_to_radian(data->map->degre), offset);

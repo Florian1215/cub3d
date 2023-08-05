@@ -12,6 +12,17 @@
 
 #include "cub3d.h"
 
+static void	change_n_map(t_data *data, int n);
+
+void	launch_map(t_data *data, t_pos p)
+{
+	if (p >= data->n_map)
+		return ;
+	change_n_map(data, p);
+	data->launch_animation = TRUE;
+	data->in_menu = FALSE;
+}
+
 void	change_map(t_data *data)
 {
 	t_map	*tmp;
@@ -24,7 +35,7 @@ void	change_map(t_data *data)
 	map_last(data->map)->next = tmp;
 }
 
-void	change_n_map(t_data *data, int n)
+static void	change_n_map(t_data *data, int n)
 {
 	t_map	*tmp;
 	t_map	*prev;

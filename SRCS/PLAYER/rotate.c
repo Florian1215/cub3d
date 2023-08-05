@@ -21,11 +21,11 @@ void	update_direction(t_map *map)
 
 void	rotate_player(t_data *data)
 {
-	if (data->key_arrow_press[KP_A] || data->key_arrow_press[KP_D])
+	if (data->key_arrow_press[KP_I] || data->key_arrow_press[KP_O])
 	{
-		if (data->key_arrow_press[KP_A])
+		if (data->key_arrow_press[KP_I])
 			data->map->degre -= PLAYER_ROTATE;
-		if (data->key_arrow_press[KP_D])
+		if (data->key_arrow_press[KP_O])
 			data->map->degre += PLAYER_ROTATE;
 		if (data->map->degre < 0)
 			data->map->degre += 360;

@@ -62,12 +62,12 @@ static void	str_format(char c, va_list	args)
 
 static void	put_char(int c)
 {
-	write(STDERR, &c, 1);
+	write(STDERR_FILENO, &c, 1);
 }
 
 static void	put_str(char *s)
 {
 	if (s == NULL)
 		s = "(null)";
-	write(STDERR, s, str_len(s));
+	write(STDERR_FILENO, s, str_len(s));
 }

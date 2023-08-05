@@ -6,7 +6,7 @@
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 18:59:55 by fguirama          #+#    #+#             */
-/*   Updated: 2023/06/03 15:48:57 by mfinette         ###   ########.fr       */
+/*   Updated: 2023/06/03 15:48:57 by mfinette         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,23 +73,34 @@ struct	s_distances
 	int		size;
 };
 
+int			map_size(t_map *m);
 void		map_clear(t_map **map);
 int			get_map_coordinates(t_data *data, double co, double move);
 void		print_minimap(t_data *data, t_map *map, t_ico offset);
 
 // DRAW -----------------------------------------
+struct s_draw
+{
+	t_img	*img;
+	int		color;
+	int		radius;
+};
+
 int			animation(double a, double b, int i);
 void		render(t_data *data);
-void		draw_square(t_img *img, t_ico co, int size, int color);
+void		draw_alpha(t_img *img, t_img *alpha, t_ico pos);
+
+void		draw_square(t_draw d, t_ico co, int size);
+void		draw_round_square(t_draw d, t_ico co, int size);
+void		draw_rectangle(t_draw d, t_ico co, t_ico size);
+void		draw_round_rectangle(t_draw d, t_ico co, t_ico size);
+void		draw_circle(t_draw d, t_ico co);
+void		draw_qcircle(t_draw d, t_ico co, int q);
+
 void		draw_line(t_data *data, t_dco p1, t_dco p2, int color);
+void		draw_fov(t_data	*data, t_ico offset);
 t_collision	draw_fov_line(t_data *data, t_dco p1, t_dco p2, double angle, \
 				t_ico offset);
-void		draw_rectangle(t_img *img, t_ico co, t_ico size, int color);
-void		draw_circle(t_img *img, t_ico co, int radius, int color);
-void		draw_round_square(t_img *img, t_ico co, int size, int radius, \
-				int color);
-void		draw_qcircle(t_img *img, t_ico co, int radius, int q, int color);
-void		draw_fov(t_data	*data, t_ico offset);
 
 // PLAYER ---------------------------------------
 void		set_player_position(t_map *map, int k, int i);
@@ -121,6 +132,8 @@ enum e_pos
 	FOV_70,
 	FOV_90,
 	FOV_110,
+	FOV_TITLE,
+	FOV_BG,
 	LOGO,
 };
 
@@ -168,14 +181,21 @@ struct s_data
 	t_bool		in_menu;
 	t_bool		launch_animation;
 	t_bool		menu_animation;
-	t_map		*map;
+	t_bool		fov_animation;
 	t_bool		key_arrow_press[KEYPRESS];
+	t_bool		mouse_press;
+	int			mouse_cursor;
+	t_map		*map;
+	int			n_map;
 	void		*mlx_ptr;
 	void		*win_ptr;
-	void		*logo;
+	t_pos		fov;
+	t_pos		prev_fov;
+	t_img		fovs[4];
 	t_img		img;
-	t_distances	distances;
+	t_img		logo;
 	t_time		start_animation;
+	t_distances	distances;
 };
 
 void		init_data(t_data *data);

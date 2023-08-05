@@ -12,35 +12,40 @@
 
 #include "cub3d.h"
 
-t_pos	select_map(t_data *data, t_ico click);
-void	change_n_map(t_data *data, int n);
+static void	mouse_event_menu(t_data *data, t_ico co, int button);
+t_pos		select_binds(t_data *data, t_ico click);
+void		launch_map(t_data *data, t_pos n);
 
 int	mouse_event_press(int button, int x, int y, t_data *data)
 {
-	t_pos	click;
-
-	if (button == LEFT_CLICK && data->in_menu)
+	if (data->in_menu)
+		mouse_event_menu(data, (t_ico){x, y}, button);
+	else
 	{
-		click = select_map(data, (t_ico){x, y});
-		if (click != POS_ERROR)
+		if (button == LEFT_CLICK)
 		{
-			change_n_map(data, click);
-			data->launch_animation = TRUE;
-			data->in_menu = FALSE;
+			if (x < MINIMAP_SIZE + MINIMAP_OFFSET \
+				&& y < MINIMAP_SIZE + MINIMAP_OFFSET)
+				handle_menu(data);
+			else
+			{
+				data->mouse_press = TRUE;
+				data->mouse_cursor = x;
+			}
 		}
 	}
-	else if (button == LEFT_CLICK && !data->in_menu && x < MINIMAP_SIZE + \
-		MINIMAP_OFFSET && y < MINIMAP_SIZE + MINIMAP_OFFSET)
-		handle_menu(data);
 	return (SUCCESS);
 }
 
 int	mouse_event_release(int button, int x, int y, t_data *data)
 {
-	(void)button;
-	(void)x;
 	(void)y;
 	(void)data;
+	if (!data->in_menu && button == LEFT_CLICK)
+	{
+		data->mouse_press = FALSE;
+		data->mouse_cursor = x;
+	}
 	return (SUCCESS);
 }
 
@@ -50,12 +55,37 @@ int	mouse_event_motion(int x, int y, t_data *data)
 
 	if (data->in_menu)
 	{
-		hover = select_map(data, (t_ico){x, y});
+		hover = select_binds(data, (t_ico){x, y});
 		if (hover != data->hover)
 		{
 			data->hover_animation = TRUE;
 			data->hover = hover;
 		}
 	}
+	else if (data->mouse_press)
+	{
+		data->map->degre += ((x - data->mouse_cursor) / 4) * -1;
+		update_direction(data->map);
+		data->mouse_cursor = x;
+	}
 	return (SUCCESS);
+}
+
+static void	mouse_event_menu(t_data *data, t_ico co, int button)
+{
+	t_pos		click;
+
+	if (button == LEFT_CLICK)
+	{
+		click = select_binds(data, co);
+		if (click >= POS_1 && click <= POS_4)
+			launch_map(data, click);
+		else if (!data->fov_animation && click >= FOV_70 \
+			&& click <= FOV_110 && data->fov != click)
+		{
+			data->prev_fov = data->fov;
+			data->fov = click;
+			data->fov_animation = TRUE;
+		}
+	}
 }

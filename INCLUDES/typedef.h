@@ -21,6 +21,7 @@ typedef struct s_dco			t_dco;
 typedef struct s_map			t_map;
 typedef struct s_list			t_list;
 typedef struct s_menu			t_menu;
+typedef struct s_draw			t_draw;
 typedef struct s_collision		t_collision;
 typedef struct s_distances		t_distances;
 typedef enum e_pos				t_pos;

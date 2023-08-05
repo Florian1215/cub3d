@@ -6,7 +6,7 @@
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 17:30:22 by mfinette          #+#    #+#             */
-/*   Updated: 2023/05/20 16:10:23 by mfinette         ###   ########.fr       */
+/*   Updated: 2023/05/20 16:10:23 by mfinette         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ void	print_minimap(t_data *data, t_map *map, t_ico offset)
 		{
 			if (map->m[i.x][i.y] != NOTHING)
 			{
-				draw_square(&data->img, (t_ico){offset.x + i.y * map \
-				->square_size, offset.y + i.x * map->square_size}, \
-				map->square_size, colors[map->m[i.x][i.y]].color);
+				draw_square((t_draw){&data->img, colors[map->m[i.x][i.y]].color \
+				, 0}, (t_ico){offset.x + i.y * map->square_size, offset.y + \
+				i.x * map->square_size}, map->square_size);
 			}
 			i.y++;
 		}

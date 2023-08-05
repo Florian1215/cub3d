@@ -28,13 +28,6 @@ struct s_ico
 	int	y;
 };
 
-enum e_fd
-{
-	STDIN,
-	STDOUT,
-	STDERR,
-};
-
 enum e_exit
 {
 	SUCCESS,
@@ -105,13 +98,15 @@ struct	s_img
 	void	*img;
 	char	*addr;
 	int		bits_per_pixel;
+	int		bit_ratio;
 	int		line_length;
 	int		endian;
+	int		width;
+	int		height;
 };
 
 void		mlx_pixel_put_img(t_img *img, int x, int y, int color);
 void		set_hook(t_data *data);
-int			close_mlx_success(t_data *data);
-void		close_mlx(t_data *data, t_exit exit_status);
+int			close_mlx(t_data *data);
 
 #endif

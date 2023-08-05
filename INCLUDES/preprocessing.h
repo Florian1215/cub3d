@@ -49,13 +49,14 @@
 # define MINIMAP_OFFSET			20
 
 # define FOV_RANGE				800
-# define FOV					90
 # define DEFINITION				0.05
 # define NUMBER					1
 # define FRAME					20
 # define PLAYER_ROTATE			1
 # define KEYPRESS				6
-# define BINDS					8
+# define BINDS					10
+# define FOV_PADX				6
+# define FOV_RADIUS				12
 
 // ERROR ----------------------------------------
 # define ERR_MALLOC				"Out of memory"
@@ -74,7 +75,11 @@
 
 // PATH -----------------------------------------
 # define PATH_MAP_DIR			"./MAPS"
-# define PATH_LOGO				"./SRCS/logo.xpm"
+# define PATH_LOGO				"./ASSET/logo.xpm"
+# define PATH_70				"./ASSET/70.xpm"
+# define PATH_90				"./ASSET/90.xpm"
+# define PATH_110				"./ASSET/110.xpm"
+# define PATH_FOV				"./ASSET/FOV.xpm"
 
 // COLOR ----------------------------------------
 # define BG_MENU				0x7EAA92

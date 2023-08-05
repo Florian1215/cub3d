@@ -62,3 +62,16 @@ void	map_clear(t_map **map)
 		*map = tmp;
 	}
 }
+
+int	map_size(t_map *m)
+{
+	int	i;
+
+	i = 0;
+	while (m)
+	{
+		m = m->next;
+		i++;
+	}
+	return (i);
+}
