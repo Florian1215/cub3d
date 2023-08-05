@@ -13,27 +13,21 @@
 #include "cub3d.h"
 
 static t_ico	get_minimap_offset_menu(t_map *map);
-static t_ico	get_start_minimap_offset_menu(t_data *data, t_map *map, int i);
+static t_ico	get_start_minimap_offset_menu(t_map *map, int i);
 
 void	compute_map_offset(t_data *data)
 {
-	int			i;
-	const int	size = MINIMAP_SIZE + MINIMAP_OFFSET;
-	t_map		*map;
-	t_ico		offset_square;
+	t_map	*map;
+	t_pos	i;
 
-	i = 0;
+	i = POS_1;
 	map = data->map;
 	while (i < 4 && map)
 	{
-		offset_square.x = (i % 2) * (MINIMAP_OFFSET * 2 + size);
-		offset_square.y = (i > 1) * (MINIMAP_OFFSET * 2 + size);
 		map->offset_map_menu = get_minimap_offset_menu(map);
-		map->offset_map_menu.x += MINIMAP_OFFSET + MINIMAP_OFFSET / 2 + \
-			offset_square.x;
-		map->offset_map_menu.y += MINIMAP_OFFSET + MINIMAP_OFFSET / 2 + \
-			offset_square.y;
-		map->start_offset_map = get_start_minimap_offset_menu(data, map, i);
+		map->offset_map_menu.x += MINIMAP_OFFSET / 2 + data->menu[i].pos.x;
+		map->offset_map_menu.y += MINIMAP_OFFSET / 2 + data->menu[i].pos.y;
+		map->start_offset_map = get_start_minimap_offset_menu(map, i);
 		map = map->next;
 		i++;
 	}
@@ -55,10 +49,10 @@ static t_ico	get_minimap_offset_menu(t_map *map)
 	return (offset);
 }
 
-static t_ico	get_start_minimap_offset_menu(t_data *data, t_map *map, int i)
+static t_ico	get_start_minimap_offset_menu(t_map *map, int i)
 {
 	if (i == 0)
-		return (data->offset_minimap);
+		return ((t_ico){MINIMAP_OFFSET, MINIMAP_OFFSET});
 	else if (i == 1)
 		return ((t_ico){map->offset_map_menu.x, map->offset_map_menu.y - \
 			MINIMAP_SIZE});
@@ -68,17 +62,17 @@ static t_ico	get_start_minimap_offset_menu(t_data *data, t_map *map, int i)
 
 void	set_minimap_animation(t_data *data)
 {
-	static int		i = 0;
-	int				k;
+	static int		i = -1;
+	t_pos			k;
 	t_ico			offset;
 	t_map			*map;
 
-	k = 0;
+	k = -1;
 	map = data->map;
-	if (i == 0)
+	if (++i == 0)
 		data->start_animation = get_timestamp();
 	sleep_until(i * FRAME + data->start_animation);
-	while (k < 4 && map)
+	while (++k < 4 && map)
 	{
 		offset.x = animation(map->start_offset_map.x, \
 			map->offset_map_menu.x, i);
@@ -87,12 +81,10 @@ void	set_minimap_animation(t_data *data)
 		print_minimap(data, map, offset);
 		print_player(data, map, offset);
 		map = map->next;
-		k++;
 	}
-	i++;
-	if (i == 29)
+	if (i == 28)
 	{
-		i = 0;
-		data->is_menu_animation = FALSE;
+		i = -1;
+		data->menu_animation = FALSE;
 	}
 }

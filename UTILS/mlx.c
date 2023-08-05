@@ -32,6 +32,7 @@ void	close_mlx(t_data *data, t_exit exit_status)
 	free(data->distances.distance);
 	free(data->distances.angle);
 	free(data->distances.face);
+	mlx_destroy_image(data->mlx_ptr, data->logo);
 	mlx_clear_window(data->mlx_ptr, data->win_ptr);
 	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 	exit(exit_status);

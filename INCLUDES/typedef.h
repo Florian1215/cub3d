@@ -15,13 +15,15 @@
 
 // TYPEDEF --------------------------------------
 typedef struct s_data			t_data;
-typedef struct s_list			t_list;
 typedef struct s_img			t_img;
 typedef struct s_ico			t_ico;
 typedef struct s_dco			t_dco;
-typedef struct s_collision		t_collision;
 typedef struct s_map			t_map;
+typedef struct s_list			t_list;
+typedef struct s_menu			t_menu;
+typedef struct s_collision		t_collision;
 typedef struct s_distances		t_distances;
+typedef enum e_pos				t_pos;
 typedef enum e_case				t_case;
 typedef enum e_file				t_file;
 typedef enum e_bool				t_bool;

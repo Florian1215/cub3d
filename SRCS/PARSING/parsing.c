@@ -42,8 +42,7 @@ static t_exit	parse_arguments(t_data *data, int ac, char **av)
 		av++;
 	}
 	if (!data->map)
-		return (error_msg(ac > 1, "None of the maps passed as " \
-			"arguments are valid"));
+		return (error_msg(ac > 1, ERR_VALID_ARG_MAP));
 	return (SUCCESS);
 }
 
@@ -52,17 +51,16 @@ t_exit	parse_file(t_data *data, char *filename, t_bool is_error_msg)
 	t_map			*map;
 	t_exit			exit_status;
 
-	if (!str_end_with(filename, ".cub"))
-		return (error_msg(is_error_msg, "Map: %s: file does not match " \
-			"extension .cub", filename));
+	if (!str_end_with(filename, EXT))
+		return (error_msg(is_error_msg, ERR_EXT, filename, EXT));
 	map = map_new();
 	if (!map)
-		return (error_msg(is_error_msg, MALLOC_ERROR_MSG));
+		return (error_msg(is_error_msg, ERR_MALLOC));
 	map->is_error_msg = is_error_msg;
 	map->fd = open(filename, O_RDONLY);
 	if (map->fd == -1)
-		return (error_msg(is_error_msg, "Map: %s: %s", \
-			filename, strerror(errno)));
+		return (error_msg(is_error_msg, ERR_OPEN_MAP, filename, \
+			strerror(errno)));
 	exit_status = read_file(map);
 	close(map->fd);
 	if (exit_status == SUCCESS && parse_map(map) == SUCCESS)
@@ -85,7 +83,7 @@ static t_exit	read_file(t_map *map)
 	}
 	if (map->state == MAP)
 		return (SUCCESS);
-	return (error_msg(map->is_error_msg, "Map: Miss information"));
+	return (error_msg(map->is_error_msg, ERR_MAP_MISS_INFO));
 }
 
 static t_exit	parse_line(t_map *map, char *line)

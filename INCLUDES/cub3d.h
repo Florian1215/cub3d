@@ -111,6 +111,25 @@ void		sleep_until(t_time until);
 void		raycasting(t_data *data);
 
 // MENU -----------------------------------------
+enum e_pos
+{
+	POS_ERROR = -1,
+	POS_1,
+	POS_2,
+	POS_3,
+	POS_4,
+	FOV_70,
+	FOV_90,
+	FOV_110,
+	LOGO,
+};
+
+struct	s_menu
+{
+	t_ico	pos;
+	t_ico	size;
+};
+
 void		set_menu(t_data *data);
 void		handle_menu(t_data *data);
 
@@ -143,15 +162,18 @@ struct s_map
 
 struct s_data
 {
-	t_bool		is_menu;
-	t_bool		is_launch_animation;
-	t_bool		is_menu_animation;
+	t_menu		menu[BINDS];
+	t_pos		hover;
+	t_bool		hover_animation;
+	t_bool		in_menu;
+	t_bool		launch_animation;
+	t_bool		menu_animation;
 	t_map		*map;
 	t_bool		key_arrow_press[KEYPRESS];
 	void		*mlx_ptr;
 	void		*win_ptr;
+	void		*logo;
 	t_img		img;
-	t_ico		offset_minimap;
 	t_distances	distances;
 	t_time		start_animation;
 };

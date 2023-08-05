@@ -12,29 +12,53 @@
 
 #include "cub3d.h"
 
+static void	init_menu(t_data *data);
 static void	init_distance(t_data *data);
 
 void	init_data(t_data *data)
 {
+	int	tmp;
 	int	i;
 
-	data->is_menu = FALSE;
-	data->is_menu_animation = FALSE;
-	data->is_launch_animation = FALSE;
-	data->is_menu = FALSE;
+	data->hover_animation = FALSE;
+	data->hover = POS_ERROR;
+	data->in_menu = FALSE;
+	data->menu_animation = FALSE;
+	data->launch_animation = FALSE;
+	data->in_menu = FALSE;
 	data->map = NULL;
 	data->mlx_ptr = mlx_init();
 	data->win_ptr = mlx_new_window(data->mlx_ptr, \
-		WIN_WIDTH, WIN_HEIGHT, "cub3d");
+		WIN_WIDTH, WIN_HEIGHT, TITLE);
 	data->img.img = mlx_new_image(data->mlx_ptr, \
 		WIN_WIDTH, WIN_HEIGHT);
 	data->img.addr = mlx_get_data_addr(data->img.img, \
 		&data->img.bits_per_pixel, &data->img.line_length, &data->img.endian);
+	data->logo = mlx_xpm_file_to_image(data->mlx_ptr, PATH_LOGO, \
+		&tmp, &tmp);
 	i = 0;
 	while (i < KEYPRESS)
 		data->key_arrow_press[i++] = FALSE;
-	data->offset_minimap = (t_ico){MINIMAP_OFFSET, MINIMAP_OFFSET};
+	init_menu(data);
 	init_distance(data);
+}
+
+static void	init_menu(t_data *data)
+{
+	const int	size = MINIMAP_SIZE + MINIMAP_OFFSET;
+	const int	offset = (WIN_HEIGHT - (size * 2)) / 3;
+	t_pos		i;
+
+	i = POS_1;
+	while (i < BINDS - 2) // TODO SET ALL
+	{
+		data->menu[i].pos.x = ((i % 2) * (size + offset)) + offset;
+		data->menu[i].pos.y = ((i > 1) * (size + offset)) + offset;
+		data->menu[i].size = (t_ico){size, size};
+		i++;
+	}
+	data->menu[LOGO].pos.x = (size + offset) * 2 + offset + 5;
+	data->menu[LOGO].pos.y = 110;
 }
 
 static void	init_distance(t_data *data)

@@ -14,23 +14,24 @@
 
 void	print_minimap(t_data *data, t_map *map, t_ico offset)
 {
-	const t_color	colors[2] = {{0xFFE79B}, {0xFF0060}};
-	int				x;
-	int				y;
+	const t_color	colors[2] = {{FLOOR_COLOR}, {WALL_COLOR}};
+	t_ico			i;
 
-	x = 0;
-	while (x < map->height)
+	i.x = 0;
+	while (i.x < map->height)
 	{
-		y = 0;
-		while (y < map->width)
+		i.y = 0;
+		while (i.y < map->width)
 		{
-			if (map->m[x][y] != NOTHING)
-				draw_square(&data->img, (t_ico){offset.x + y * map \
-				->square_size, offset.y + x * map->square_size}, \
-				map->square_size, colors[map->m[x][y]].color);
-			y++;
+			if (map->m[i.x][i.y] != NOTHING)
+			{
+				draw_square(&data->img, (t_ico){offset.x + i.y * map \
+				->square_size, offset.y + i.x * map->square_size}, \
+				map->square_size, colors[map->m[i.x][i.y]].color);
+			}
+			i.y++;
 		}
-		x++;
+		i.x++;
 	}
 }
 
@@ -42,17 +43,17 @@ t_ico	get_minimap_offset(t_data *data)
 	if (i == 29)
 	{
 		i = 0;
-		data->is_launch_animation = FALSE;
+		data->launch_animation = FALSE;
 	}
 	if (i == 0)
 		data->start_animation = get_timestamp();
 	sleep_until(i * FRAME + data->start_animation);
-	if (!data->is_launch_animation)
-		return (data->offset_minimap);
+	if (!data->launch_animation)
+		return ((t_ico){MINIMAP_OFFSET, MINIMAP_OFFSET});
 	offset.x = animation(data->map->offset_map_menu.x, \
-		data->offset_minimap.x, i);
+		MINIMAP_OFFSET, i);
 	offset.y = animation(data->map->offset_map_menu.y, \
-		data->offset_minimap.y, i);
+		MINIMAP_OFFSET, i);
 	i++;
 	return (offset);
 }

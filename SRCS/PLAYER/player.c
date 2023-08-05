@@ -23,7 +23,7 @@ void	set_player_position(t_map *map, int k, int i)
 
 void	print_player(t_data *data, t_map *map, t_ico offset)
 {
-	const t_color	color = {0x4C4C6D};
+	const t_color	color = {PLAYER_COLOR};
 
 	draw_square(&data->img, (t_ico){offset.x + map->pos.x, \
 		offset.y + map->pos.y}, map->hitbox, color.color);

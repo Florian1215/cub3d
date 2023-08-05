@@ -16,20 +16,18 @@ static void	read_dir(t_data *data, DIR *dir_open, char *directory);
 
 t_exit	open_dir(t_data *data, char *directory, t_bool is_print)
 {
-	const char		*default_directory = "./MAPS";
+	const char		*default_directory = PATH_MAP_DIR;
 	DIR				*dir_open;
 
 	if (!directory)
 		directory = (char *)default_directory;
 	dir_open = opendir(directory);
 	if (!dir_open)
-		return (error_msg(is_print, "cannot open directory '%s': %s", \
-			directory, strerror(errno)));
+		return (error_msg(is_print, ERR_OPEN_DIR, directory, strerror(errno)));
 	read_dir(data, dir_open, directory);
 	closedir(dir_open);
 	if (!data->map)
-		return (error_msg(is_print, "no valid minimap in '%s' " \
-				"directory", directory));
+		return (error_msg(is_print, ERR_VALID_MAP, directory));
 	return (SUCCESS);
 }
 
