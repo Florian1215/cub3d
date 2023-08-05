@@ -45,7 +45,8 @@ void	set_menu(t_data *data)
 		set_minimap(data);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img, 0, 0);
 	if (data->logo.img)
-		draw_alpha(&data->img, &data->logo, data->menu[LOGO].pos);
+		mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->logo.img, \
+			data->menu[LOGO].pos.x, data->menu[LOGO].pos.y);
 	if (data->hover_animation)
 		data->hover_animation = FALSE;
 }
