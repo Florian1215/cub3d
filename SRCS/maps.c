@@ -14,6 +14,31 @@
 
 static void	change_n_map(t_data *data, int n);
 
+t_exit	init_map(t_map *map)
+{
+	int	k;
+
+	map->height = lst_size(map->lst);
+	map->m = malloc(sizeof(t_map *) * map->height);
+	if (!map->m)
+		return (ERROR_MALLOC);
+	map->width = lst_max_len(map->lst);
+	k = 0;
+	map->square_size = MINIMAP_SIZE / fmax(map->height, map->width);
+	map->hitbox = map->square_size / 2;
+	map->hhitbox = map->hitbox / 2;
+	map->qhitbox = map->hhitbox / 2;
+	map->move_speed = 0.5f * map->hitbox / 15;
+	while (k < map->height)
+	{
+		map->m[k] = malloc(sizeof(t_map) * map->width);
+		if (!map->m[k])
+			return (free_n_split((void **)map->m, k - 1), ERROR_MALLOC);
+		k++;
+	}
+	return (SUCCESS);
+}
+
 void	launch_map(t_data *data, t_pos p)
 {
 	if (p >= data->n_map)

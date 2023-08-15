@@ -81,11 +81,18 @@ static void	mouse_event_menu(t_data *data, t_ico co, int button)
 		if (click >= POS_1 && click <= POS_4)
 			launch_map(data, click);
 		else if (!data->fov_animation && click >= FOV_70 \
-			&& click <= FOV_110 && data->fov != click)
+					&& click <= FOV_110 && data->fov != click)
 		{
 			data->prev_fov = data->fov;
 			data->fov = click;
 			data->fov_animation = TRUE;
+		}
+		else if (!data->lvl_animation && click >= LVL_EASY \
+					&& click <= LVL_HARD && data->lvl != click)
+		{
+			data->prev_lvl = data->lvl;
+			data->lvl = click;
+			data->lvl_animation = TRUE;
 		}
 	}
 }

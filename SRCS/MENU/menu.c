@@ -15,6 +15,7 @@
 void			compute_map_offset(t_data *data);
 static void		draw_rounded_squares(t_data *data);
 void			set_fov_option(t_data *data);
+void			set_lvl_option(t_data *data);
 void			set_minimap_animation(t_data *data);
 static void		set_minimap(t_data *data);
 
@@ -39,6 +40,7 @@ void	set_menu(t_data *data)
 		(t_ico){WIN_WIDTH - 1, WIN_HEIGHT - 1});
 	draw_rounded_squares(data);
 	set_fov_option(data);
+	set_lvl_option(data);
 	if (data->menu_animation)
 		set_minimap_animation(data);
 	else
@@ -53,7 +55,7 @@ void	set_menu(t_data *data)
 
 static void	draw_rounded_squares(t_data *data)
 {
-	const t_color	colors[2] = {{BG_MAP_MENU}, {BG_MAP_MENU_HOVER}};
+	const t_color	colors[2] = {{BG_ITEM_MENU}, {BG_ITEM_MENU_HOVER}};
 	t_pos			i;
 
 	i = POS_1;
@@ -87,7 +89,7 @@ t_pos	select_binds(t_data *data, t_ico click)
 	t_pos	i;
 
 	i = POS_1;
-	while (i < 7)
+	while (i <= LVL_HARD)
 	{
 		if (click.x >= data->menu[i].pos.x && \
 			click.x <= data->menu[i].pos.x + data->menu[i].size.x && \

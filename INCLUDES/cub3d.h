@@ -132,8 +132,13 @@ enum e_pos
 	FOV_70,
 	FOV_90,
 	FOV_110,
+	LVL_EASY,
+	LVL_NORMAL,
+	LVL_HARD,
 	FOV_TITLE,
+	LVL_TITLE,
 	FOV_BG,
+	LVL_BG,
 	LOGO,
 };
 
@@ -181,7 +186,6 @@ struct s_data
 	t_bool		in_menu;
 	t_bool		launch_animation;
 	t_bool		menu_animation;
-	t_bool		fov_animation;
 	t_bool		key_arrow_press[KEYPRESS];
 	t_bool		mouse_press;
 	int			mouse_cursor;
@@ -189,11 +193,18 @@ struct s_data
 	int			n_map;
 	void		*mlx_ptr;
 	void		*win_ptr;
+	t_bool		fov_animation;
+	t_bool		lvl_animation;
 	t_pos		fov;
 	t_pos		prev_fov;
 	t_img		fovs[4];
+	t_pos		lvl;
+	t_pos		prev_lvl;
+	t_img		lvls[4];
 	t_img		img;
 	t_img		logo;
+	t_ico		size_edit;
+	t_color		lvl_color[3];
 	t_time		start_animation;
 	t_distances	distances;
 };

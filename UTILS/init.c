@@ -12,16 +12,17 @@
 
 #include "cub3d.h"
 
+static void	init_imgs(t_data *data);
 static void	init_img(t_data *data, t_img *img, char *path);
 static void	init_menu(t_data *data);
 void		init_fov(t_data *data, int right_pan);
+void		init_lvl(t_data *data);
 static void	init_distance(t_data *data);
 
 void	init_data(t_data *data)
 {
 	int	i;
 
-	data->fov = FOV_90;
 	data->hover = POS_ERROR;
 	data->launch_animation = FALSE;
 	data->mouse_press = FALSE;
@@ -30,17 +31,26 @@ void	init_data(t_data *data)
 		data->n_map = 4;
 	data->mlx_ptr = mlx_init();
 	data->win_ptr = mlx_new_window(data->mlx_ptr, WIN_WIDTH, WIN_HEIGHT, TITLE);
+	init_imgs(data);
+	i = 0;
+	while (i < KEYPRESS)
+		data->key_arrow_press[i++] = FALSE;
+	init_menu(data);
+	init_distance(data);
+}
+
+static void	init_imgs(t_data *data)
+{
 	init_img(data, &data->img, NULL);
 	init_img(data, &data->logo, PATH_LOGO);
 	init_img(data, &data->fovs[0], PATH_70);
 	init_img(data, &data->fovs[1], PATH_90);
 	init_img(data, &data->fovs[2], PATH_110);
 	init_img(data, &data->fovs[3], PATH_FOV);
-	i = 0;
-	while (i < KEYPRESS)
-		data->key_arrow_press[i++] = FALSE;
-	init_menu(data);
-	init_distance(data);
+	init_img(data, &data->lvls[0], PATH_EASY);
+	init_img(data, &data->lvls[1], PATH_NORMAL);
+	init_img(data, &data->lvls[2], PATH_HARD);
+	init_img(data, &data->lvls[3], PATH_LVL);
 }
 
 static void	init_img(t_data *data, t_img *img, char *path)
@@ -62,9 +72,9 @@ static void	init_menu(t_data *data)
 	const int	right_pan = (size + offset) * 2 + offset + 5;
 	t_pos		i;
 
+	data->size_edit = (t_ico){100, 60};
 	data->in_menu = FALSE;
 	data->menu_animation = FALSE;
-	data->fov_animation = FALSE;
 	data->hover_animation = FALSE;
 	i = POS_1;
 	while (i < 4)
@@ -77,6 +87,7 @@ static void	init_menu(t_data *data)
 	data->menu[LOGO].pos.x = right_pan;
 	data->menu[LOGO].pos.y = 110;
 	init_fov(data, right_pan);
+	init_lvl(data);
 }
 
 static void	init_distance(t_data *data)
@@ -94,31 +105,4 @@ static void	init_distance(t_data *data)
 	data->distances.face = malloc(sizeof(int) * data->distances.size);
 	if (!data->distances.face)
 		exit(ERROR_MALLOC);
-}
-
-t_exit	init_map(t_map *map)
-{
-	int	k;
-
-	map->height = lst_size(map->lst);
-	map->m = malloc(sizeof(t_map *) * map->height);
-	if (!map->m)
-		return (ERROR_MALLOC);
-	map->width = lst_max_len(map->lst);
-	k = 0;
-	map->square_size = MINIMAP_SIZE / fmax(map->height, map->width);
-	map->hitbox = map->square_size / 2;
-	if (map->hitbox < 4)
-		map->hitbox = 4;
-	map->hhitbox = map->hitbox / 2;
-	map->qhitbox = map->hhitbox / 2;
-	map->move_speed = 0.5f * map->hitbox / 15;
-	while (k < map->height)
-	{
-		map->m[k] = malloc(sizeof(t_map) * map->width);
-		if (!map->m[k])
-			return (free_n_split((void **)map->m, k - 1), ERROR_MALLOC);
-		k++;
-	}
-	return (SUCCESS);
 }

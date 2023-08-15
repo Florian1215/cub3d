@@ -54,9 +54,11 @@
 # define FRAME					20
 # define PLAYER_ROTATE			1
 # define KEYPRESS				6
-# define BINDS					10
-# define FOV_PADX				6
-# define FOV_RADIUS				12
+# define BINDS					15
+# define MENU_PADX				6
+# define MENU_RADIUS			12
+# define PADX_LVL				19
+# define PADY_LVL				184
 
 // ERROR ----------------------------------------
 # define ERR_MALLOC				"Out of memory"
@@ -80,13 +82,21 @@
 # define PATH_90				"./ASSET/90.xpm"
 # define PATH_110				"./ASSET/110.xpm"
 # define PATH_FOV				"./ASSET/FOV.xpm"
+# define PATH_EASY				"./ASSET/easy.xpm"
+# define PATH_NORMAL			"./ASSET/normal.xpm"
+# define PATH_HARD				"./ASSET/hard.xpm"
+# define PATH_LVL				"./ASSET/LEVEL.xpm"
 
 // COLOR ----------------------------------------
 # define BG_MENU				0x7EAA92
-# define BG_MAP_MENU			0xC8E4B2
-# define BG_MAP_MENU_HOVER		0xFFF2CC
+# define BG_ITEM_MENU			0xC8E4B2
+# define BG_ITEM_MENU_HOVER		0xFFF2CC
 # define WALL_COLOR				0xFF0060
 # define FLOOR_COLOR			0xFFE79B
 # define PLAYER_COLOR			0x4C4C6D
+
+# define EASY_COLOR				0x91C8E4
+# define NORMAL_COLOR			BG_ITEM_MENU
+# define HARD_COLOR				0xE48586
 
 #endif

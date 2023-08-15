@@ -32,7 +32,8 @@ void	set_hook(t_data *data)
 
 static int	hook_loop(t_data *data)
 {
-	if (data->menu_animation || data->hover_animation || data->fov_animation)
+	if (data->menu_animation || data->hover_animation || \
+			data->fov_animation || data->lvl_animation)
 		set_menu(data);
 	if (!data->in_menu)
 		render(data);
