@@ -62,7 +62,7 @@ enum e_face
 {
 	VALID_POS = 0,
 	TOP_LEFT = 1,
-	TOP_RIGTH = 2,
+	TOP_RIGHT = 2,
 	TOP = 3,
 	BOT_LEFT = 4,
 	LEFT = 5,

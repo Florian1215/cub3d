@@ -49,14 +49,13 @@ int	key_event_release(int k, t_data *data)
 
 static t_keypress	get_keypress(int k)
 {
-	const int	d1[KEYPRESS] = {UP_KEY, DOWN_KEY, LEFT_KEY, RIGHT_KEY, I, O};
-	const int	d2[KEYPRESS] = {W, S, A, D, COMMA, DOT};
+	const int	dic[KEYPRESS] = {W, S, A, D, LEFT_KEY, RIGHT_KEY};
 	t_keypress	key;
 
 	key = KP_UP;
 	while (key < KEYPRESS)
 	{
-		if (d1[key] == k || d2[key] == k)
+		if (dic[key] == k)
 			return (key);
 		key++;
 	}

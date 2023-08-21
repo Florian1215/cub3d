@@ -22,7 +22,8 @@ t_dco	dco_mul(t_dco c, double f)
 	return ((t_dco){c.x * f, c.y * f});
 }
 
-t_dco	dco_div(t_dco c, double f)
+t_bool	is_valid_pos(t_map *map, t_dco p1, t_dco p2)
 {
-	return ((t_dco){c.x * f, c.y * f});
+	return (map->m[(int)((p1.y + p2.y) / map->square_size)] \
+		[(int)((p1.x + p2.x) / map->square_size)] == EMPTY_SPACE);
 }

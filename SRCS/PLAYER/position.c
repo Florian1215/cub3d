@@ -14,7 +14,9 @@
 
 static t_dco	dco_rotate(t_dco co, double t);
 static t_face	valid_pos(t_map *map, t_dco pos);
+t_bool			is_valid_pos(t_map *map, t_dco p1, t_dco p2);
 static t_bool	make_valid_pos(t_map *map, t_dco *pos);
+static t_face	get_face_pos(t_map *map, t_face vpos, t_dco pos);
 
 void	move_player(t_data *data)
 {
@@ -56,7 +58,7 @@ static t_dco	dco_rotate(t_dco co, double t)
 
 static t_face	valid_pos(t_map *map, t_dco pos)
 {
-	const t_face	faces[4] = {BOT_RIGHT, BOT_LEFT, TOP_RIGTH, TOP_LEFT};
+	const t_face	faces[4] = {BOT_RIGHT, BOT_LEFT, TOP_RIGHT, TOP_LEFT};
 	t_face			res;
 	t_dco			hitbox;
 	int				i;
@@ -67,8 +69,7 @@ static t_face	valid_pos(t_map *map, t_dco pos)
 	{
 		hitbox.x = map->hitbox * is_even(i);
 		hitbox.y = map->hitbox * (i < 2);
-		if (map->m[(int)((pos.y + hitbox.y) / map->square_size)] \
-				[(int)((pos.x + hitbox.x) / map->square_size)] != EMPTY_SPACE)
+		if (!is_valid_pos(map, pos, hitbox))
 			res |= faces[i];
 		i++;
 	}
@@ -80,6 +81,9 @@ static t_bool	make_valid_pos(t_map *map, t_dco *pos)
 	t_face	vpos;
 
 	vpos = valid_pos(map, *pos);
+	if (vpos == TOP_LEFT || vpos == TOP_RIGHT || \
+			vpos == BOT_LEFT || vpos == BOT_RIGHT)
+		vpos = get_face_pos(map, vpos, *pos);
 	if (vpos == TOP)
 		pos->y = ceil(pos->y);
 	else if (vpos == BOT)
@@ -89,4 +93,21 @@ static t_bool	make_valid_pos(t_map *map, t_dco *pos)
 	else if (vpos == RIGHT)
 		pos->x = (int)pos->x;
 	return (vpos == TOP || vpos == BOT || vpos == LEFT || vpos == RIGHT);
+}
+
+static t_face	get_face_pos(t_map *map, t_face vpos, t_dco pos)
+{
+	t_dco	hitbox;
+
+	hitbox.x = map->hitbox * (vpos == TOP_RIGHT || vpos == BOT_RIGHT);
+	hitbox.y = 2 + (map->hitbox - 4) * (vpos == BOT_LEFT || vpos == BOT_RIGHT);
+	if (is_valid_pos(map, pos, hitbox))
+	{
+		if (vpos & TOP)
+			return (TOP);
+		return (BOT);
+	}
+	if (vpos & LEFT)
+		return (LEFT);
+	return (RIGHT);
 }
