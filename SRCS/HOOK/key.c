@@ -14,7 +14,7 @@
 
 static t_keypress	get_keypress(int k);
 void				change_map(t_data *data);
-void				launch_map(t_data *data, t_pos n);
+void				launch_map(t_data *data, t_menus n);
 
 int	key_event_press(int k, t_data *data)
 {

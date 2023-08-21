@@ -13,8 +13,8 @@
 #include "cub3d.h"
 
 static void	mouse_event_menu(t_data *data, t_ico co, int button);
-t_pos		select_binds(t_data *data, t_ico click);
-void		launch_map(t_data *data, t_pos n);
+t_menus		select_binds(t_data *data, t_ico click);
+void		launch_map(t_data *data, t_menus n);
 
 int	mouse_event_press(int button, int x, int y, t_data *data)
 {
@@ -51,7 +51,7 @@ int	mouse_event_release(int button, int x, int y, t_data *data)
 
 int	mouse_event_motion(int x, int y, t_data *data)
 {
-	t_pos	hover;
+	t_menus	hover;
 
 	if (data->in_menu)
 	{
@@ -73,7 +73,7 @@ int	mouse_event_motion(int x, int y, t_data *data)
 
 static void	mouse_event_menu(t_data *data, t_ico co, int button)
 {
-	t_pos		click;
+	t_menus		click;
 
 	if (button == LEFT_CLICK)
 	{

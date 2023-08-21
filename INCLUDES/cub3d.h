@@ -58,7 +58,7 @@ enum e_case
 	VALID
 };
 
-enum e_face
+enum e_side
 {
 	VALID_POS = 0,
 	TOP_LEFT = 1,
@@ -136,7 +136,7 @@ void		sleep_until(t_time until);
 void		raycasting(t_data *data);
 
 // MENU -----------------------------------------
-enum e_pos
+enum e_menus
 {
 	POS_ERROR = -1,
 	POS_1,
@@ -195,7 +195,7 @@ struct s_map
 struct s_data
 {
 	t_menu		menu[BINDS];
-	t_pos		hover;
+	t_menus		hover;
 	t_bool		hover_animation;
 	t_bool		in_menu;
 	t_bool		launch_animation;
@@ -209,11 +209,11 @@ struct s_data
 	void		*win_ptr;
 	t_bool		fov_animation;
 	t_bool		lvl_animation;
-	t_pos		fov;
-	t_pos		prev_fov;
+	t_menus		fov;
+	t_menus		prev_fov;
 	t_img		fovs[4];
-	t_pos		lvl;
-	t_pos		prev_lvl;
+	t_menus		lvl;
+	t_menus		prev_lvl;
 	t_img		lvls[4];
 	t_img		img;
 	t_img		logo;

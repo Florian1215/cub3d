@@ -39,7 +39,7 @@ t_exit	init_map(t_map *map)
 	return (SUCCESS);
 }
 
-void	launch_map(t_data *data, t_pos p)
+void	launch_map(t_data *data, t_menus p)
 {
 	if (p >= data->n_map)
 		return ;

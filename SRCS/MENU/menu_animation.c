@@ -18,7 +18,7 @@ static t_ico	get_start_minimap_offset_menu(t_map *map, int i);
 void	compute_map_offset(t_data *data)
 {
 	t_map	*map;
-	t_pos	i;
+	t_menus	i;
 
 	i = POS_1;
 	map = data->map;
@@ -63,7 +63,7 @@ static t_ico	get_start_minimap_offset_menu(t_map *map, int i)
 void	set_minimap_animation(t_data *data)
 {
 	static int		i = -1;
-	t_pos			k;
+	t_menus			k;
 	t_ico			offset;
 	t_map			*map;
 

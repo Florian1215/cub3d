@@ -18,7 +18,7 @@ static void	set_text_lvl(t_data *data);
 
 void	init_lvl(t_data *data)
 {
-	t_pos		i;
+	t_menus		i;
 
 	data->lvl = LVL_NORMAL;
 	i = LVL_EASY;
@@ -89,7 +89,7 @@ static void	set_edit_animation(t_data *data, int *i)
 
 static void	set_text_lvl(t_data *data)
 {
-	t_pos	i;
+	t_menus	i;
 	t_img	*f;
 	t_ico	p;
 	t_ico	s;

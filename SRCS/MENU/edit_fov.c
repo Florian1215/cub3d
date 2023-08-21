@@ -17,7 +17,7 @@ static void	set_text_fov(t_data *data);
 
 void	init_fov(t_data *data, int right_pan)
 {
-	t_pos		i;
+	t_menus		i;
 
 	data->fov = FOV_90;
 	i = FOV_70;
@@ -79,7 +79,7 @@ static void	set_fov_animation(t_data *data)
 
 static void	set_text_fov(t_data *data)
 {
-	t_pos	i;
+	t_menus	i;
 	t_img	*f;
 	t_ico	p;
 	t_ico	s;

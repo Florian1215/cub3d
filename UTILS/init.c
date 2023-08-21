@@ -70,7 +70,7 @@ static void	init_menu(t_data *data)
 	const int	size = MINIMAP_SIZE + MINIMAP_OFFSET;
 	const int	offset = (WIN_HEIGHT - (size * 2)) / 3;
 	const int	right_pan = (size + offset) * 2 + offset + 5;
-	t_pos		i;
+	t_menus		i;
 
 	data->size_edit = (t_ico){100, 60};
 	data->in_menu = FALSE;

@@ -56,7 +56,7 @@ void	set_menu(t_data *data)
 static void	draw_rounded_squares(t_data *data)
 {
 	const t_color	colors[2] = {{BG_ITEM_MENU}, {BG_ITEM_MENU_HOVER}};
-	t_pos			i;
+	t_menus			i;
 
 	i = POS_1;
 	while (i < data->n_map)
@@ -69,7 +69,7 @@ static void	draw_rounded_squares(t_data *data)
 
 static void	set_minimap(t_data *data)
 {
-	t_pos	i;
+	t_menus	i;
 	t_map	*map;
 
 	compute_map_offset(data);
@@ -84,9 +84,9 @@ static void	set_minimap(t_data *data)
 	}
 }
 
-t_pos	select_binds(t_data *data, t_ico click)
+t_menus	select_binds(t_data *data, t_ico click)
 {
-	t_pos	i;
+	t_menus	i;
 
 	i = POS_1;
 	while (i <= LVL_HARD)

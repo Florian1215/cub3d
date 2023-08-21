@@ -13,10 +13,10 @@
 #include "cub3d.h"
 
 static t_dco	dco_rotate(t_dco co, double t);
-static t_face	valid_pos(t_map *map, t_dco pos);
+static t_side	valid_pos(t_map *map, t_dco pos);
 t_bool			is_valid_pos(t_map *map, t_dco p1, t_dco p2);
 static t_bool	make_valid_pos(t_map *map, t_dco *pos);
-static t_face	get_face_pos(t_map *map, t_face vpos, t_dco pos);
+static t_side	get_face_pos(t_map *map, t_side vpos, t_dco pos);
 
 void	move_player(t_data *data)
 {
@@ -56,10 +56,10 @@ static t_dco	dco_rotate(t_dco co, double t)
 		m[1][0] * co.x + m[1][1] * co.y});
 }
 
-static t_face	valid_pos(t_map *map, t_dco pos)
+static t_side	valid_pos(t_map *map, t_dco pos)
 {
-	const t_face	faces[4] = {BOT_RIGHT, BOT_LEFT, TOP_RIGHT, TOP_LEFT};
-	t_face			res;
+	const t_side	faces[4] = {BOT_RIGHT, BOT_LEFT, TOP_RIGHT, TOP_LEFT};
+	t_side			res;
 	t_dco			hitbox;
 	int				i;
 
@@ -78,7 +78,7 @@ static t_face	valid_pos(t_map *map, t_dco pos)
 
 static t_bool	make_valid_pos(t_map *map, t_dco *pos)
 {
-	t_face	vpos;
+	t_side	vpos;
 
 	vpos = valid_pos(map, *pos);
 	if (vpos == TOP_LEFT || vpos == TOP_RIGHT || \
@@ -95,7 +95,7 @@ static t_bool	make_valid_pos(t_map *map, t_dco *pos)
 	return (vpos == TOP || vpos == BOT || vpos == LEFT || vpos == RIGHT);
 }
 
-static t_face	get_face_pos(t_map *map, t_face vpos, t_dco pos)
+static t_side	get_face_pos(t_map *map, t_side vpos, t_dco pos)
 {
 	t_dco	hitbox;
 
