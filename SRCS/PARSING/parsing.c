@@ -85,7 +85,7 @@ static t_exit	read_file(t_map *map)
 		if (parse_line(map, line) >= ERROR)
 			return (get_next_line(-1), lst_clear(&map->lst), ERROR);
 	}
-	if (map->state == MAP)
+	if (map->state == PARSING_MAP)
 		return (SUCCESS);
 	return (error_msg(map->is_error_msg, ERR_MAP_MISS_INFO));
 }
@@ -94,11 +94,11 @@ static t_exit	parse_line(t_map *map, char *line)
 {
 	t_exit	exit_status;
 
-	if (map->state != MAP && !*line)
+	if (map->state != PARSING_MAP && !*line)
 		return (free(line), SUCCESS);
-	if (map->state == MAP_NEWLINE)
+	if (map->state == PARSING_MAP_NEWLINE)
 		++map->state;
-	if (map->state == MAP)
+	if (map->state == PARSING_MAP)
 		exit_status = lst_new(&map->lst, line);
 	else
 	{

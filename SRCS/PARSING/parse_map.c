@@ -73,9 +73,11 @@ static t_exit	parse_line_map(t_map *map, char *line, int k)
 static t_case	get_char(t_map *map, char c)
 {
 	if (c == '0')
-		return (EMPTY_SPACE);
+		return (FLOOR);
 	else if (c == '1')
 		return (WALL);
+	else if (c == '2')
+		return (DOOR_CLOSE);
 	else if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
 	{
 		if (map->degre != NO_PLAYER)
@@ -104,18 +106,21 @@ static t_exit	check_close_map(t_map *map, t_ico p)
 	if (map->m[p.y][p.x + 1] == WALL && map->m[p.y + 1][p.x] \
 		== WALL && map->m[p.y + 1][p.x + 1] != WALL)
 		return (ERROR);
-	map->m[p.y][p.x] = VALID;
-	if (map->m[p.y][p.x + 1] == EMPTY_SPACE \
-		&& check_close_map(map, (t_ico){p.x + 1, p.y}) == ERROR)
+	if (map->m[p.y][p.x] == FLOOR)
+		map->m[p.y][p.x] = CHECK_FLOOR;
+	else
+		map->m[p.y][p.x] = CHECK_DOOR;
+	if ((map->m[p.y][p.x + 1] == FLOOR || map->m[p.y][p.x + 1] == DOOR_CLOSE) \
+			&& check_close_map(map, (t_ico){p.x + 1, p.y}) == ERROR)
 		return (ERROR);
-	if (map->m[p.y][p.x - 1] == EMPTY_SPACE \
-		&& check_close_map(map, (t_ico){p.x - 1, p.y}) == ERROR)
+	if ((map->m[p.y][p.x - 1] == FLOOR || map->m[p.y][p.x - 1] == DOOR_CLOSE) \
+			&& check_close_map(map, (t_ico){p.x - 1, p.y}) == ERROR)
 		return (ERROR);
-	if (map->m[p.y + 1][p.x] == EMPTY_SPACE \
-		&& check_close_map(map, (t_ico){p.x, p.y + 1}) == ERROR)
+	if ((map->m[p.y + 1][p.x] == FLOOR || map->m[p.y + 1][p.x] == DOOR_CLOSE) \
+			&& check_close_map(map, (t_ico){p.x, p.y + 1}) == ERROR)
 		return (ERROR);
-	if (map->m[p.y - 1][p.x] == EMPTY_SPACE \
-		&& check_close_map(map, (t_ico){p.x, p.y - 1}) == ERROR)
+	if ((map->m[p.y - 1][p.x] == FLOOR || map->m[p.y - 1][p.x] == DOOR_CLOSE) \
+			&& check_close_map(map, (t_ico){p.x, p.y - 1}) == ERROR)
 		return (ERROR);
 	return (SUCCESS);
 }
@@ -130,8 +135,10 @@ static void	clean_map(t_map *map)
 		i.x = 0;
 		while (i.x < map->width)
 		{
-			if (map->m[i.y][i.x] == VALID)
-				map->m[i.y][i.x] = EMPTY_SPACE;
+			if (map->m[i.y][i.x] == CHECK_FLOOR)
+				map->m[i.y][i.x] = FLOOR;
+			else if (map->m[i.y][i.x] == CHECK_DOOR)
+				map->m[i.y][i.x] = DOOR_CLOSE;
 			i.x++;
 		}
 		i.y++;

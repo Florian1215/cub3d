@@ -14,7 +14,7 @@
 
 void	set_player_position(t_map *map, int k, int i)
 {
-	map->m[k][i] = EMPTY_SPACE;
+	map->m[k][i] = FLOOR;
 	map->start_pos.x = i;
 	map->start_pos.y = k;
 	map->pos.x = (i * map->square_size) + map->qhitbox;

@@ -26,7 +26,7 @@ t_map	*map_new(void)
 	new->texture_path[WEST] = NULL;
 	new->texture_path[EAST] = NULL;
 	new->lst = NULL;
-	new->state = NO;
+	new->state = PARSING_NO;
 	new->next = NULL;
 	return (new);
 }

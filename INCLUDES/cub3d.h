@@ -18,14 +18,14 @@
 // PARSING --------------------------------------
 enum e_parsing_state
 {
-	NO,
-	SO,
-	WE,
-	EA,
-	FLOOR,
-	CEILING,
-	MAP_NEWLINE,
-	MAP
+	PARSING_NO,
+	PARSING_SO,
+	PARSING_WE,
+	PARSING_EA,
+	PARSING_FLOOR,
+	PARSING_CEILING,
+	PARSING_MAP_NEWLINE,
+	PARSING_MAP
 };
 
 enum e_cardinal
@@ -51,11 +51,14 @@ enum e_case
 {
 	INVALID_PLAYER = -2,
 	INVALID_CHAR = -1,
-	EMPTY_SPACE,
+	FLOOR,
 	WALL,
+	DOOR_OPEN,
+	DOOR_CLOSE,
 	NOTHING,
 	PLAYER,
-	VALID
+	CHECK_FLOOR,
+	CHECK_DOOR,
 };
 
 enum e_side

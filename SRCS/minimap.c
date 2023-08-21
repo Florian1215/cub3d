@@ -14,8 +14,8 @@
 
 void	print_minimap(t_data *data, t_map *map, t_ico offset)
 {
-	const t_color	colors[2] = {{FLOOR_COLOR}, {WALL_COLOR}};
-	t_ico			i;
+	const int	colors[4] = {FLOOR_COLOR, WALL_COLOR, DOOR_OPEN_COLOR, DOOR_CLOSE_COLOR};
+	t_ico		i;
 
 	i.x = 0;
 	while (i.x < map->height)
@@ -25,7 +25,7 @@ void	print_minimap(t_data *data, t_map *map, t_ico offset)
 		{
 			if (map->m[i.x][i.y] != NOTHING)
 			{
-				draw_square((t_draw){&data->img, colors[map->m[i.x][i.y]].color \
+				draw_square((t_draw){&data->img, colors[map->m[i.x][i.y]] \
 				, 0}, (t_ico){offset.x + i.y * map->square_size, offset.y + \
 				i.x * map->square_size}, map->square_size);
 			}

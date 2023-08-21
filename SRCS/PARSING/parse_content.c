@@ -22,13 +22,13 @@ t_exit	parse_content(t_map *map, char *line)
 	value = str_str(line, (char *)identifiers[map->state]);
 	if (!value)
 		return (error_msg(map->is_error_msg, ERR_MAP_ID, line));
-	if (map->state <= EA)
+	if (map->state <= PARSING_EA)
 	{
 		map->texture_path[map->state] = str_dup(value);
 		if (!map->texture_path[map->state])
 			return (error_msg(map->is_error_msg, ERR_MALLOC));
 	}
-	else if (map->state == FLOOR || map->state == CEILING)
+	else if (map->state == PARSING_FLOOR || map->state == PARSING_CEILING)
 		return (parse_color(map, value));
 	return (SUCCESS);
 }
@@ -42,9 +42,9 @@ static t_exit	parse_color(t_map *map, char *line)
 		return (error_msg(map->is_error_msg, ERR_MALLOC));
 	if (get_tab_size(tab) != 3)
 		return (error_msg(map->is_error_msg, ERR_NB_ARGS));
-	map->color[map->state - FLOOR].rgb.r = atoi_(tab[0]);
-	map->color[map->state - FLOOR].rgb.g = atoi_(tab[1]);
-	map->color[map->state - FLOOR].rgb.b = atoi_(tab[2]);
+	map->color[map->state - PARSING_FLOOR].rgb.r = atoi_(tab[0]);
+	map->color[map->state - PARSING_FLOOR].rgb.g = atoi_(tab[1]);
+	map->color[map->state - PARSING_FLOOR].rgb.b = atoi_(tab[2]);
 	free_split(tab);
 	return (SUCCESS);
 }
