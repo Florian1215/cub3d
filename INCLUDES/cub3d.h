@@ -58,6 +58,19 @@ enum e_case
 	VALID
 };
 
+enum e_face
+{
+	VALID_POS = 0,
+	TOP_LEFT = 1,
+	TOP_RIGTH = 2,
+	TOP = 3,
+	BOT_LEFT = 4,
+	LEFT = 5,
+	BOT_RIGHT = 8,
+	RIGHT = 10,
+	BOT = 12,
+};
+
 struct	s_collision
 {
 	t_dco	wall;
@@ -115,6 +128,7 @@ t_bool		is_even(int n);
 double		distance_between_points(t_dco p1, t_dco p2);
 t_dco		dco_add(t_dco co1, t_dco co2);
 t_dco		dco_mul(t_dco c, double f);
+t_dco		dco_div(t_dco c, double f);
 t_time		get_timestamp(void);
 void		sleep_until(t_time until);
 

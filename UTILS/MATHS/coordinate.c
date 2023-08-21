@@ -21,3 +21,8 @@ t_dco	dco_mul(t_dco c, double f)
 {
 	return ((t_dco){c.x * f, c.y * f});
 }
+
+t_dco	dco_div(t_dco c, double f)
+{
+	return ((t_dco){c.x * f, c.y * f});
+}

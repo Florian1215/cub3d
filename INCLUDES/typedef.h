@@ -27,6 +27,7 @@ typedef struct s_distances		t_distances;
 typedef enum e_pos				t_pos;
 typedef enum e_case				t_case;
 typedef enum e_file				t_file;
+typedef enum e_face				t_face;
 typedef enum e_bool				t_bool;
 typedef enum e_exit				t_exit;
 typedef enum e_keypress			t_keypress;

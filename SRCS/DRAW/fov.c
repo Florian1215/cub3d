@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fov.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fguirama <fguirama@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 22:23:00 by fguirama          #+#    #+#             */
-/*   Updated: 2023/08/19 20:38:28 by mfinette         ###   ########.fr       */
+/*   Updated: 2023/05/22 22:23:00 by fguirama         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static t_dco	get_minimap_fov(t_data *data, double angle, t_ico offset)
 double	calculate_distance(t_data *data, t_dco p1, t_dco p2, double angle)
 {
 	double	distance;
-	
+
 	(void)data;
 	// angle += degre_to_radian(45);
 	distance = distance_between_points(p1, p2);

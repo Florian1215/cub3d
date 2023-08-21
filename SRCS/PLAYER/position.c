@@ -13,7 +13,8 @@
 #include "cub3d.h"
 
 static t_dco	dco_rotate(t_dco co, double t);
-static t_bool	is_valid_pos(t_map *map, t_dco pos);
+static t_face	valid_pos(t_map *map, t_dco pos);
+static t_bool	make_valid_pos(t_map *map, t_dco *pos);
 
 void	move_player(t_data *data)
 {
@@ -33,29 +34,12 @@ void	move_player(t_data *data)
 				direction = dco_rotate(data->map->direction, ts[k]);
 			new_pos = dco_add(data->map->pos, \
 				dco_mul(direction, data->map->move_speed));
-			if (is_valid_pos(data->map, new_pos))
+			if (valid_pos(data->map, new_pos) == VALID_POS || \
+					make_valid_pos(data->map, &new_pos))
 				data->map->pos = new_pos;
 		}
 		k++;
 	}
-}
-
-static t_bool	is_valid_pos(t_map *map, t_dco pos)
-{
-	t_dco	hitbox;
-	int		i;
-
-	i = 0;
-	while (i < 4)
-	{
-		hitbox.x = map->hitbox * is_even(i);
-		hitbox.y = map->hitbox * (i < 2);
-		if (map->m[(int)((pos.y + hitbox.y) / map->square_size)] \
-				[(int)((pos.x + hitbox.x) / map->square_size)] != EMPTY_SPACE)
-			return (FALSE);
-		i++;
-	}
-	return (TRUE);
 }
 
 static t_dco	dco_rotate(t_dco co, double t)
@@ -68,4 +52,41 @@ static t_dco	dco_rotate(t_dco co, double t)
 	m[1][1] = cosf(t);
 	return ((t_dco){m[0][0] * co.x + m[0][1] * co.y, \
 		m[1][0] * co.x + m[1][1] * co.y});
+}
+
+static t_face	valid_pos(t_map *map, t_dco pos)
+{
+	const t_face	faces[4] = {BOT_RIGHT, BOT_LEFT, TOP_RIGTH, TOP_LEFT};
+	t_face			res;
+	t_dco			hitbox;
+	int				i;
+
+	i = 0;
+	res = VALID_POS;
+	while (i < 4)
+	{
+		hitbox.x = map->hitbox * is_even(i);
+		hitbox.y = map->hitbox * (i < 2);
+		if (map->m[(int)((pos.y + hitbox.y) / map->square_size)] \
+				[(int)((pos.x + hitbox.x) / map->square_size)] != EMPTY_SPACE)
+			res |= faces[i];
+		i++;
+	}
+	return (res);
+}
+
+static t_bool	make_valid_pos(t_map *map, t_dco *pos)
+{
+	t_face	vpos;
+
+	vpos = valid_pos(map, *pos);
+	if (vpos == TOP)
+		pos->y = ceil(pos->y);
+	else if (vpos == BOT)
+		pos->y = (int)pos->y;
+	else if (vpos == LEFT)
+		pos->x = ceil(pos->x);
+	else if (vpos == RIGHT)
+		pos->x = (int)pos->x;
+	return (vpos == TOP || vpos == BOT || vpos == LEFT || vpos == RIGHT);
 }
