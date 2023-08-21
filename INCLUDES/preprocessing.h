@@ -95,8 +95,8 @@
 # define FLOOR_COLOR			0xFFE79B
 # define PLAYER_COLOR			0x4C4C6D
 
-# define EASY_COLOR				0x91C8E4
-# define NORMAL_COLOR			BG_ITEM_MENU
+# define EASY_COLOR				0xFAE392
+# define NORMAL_COLOR			0xF0B86E
 # define HARD_COLOR				0xE48586
 
 #endif
