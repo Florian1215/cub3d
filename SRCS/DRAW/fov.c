@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fov.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fguirama <fguirama@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 22:23:00 by fguirama          #+#    #+#             */
-/*   Updated: 2023/05/22 22:23:00 by fguirama         ###   ########lyon.fr   */
+/*   Updated: 2023/08/29 13:46:10 by mfinette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void	draw_fov(t_data	*data, t_ico offset)
 
 	i = 0;
 	angle = degre_to_radian(data->map->degre - (fovs[data->fov - 4] / 2));
-	printf("angle = %f\n", radian_to_degre(angle - degre_to_radian(data->map->degre)));
-	printf("map angle = %f\n", data->map->degre);
-	printf("adjusted angle = %f\n\n", angle - degre_to_radian(data->map->degre) + degre_to_radian(45));
+	// printf("angle = %f\n", radian_to_degre(angle - degre_to_radian(data->map->degre)));
+	// printf("map angle = %f\n", data->map->degre);
+	// printf("adjusted angle = %f\n\n", angle - degre_to_radian(data->map->degre) + degre_to_radian(45));
 	while (angle <= degre_to_radian(data->map->degre + (fovs[data->fov - 4] \
 		/ 2)) && i < data->distances.size)
 	{
