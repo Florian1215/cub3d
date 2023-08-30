@@ -21,10 +21,6 @@ t_map	*map_new(void)
 		return (NULL);
 	new->degre = NO_PLAYER;
 	new->m = NULL;
-	new->texture_path[NORTH] = NULL;
-	new->texture_path[SOUTH] = NULL;
-	new->texture_path[WEST] = NULL;
-	new->texture_path[EAST] = NULL;
 	new->lst = NULL;
 	new->state = PARSING_NO;
 	new->next = NULL;
@@ -54,10 +50,6 @@ void	map_clear(t_map **map)
 	{
 		tmp = (*map)->next;
 		free_n_split((void **)(*map)->m, (*map)->height - 1);
-		free((*map)->texture_path[NORTH]);
-		free((*map)->texture_path[SOUTH]);
-		free((*map)->texture_path[WEST]);
-		free((*map)->texture_path[EAST]);
 		free(*map);
 		*map = tmp;
 	}

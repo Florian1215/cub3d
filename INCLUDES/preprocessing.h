@@ -103,8 +103,8 @@
 # define HARD_COLOR				0xE48586
 
 // MATHS ----------------------------------------
-# define PI						3.1415926
-# define PI2					(PI / 2)
-# define PI3					(3 * M_PI / 2)
+# define PI						3.14159265
+# define PI2					1.57079633
+# define PI3					4.71238897
 
 #endif

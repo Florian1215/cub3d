@@ -13,11 +13,9 @@
 #include "cub3d.h"
 
 static void	init_imgs(t_data *data);
-static void	init_img(t_data *data, t_img *img, char *path);
 static void	init_menu(t_data *data);
 void		init_fov(t_data *data, int right_pan);
 void		init_lvl(t_data *data);
-static void	init_distance(t_data *data);
 
 void	init_data(t_data *data)
 {
@@ -36,30 +34,31 @@ void	init_data(t_data *data)
 	while (i < KEYPRESS)
 		data->key_arrow_press[i++] = FALSE;
 	init_menu(data);
-	init_distance(data);
 }
 
 static void	init_imgs(t_data *data)
 {
-	init_img(data, &data->img, NULL);
-	init_img(data, &data->logo, PATH_LOGO);
-	init_img(data, &data->fovs[0], PATH_70);
-	init_img(data, &data->fovs[1], PATH_90);
-	init_img(data, &data->fovs[2], PATH_110);
-	init_img(data, &data->fovs[3], PATH_FOV);
-	init_img(data, &data->lvls[0], PATH_EASY);
-	init_img(data, &data->lvls[1], PATH_NORMAL);
-	init_img(data, &data->lvls[2], PATH_HARD);
-	init_img(data, &data->lvls[3], PATH_LVL);
+	init_img(&data->img, NULL, data->mlx_ptr);
+	init_img(&data->logo, PATH_LOGO, data->mlx_ptr);
+	init_img(&data->fovs[0], PATH_70, data->mlx_ptr);
+	init_img(&data->fovs[1], PATH_90, data->mlx_ptr);
+	init_img(&data->fovs[2], PATH_110, data->mlx_ptr);
+	init_img(&data->fovs[3], PATH_FOV, data->mlx_ptr);
+	init_img(&data->lvls[0], PATH_EASY, data->mlx_ptr);
+	init_img(&data->lvls[1], PATH_NORMAL, data->mlx_ptr);
+	init_img(&data->lvls[2], PATH_HARD, data->mlx_ptr);
+	init_img(&data->lvls[3], PATH_LVL, data->mlx_ptr);
 }
 
-static void	init_img(t_data *data, t_img *img, char *path)
+void	init_img(t_img *img, char *path, void *mlx_ptr)
 {
 	if (path)
-		img->img = mlx_xpm_file_to_image(data->mlx_ptr, path, \
+		img->img = mlx_xpm_file_to_image(mlx_ptr, path, \
 			&img->width, &img->height);
 	else
-		img->img = mlx_new_image(data->mlx_ptr, WIN_WIDTH, WIN_HEIGHT);
+		img->img = mlx_new_image(mlx_ptr, WIN_WIDTH, WIN_HEIGHT);
+	if (!img->img)
+		return ;
 	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, \
 		&img->line_length, &img->endian);
 	img->bit_ratio = img->bits_per_pixel / 8;
@@ -88,21 +87,4 @@ static void	init_menu(t_data *data)
 	data->menu[LOGO].pos.y = 110;
 	init_fov(data, right_pan);
 	init_lvl(data);
-}
-
-static void	init_distance(t_data *data)
-{
-	data->distances.distance = NULL;
-	data->distances.angle = NULL;
-	data->distances.face = NULL;
-	data->distances.size = (int)(90 / DEFINITION);
-	data->distances.distance = malloc(sizeof(double) * data->distances.size);
-	if (!data->distances.distance)
-		exit(ERROR_MALLOC);
-	data->distances.angle = malloc(sizeof(double) * data->distances.size);
-	if (!data->distances.angle)
-		exit(ERROR_MALLOC);
-	data->distances.face = malloc(sizeof(int) * data->distances.size);
-	if (!data->distances.face)
-		exit(ERROR_MALLOC);
 }

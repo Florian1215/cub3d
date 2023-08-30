@@ -14,8 +14,10 @@
 
 t_exit			open_dir(t_data *data, char *directory, t_bool is_print);
 static t_exit	parse_arguments(t_data *data, int ac, char **av);
-static t_exit	read_file(t_map *map);
-static t_exit	parse_line(t_map *map, char *line);
+t_exit			parse_map(t_map *map);
+static t_exit	read_file(t_map *map, void *mlx_ptr);
+static t_exit	parse_line(t_map *map, char *line, void *mlx_ptr);
+t_exit			parse_content(t_map *map, char *line, void *mlx_ptr);
 
 void	parsing(t_data *data, int ac, char **av)
 {
@@ -65,7 +67,7 @@ t_exit	parse_file(t_data *data, char *filename, t_bool is_error_msg)
 	if (map->fd == -1)
 		return (error_msg(is_error_msg, ERR_OPEN_MAP, filename, \
 			strerror(errno)));
-	exit_status = read_file(map);
+	exit_status = read_file(map, data->mlx_ptr);
 	close(map->fd);
 	if (exit_status == SUCCESS && parse_map(map) == SUCCESS)
 		return (map_add_back(&data->map, map), SUCCESS);
@@ -73,7 +75,7 @@ t_exit	parse_file(t_data *data, char *filename, t_bool is_error_msg)
 	return (ERROR);
 }
 
-static t_exit	read_file(t_map *map)
+static t_exit	read_file(t_map *map, void *mlx_ptr)
 {
 	char			*line;
 
@@ -82,7 +84,7 @@ static t_exit	read_file(t_map *map)
 		line = get_next_line(map->fd);
 		if (!line)
 			break ;
-		if (parse_line(map, line) >= ERROR)
+		if (parse_line(map, line, mlx_ptr) >= ERROR)
 			return (get_next_line(-1), lst_clear(&map->lst), ERROR);
 	}
 	if (map->state == PARSING_MAP)
@@ -90,7 +92,7 @@ static t_exit	read_file(t_map *map)
 	return (error_msg(map->is_error_msg, ERR_MAP_MISS_INFO));
 }
 
-static t_exit	parse_line(t_map *map, char *line)
+static t_exit	parse_line(t_map *map, char *line, void *mlx_ptr)
 {
 	t_exit	exit_status;
 
@@ -102,7 +104,7 @@ static t_exit	parse_line(t_map *map, char *line)
 		exit_status = lst_new(&map->lst, line);
 	else
 	{
-		exit_status = parse_content(map, line);
+		exit_status = parse_content(map, line, mlx_ptr);
 		free(line);
 		++map->state;
 	}

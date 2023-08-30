@@ -43,8 +43,6 @@ t_exit		parse_file(t_data *data, char *filename, t_bool is_error_msg);
 t_map		*map_new(void);
 t_map		*map_last(t_map *m);
 void		map_add_back(t_map **start, t_map *new);
-t_exit		parse_map(t_map *map);
-t_exit		parse_content(t_map *map, char *line);
 
 // MAP ------------------------------------------
 enum e_case
@@ -72,21 +70,6 @@ enum e_side
 	BOT_RIGHT = 8,
 	RIGHT = 10,
 	BOT = 12,
-};
-
-struct	s_collision
-{
-	t_dco	wall;
-	double	distance;
-	int		side;
-};
-
-struct	s_distances
-{
-	double	*distance;
-	int		*face;
-	double	*angle;
-	int		size;
 };
 
 int			map_size(t_map *m);
@@ -117,8 +100,6 @@ void		draw_qcircle(t_draw d, t_ico co, int q);
 
 void		draw_line(t_data *data, t_dco p1, t_dco p2, int color);
 void		draw_fov(t_data	*data, t_ico offset);
-t_collision	draw_fov_line(t_data *data, t_dco p1, t_dco p2, double angle, \
-				t_ico offset);
 
 // PLAYER ---------------------------------------
 void		set_player_position(t_map *map, int k, int i);
@@ -144,6 +125,7 @@ struct s_raycatsing
 	double	distance;
 	t_dco	co;
 	t_dco	step;
+	t_dco	line;
 };
 
 void		raycasting(t_data *data);
@@ -179,6 +161,13 @@ void		set_menu(t_data *data);
 void		handle_menu(t_data *data);
 
 // DATA -----------------------------------------
+struct s_texture
+{
+	t_bool	is_texture;
+	t_img	img;
+	int		color;
+};
+
 struct s_map
 {
 	t_case			**m;
@@ -194,8 +183,9 @@ struct s_map
 	double			qhitbox;
 	double			square_size;
 	double			move_speed;
-	char			*texture_path[4];
-	t_color			color[2];
+	int				line_size;
+	t_texture		t[4];
+	int				color[2];
 	t_bool			is_error_msg;
 	int				fd;
 	t_list			*lst;
@@ -225,6 +215,7 @@ struct s_data
 	t_menus		fov;
 	t_menus		prev_fov;
 	t_img		fovs[4];
+	t_dco		fov_line[WIN_WIDTH];
 	t_menus		lvl;
 	t_menus		prev_lvl;
 	t_img		lvls[4];
@@ -233,9 +224,9 @@ struct s_data
 	t_ico		size_edit;
 	t_color		lvl_color[3];
 	t_time		start_animation;
-	t_distances	distances;
 };
 
 void		init_data(t_data *data);
+void		init_img(t_img *img, char *path, void *mlx_ptr);
 
 #endif

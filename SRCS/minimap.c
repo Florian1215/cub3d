@@ -14,7 +14,8 @@
 
 void	print_minimap(t_data *data, t_map *map, t_ico offset)
 {
-	const int	colors[4] = {FLOOR_COLOR, WALL_COLOR, DOOR_OPEN_COLOR, DOOR_CLOSE_COLOR};
+	const int	colors[4] = {FLOOR_COLOR, WALL_COLOR, DOOR_OPEN_COLOR, \
+								DOOR_CLOSE_COLOR};
 	t_ico		i;
 
 	i.x = 0;

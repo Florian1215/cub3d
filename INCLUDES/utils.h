@@ -65,7 +65,6 @@ char		*str_str(char *s1, char *s2);
 int			str_len(char *str);
 char		*str_join(char *s1, char *s2);
 t_bool		str_end_with(char *s1, char *s2);
-char		*str_dup(char *s);
 
 // LST ------------------------------------------
 struct s_list
@@ -89,7 +88,7 @@ struct s_rgb
 
 union u_color
 {
-	int				color;
+	unsigned int	color;
 	struct s_rgb	rgb;
 };
 

@@ -23,7 +23,7 @@ void	print_background(t_data *data)
 		while (i.y < WIN_HEIGHT)
 		{
 			mlx_pixel_put_img(&data->img, i.x, i.y, \
-				data->map->color[i.y > WIN_HEIGHT / 2].color);
+				data->map->color[i.y > WIN_HEIGHT / 2]);
 			i.y++;
 		}
 		i.x++;

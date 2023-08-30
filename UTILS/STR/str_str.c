@@ -26,7 +26,7 @@ char	*str_str(char *s1, char *s2)
 		while (s1[i + j] == s2[j] && s1[i + j])
 			j++;
 		if (!s2[j])
-			return (s1 + i);
+			return (s1 + i + j);
 		i++;
 	}
 	return (NULL);

@@ -12,9 +12,11 @@
 
 #include "cub3d.h"
 
+void			load_texture(t_texture *t, char *filename, void *mlx_ptr, \
+					t_parsing_state state);
 static t_exit	parse_color(t_map *map, char *line);
 
-t_exit	parse_content(t_map *map, char *line)
+t_exit	parse_content(t_map *map, char *line, void *mlx_ptr)
 {
 	char const	*identifiers[6] = {"NO ", "SO ", "WE ", "EA ", "F ", "C "};
 	char		*value;
@@ -23,11 +25,7 @@ t_exit	parse_content(t_map *map, char *line)
 	if (!value)
 		return (error_msg(map->is_error_msg, ERR_MAP_ID, line));
 	if (map->state <= PARSING_EA)
-	{
-		map->texture_path[map->state] = str_dup(value);
-		if (!map->texture_path[map->state])
-			return (error_msg(map->is_error_msg, ERR_MALLOC));
-	}
+		load_texture(map->t + map->state, value, mlx_ptr, map->state);
 	else if (map->state == PARSING_FLOOR || map->state == PARSING_CEILING)
 		return (parse_color(map, value));
 	return (SUCCESS);
@@ -42,9 +40,9 @@ static t_exit	parse_color(t_map *map, char *line)
 		return (error_msg(map->is_error_msg, ERR_MALLOC));
 	if (get_tab_size(tab) != 3)
 		return (error_msg(map->is_error_msg, ERR_NB_ARGS));
-	map->color[map->state - PARSING_FLOOR].rgb.r = atoi_(tab[0]);
-	map->color[map->state - PARSING_FLOOR].rgb.g = atoi_(tab[1]);
-	map->color[map->state - PARSING_FLOOR].rgb.b = atoi_(tab[2]);
+	map->color[map->state - PARSING_FLOOR] = atoi_(tab[0]) << 16;
+	map->color[map->state - PARSING_FLOOR] += atoi_(tab[1]) << 8;
+	map->color[map->state - PARSING_FLOOR] += atoi_(tab[2]);
 	free_split(tab);
 	return (SUCCESS);
 }
