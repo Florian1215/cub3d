@@ -96,9 +96,15 @@
 # define DOOR_OPEN_COLOR		0xB9B4C7
 # define DOOR_CLOSE_COLOR		0x5C5470
 # define PLAYER_COLOR			0x4C4C6D
+# define FOV_COLOR				0x5C8984
 
 # define EASY_COLOR				0xFAE392
 # define NORMAL_COLOR			0xF0B86E
 # define HARD_COLOR				0xE48586
+
+// MATHS ----------------------------------------
+# define PI						3.1415926
+# define PI2					(PI / 2)
+# define PI3					(3 * M_PI / 2)
 
 #endif

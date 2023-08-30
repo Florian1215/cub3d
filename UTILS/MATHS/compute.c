@@ -24,12 +24,12 @@ double	distance_between_points(t_dco p1, t_dco p2)
 
 double	degre_to_radian(double angle)
 {
-	return (angle * (M_PI / 180));
+	return (angle * (PI / 180));
 }
 
 double	radian_to_degre(double radian)
 {
-	return (radian * 180 / M_PI);
+	return (radian * 180 / PI);
 }
 
 t_bool	is_even(int n)

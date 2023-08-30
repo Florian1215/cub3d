@@ -28,7 +28,7 @@ enum e_parsing_state
 	PARSING_MAP
 };
 
-enum e_cardinal
+enum e_wall
 {
 	NO_PLAYER = -1,
 	NORTH,
@@ -93,6 +93,8 @@ int			map_size(t_map *m);
 void		map_clear(t_map **map);
 int			get_map_coordinates(t_data *data, double co, double move);
 void		print_minimap(t_data *data, t_map *map, t_ico offset);
+t_bool		is_valid_pos(t_map *map, t_dco p1, t_dco p2);
+t_bool		is_wall_or_close_door(t_map *map, t_dco p1);
 
 // DRAW -----------------------------------------
 struct s_draw
@@ -131,11 +133,18 @@ t_bool		is_even(int n);
 double		distance_between_points(t_dco p1, t_dco p2);
 t_dco		dco_add(t_dco co1, t_dco co2);
 t_dco		dco_mul(t_dco c, double f);
-t_dco		dco_div(t_dco c, double f);
 t_time		get_timestamp(void);
 void		sleep_until(t_time until);
 
 // RAYCASTING -----------------------------------
+struct s_raycatsing
+{
+	t_wall	wall;
+	double	distance;
+	t_dco	co;
+	t_dco	step;
+};
+
 void		raycasting(t_data *data);
 
 // MENU -----------------------------------------

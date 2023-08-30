@@ -14,13 +14,12 @@
 
 static t_dco	dco_rotate(t_dco co, double t);
 static t_side	valid_pos(t_map *map, t_dco pos);
-t_bool			is_valid_pos(t_map *map, t_dco p1, t_dco p2);
 static t_bool	make_valid_pos(t_map *map, t_dco *pos);
 static t_side	get_face_pos(t_map *map, t_side vpos, t_dco pos);
 
 void	move_player(t_data *data)
 {
-	const double	ts[4] = {0, M_PI, -M_PI_2, M_PI_2};
+	const double	ts[4] = {0, PI, -PI2, PI2};
 	t_dco			new_pos;
 	t_dco			direction;
 	t_keypress		k;
