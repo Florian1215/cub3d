@@ -14,11 +14,12 @@
 
 #define FOV		90
 
-static void		draw_raycasting(t_data *data, t_dco pos, double angle, int i);
-static void		check_horizontal(t_data *data, t_raycatsing *r, t_dco pos, double angle);
-static void		check_vertical(t_data *data, t_raycatsing *r, t_dco pos, double angle);
-static void		loop_until_hit_wall(t_map *map, t_raycatsing *r);
-static double	fix_angle(double a);
+static void	draw_raycasting(t_data *data, t_dco pos, double angle, int i);
+static void	check_horizontal(t_data *data, t_raycatsing *r, t_dco pos, \
+				double angle);
+static void	check_vertical(t_data *data, t_raycatsing *r, t_dco pos, \
+				double angle);
+static void	loop_until_hit_wall(t_map *map, t_raycatsing *r);
 
 void	raycasting(t_data *data)
 {
@@ -27,14 +28,14 @@ void	raycasting(t_data *data)
 	double			angle;
 
 
-	angle = fix_angle(data->map->degre - FOV / 2);
+	angle = rotate_degre(data->map->degre - FOV / 2);
 	pos.x = (data->map->pos.x + data->map->hhitbox) / data->map->square_size;
 	pos.y = (data->map->pos.y + data->map->hhitbox) / data->map->square_size;
 	i = 0;
 	while (i < WIN_WIDTH)
 	{
 		draw_raycasting(data, pos, angle, i);
-		angle = fix_angle(angle + ((double)FOV / WIN_WIDTH));
+		angle = rotate_degre(angle + ((double)FOV / WIN_WIDTH));
 		i++;
 	}
 }
@@ -51,7 +52,6 @@ static void	draw_raycasting(t_data *data, t_dco pos, double angle, int i)
 	check_horizontal(data, r, pos, degre_to_radian(angle));
 	check_vertical(data, r + 1, pos, degre_to_radian(angle));
 	m = (r[0].distance > r[1].distance);
-	printf("VERTICAL %f | %f - %f | %f - %f\n", r[1].distance, pos.x, pos.y, r[1].co.x, r[1].co.y);
 	r[m].distance *= cos(data->map->radian - degre_to_radian(angle));
 	line_size = WIN_HEIGHT - data->map->hhitbox; // CONST
 	line_height = line_size / r[m].distance;
@@ -66,7 +66,8 @@ static void	draw_raycasting(t_data *data, t_dco pos, double angle, int i)
 	draw_line(data, (t_dco){i, line_y}, (t_dco){i, line_height + line_y}, colors[r[m].wall]);
 }
 
-static void	check_horizontal(t_data *data, t_raycatsing *r, t_dco pos, double angle)
+static void	check_horizontal(t_data *data, t_raycatsing *r, t_dco pos, \
+				double angle)
 {
 	double	a_tan;
 
@@ -98,9 +99,9 @@ static void	check_horizontal(t_data *data, t_raycatsing *r, t_dco pos, double an
 	r->distance = distance_between_points(pos, r->co);
 }
 
-static void	check_vertical(t_data *data, t_raycatsing *r, t_dco pos, double angle)
+static void	check_vertical(t_data *data, t_raycatsing *r, t_dco pos, \
+				double angle)
 {
-	t_dco	step;
 	double	n_tan;
 
 	r->distance = 10000;
@@ -109,16 +110,16 @@ static void	check_vertical(t_data *data, t_raycatsing *r, t_dco pos, double angl
 	{
 		r->co.x = (int)pos.x - 0.00001;
 		r->co.y = (pos.x - r->co.x) * n_tan + pos.y;
-		step.x = -1;
-		step.y = -step.x * n_tan;
+		r->step.x = -1;
+		r->step.y = -r->step.x * n_tan;
 		r->wall = NORTH;
 	}
 	else if (angle < PI2 || angle > PI3)
 	{
 		r->co.x = (int)pos.x + 1;
-		r->co.y= (pos.x - r->co.x) * n_tan + pos.y;
-		step.x = 1;
-		step.y = -step.x * n_tan;
+		r->co.y = (pos.x - r->co.x) * n_tan + pos.y;
+		r->step.x = 1;
+		r->step.y = -r->step.x * n_tan;
 		r->wall = SOUTH;
 	}
 	else
@@ -144,13 +145,4 @@ static void	loop_until_hit_wall(t_map *map, t_raycatsing *r)
 		r->co.y += r->step.y;
 		i++;
 	}
-}
-
-static double	fix_angle(double a)
-{
-	if (a >= 360)
-		a -= 360;
-	if (a < 0)
-		a += 360;
-	return (a);
 }

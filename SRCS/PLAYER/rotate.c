@@ -27,9 +27,14 @@ void	rotate_player(t_data *data)
 			data->map->degre -= PLAYER_ROTATE;
 		if (data->key_arrow_press[KP_O])
 			data->map->degre += PLAYER_ROTATE;
-		if (data->map->degre < 0)
-			data->map->degre += 360;
-		data->map->degre = fmod(data->map->degre, 360);
+		data->map->degre = rotate_degre(data->map->degre);
 		update_direction(data->map);
 	}
+}
+
+double	rotate_degre(double a)
+{
+	if (a < 0)
+		a += 360;
+	return (fmod(a, 360));
 }

@@ -124,6 +124,7 @@ t_collision	draw_fov_line(t_data *data, t_dco p1, t_dco p2, double angle, \
 void		set_player_position(t_map *map, int k, int i);
 void		update_direction(t_map *map);
 void		print_player(t_data *data, t_map *map, t_ico offset);
+double		rotate_degre(double a);
 
 // MATHS ----------------------------------------
 double		sqrt_(double num);
