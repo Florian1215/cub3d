@@ -22,8 +22,8 @@ static double	fix_angle(double a);
 
 void	raycasting(t_data *data)
 {
-	int 			i;
-	t_dco 			pos;
+	int				i;
+	t_dco			pos;
 	double			angle;
 
 
@@ -44,19 +44,26 @@ static void	draw_raycasting(t_data *data, t_dco pos, double angle, int i)
 	const int		colors[4] = {EASY_COLOR, NORMAL_COLOR, HARD_COLOR, WALL_COLOR};
 	t_raycatsing	r[2];
 	int				m;
+	int				line_size;
+	int				line_height;
+	int				line_y;
 
 	check_horizontal(data, r, pos, degre_to_radian(angle));
 	check_vertical(data, r + 1, pos, degre_to_radian(angle));
-	m = (r[0].co.x > r[1].co.y);
-	float	ca = data->map->radian - degre_to_radian(angle);
-	int		size_line = WIN_HEIGHT - data->map->hhitbox;
-	r[m].distance *= cos(ca);
-	int lineH = size_line / r[m].distance;
-	if (lineH > size_line)
-		lineH = size_line;
-	int lineOff = WIN_HEIGHT / 2 - lineH / 2;
-	draw_line(data, (t_dco){pos.x * data->map->square_size + MINIMAP_OFFSET, pos.y * data->map->square_size + MINIMAP_OFFSET}, (t_dco){r[m].co.x * data->map->square_size + MINIMAP_OFFSET, r[m].co.x  * data->map->square_size + MINIMAP_OFFSET}, FOV_COLOR);
-	draw_line(data, (t_dco){i, lineOff}, (t_dco){i, lineH + lineOff}, colors[r[m].wall]);
+	m = (r[0].distance > r[1].distance);
+	printf("VERTICAL %f | %f - %f | %f - %f\n", r[1].distance, pos.x, pos.y, r[1].co.x, r[1].co.y);
+	r[m].distance *= cos(data->map->radian - degre_to_radian(angle));
+	line_size = WIN_HEIGHT - data->map->hhitbox; // CONST
+	line_height = line_size / r[m].distance;
+	if (line_height > line_size)
+		line_height = line_size;
+	line_y = WIN_HEIGHT / 2 - line_height / 2;
+
+	// FOV
+	draw_line(data, (t_dco){pos.x * data->map->square_size + MINIMAP_OFFSET, pos.y * data->map->square_size + MINIMAP_OFFSET}, (t_dco){r[m].co.x * data->map->square_size + MINIMAP_OFFSET, r[m].co.y  * data->map->square_size + MINIMAP_OFFSET}, FOV_COLOR);
+
+	// RAYCAST
+	draw_line(data, (t_dco){i, line_y}, (t_dco){i, line_height + line_y}, colors[r[m].wall]);
 }
 
 static void	check_horizontal(t_data *data, t_raycatsing *r, t_dco pos, double angle)
@@ -84,6 +91,7 @@ static void	check_horizontal(t_data *data, t_raycatsing *r, t_dco pos, double an
 	else
 	{
 		r->co = pos;
+		// WALL;
 		return ;
 	}
 	loop_until_hit_wall(data->map, r);
@@ -116,6 +124,7 @@ static void	check_vertical(t_data *data, t_raycatsing *r, t_dco pos, double angl
 	else
 	{
 		r->co = pos;
+		// WALL;
 		return ;
 	}
 	loop_until_hit_wall(data->map, r);
