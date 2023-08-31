@@ -12,11 +12,12 @@
 
 #include "cub3d.h"
 
-void	print_minimap(t_data *data, t_map *map, t_ico offset)
+void	print_minimap(t_data *data, t_map *map, t_ico offset, t_bool background)
 {
 	const int	colors[4] = {FLOOR_COLOR, WALL_COLOR, DOOR_OPEN_COLOR, \
 								DOOR_CLOSE_COLOR};
 	t_ico		i;
+	t_case		c;
 
 	i.x = 0;
 	while (i.x < map->height)
@@ -24,10 +25,12 @@ void	print_minimap(t_data *data, t_map *map, t_ico offset)
 		i.y = 0;
 		while (i.y < map->width)
 		{
-			if (map->m[i.x][i.y] != NOTHING)
+			c = map->m[i.x][i.y];
+			if (((c == FLOOR || c == DOOR_OPEN) && background) || \
+				(!background && (c == WALL || c == DOOR_CLOSE)))
 			{
-				draw_square((t_draw){&data->img, colors[map->m[i.x][i.y]] \
-				, 0}, (t_ico){offset.x + i.y * map->square_size, offset.y + \
+				draw_square((t_draw){&data->img, colors[map->m[i.x][i.y]], \
+				0}, (t_ico){offset.x + i.y * map->square_size, offset.y + \
 				i.x * map->square_size}, map->square_size);
 			}
 			i.y++;

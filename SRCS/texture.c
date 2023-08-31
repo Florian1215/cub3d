@@ -14,33 +14,49 @@
 
 void	draw_texture(t_data *data, t_raycatsing *r, int line_height)
 {
-	int	i;
+	int		i;
+	double	value;
+	int		color;
+	t_img	*t;
+	t_ico	ct;
 
-	if (data->map->t[r->wall].is_texture)
-	{
-		i = 0;
-		while (i < line_height)
-		{
-			(void)r->line.x;
-			i++;
-		}
-	}
+	if (r->wall == LEFT || r->wall == RIGHT)
+		value = r->co.y - (int)r->co.y;
 	else
-		draw_line(data, r->line, (t_dco){r->line.x, r->line.y + \
-			line_height}, data->map->t[r->wall].color);
+		value = r->co.x - (int)r->co.x;
+	i = 0;
+	t = &data->map->t[r->wall].img;
+//	printf("%f\n", value);
+	while (i < line_height)
+	{
+		printf("%f - %d - %d\n", value, t->width, data->map->t[r->wall].img.width);
+		ct = (t_ico){(int)(value * t->width), i * t->height / line_height};
+		printf("%d - %d\n", ct.x, ct.y);
+		color = *(int *)(t->addr + ct.x * t->bit_ratio + \
+				ct.y * t->line_length);
+		mlx_pixel_put_img(&data->img, r->line.x, r->line.y + i, color);
+		i++;
+	}
 }
 
-void	load_texture(t_texture *t, char *filename, void *mlx_ptr, \
-			t_parsing_state state)
+void	load_textures(t_data *data)
 {
-	const int		colors[4] = {0xD0BFFF, NORMAL_COLOR, HARD_COLOR, 0xA8DF8E};
+	const int		colors[4] = {0xD0BFFF, NORMAL_COLOR, HARD_COLOR, 0xA8DF8E}; // TODO COLOR !!
+	t_map			*m;
+	t_parsing_state	s;
 
-	init_img(&t->img, filename, mlx_ptr);
-	if (!t->img.img)
+	m = data->map;
+	while (m)
 	{
-		t->is_texture = FALSE;
-		t->color = colors[state];
+		s = PARSING_NO;
+		while (s <= PARSING_EA)
+		{
+			init_img(&m->t->img, m->t[s].path, data->mlx_ptr);
+			printf("%d\n", m->t->img.width);
+			m->t->color = colors[s];
+			m->t->is_texture = m->t->img.img != NULL;
+			s++;
+		}
+		m = m->next;
 	}
-	else
-		t->is_texture = TRUE;
 }

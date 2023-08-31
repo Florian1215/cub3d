@@ -23,8 +23,6 @@ typedef struct s_list			t_list;
 typedef struct s_menu			t_menu;
 typedef struct s_draw			t_draw;
 typedef struct s_texture		t_texture;
-typedef struct s_collision		t_collision;
-typedef struct s_distances		t_distances;
 typedef struct s_raycatsing		t_raycatsing;
 typedef enum e_case				t_case;
 typedef enum e_file				t_file;

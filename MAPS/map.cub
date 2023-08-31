@@ -1,7 +1,7 @@
-NO ./path_to_the_north_texture
-SO ./path_to_the_south_texture
-WE ./path_to_the_west_texture
-EA ./path_to_the_east_texture
+NO ./ASSET/wall_north.xpm
+SO ./ASSET/wall_south.xpm
+WE ./ASSET/wall_west.xpm
+EA ./ASSET/wall_east.xpm
 
 F 45, 67, 86
 C 67, 91, 102

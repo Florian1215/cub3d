@@ -28,7 +28,6 @@ t_exit	init_map(t_map *map)
 	map->hitbox = map->square_size / 2;
 	map->hhitbox = map->hitbox / 2;
 	map->qhitbox = map->hhitbox / 2;
-	map->line_size = WIN_HEIGHT - map->hhitbox;
 	map->move_speed = 0.5f * map->hitbox / 15;
 	while (k < map->height)
 	{

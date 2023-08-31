@@ -75,7 +75,8 @@ enum e_side
 int			map_size(t_map *m);
 void		map_clear(t_map **map);
 int			get_map_coordinates(t_data *data, double co, double move);
-void		print_minimap(t_data *data, t_map *map, t_ico offset);
+void		print_minimap(t_data *data, t_map *map, t_ico offset, \
+				t_bool background);
 t_bool		is_valid_pos(t_map *map, t_dco p1, t_dco p2);
 t_bool		is_wall_or_close_door(t_map *map, t_dco p1);
 
@@ -95,7 +96,6 @@ void		draw_square(t_draw d, t_ico co, int size);
 void		draw_round_square(t_draw d, t_ico co, int size);
 void		draw_rectangle(t_draw d, t_ico co, t_ico size);
 void		draw_round_rectangle(t_draw d, t_ico co, t_ico size);
-void		draw_circle(t_draw d, t_ico co);
 void		draw_qcircle(t_draw d, t_ico co, int q);
 
 void		draw_line(t_data *data, t_dco p1, t_dco p2, int color);
@@ -166,6 +166,7 @@ struct s_texture
 	t_bool	is_texture;
 	t_img	img;
 	int		color;
+	char	*path;
 };
 
 struct s_map
@@ -183,7 +184,6 @@ struct s_map
 	double			qhitbox;
 	double			square_size;
 	double			move_speed;
-	int				line_size;
 	t_texture		t[4];
 	int				color[2];
 	t_bool			is_error_msg;

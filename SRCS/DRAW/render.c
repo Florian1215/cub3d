@@ -26,8 +26,9 @@ void	render(t_data *data)
 	rotate_player(data);
 	move_player(data);
 	raycasting(data);
-	print_minimap(data, data->map, offset);
+	print_minimap(data, data->map, offset, TRUE);
 	draw_fov(data, offset);
+	print_minimap(data, data->map, offset, FALSE);
 	print_player(data, data->map, offset);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img, 0, 0);
 }

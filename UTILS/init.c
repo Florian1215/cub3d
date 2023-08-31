@@ -16,6 +16,7 @@ static void	init_imgs(t_data *data);
 static void	init_menu(t_data *data);
 void		init_fov(t_data *data, int right_pan);
 void		init_lvl(t_data *data);
+void		load_textures(t_data *data);
 
 void	init_data(t_data *data)
 {
@@ -34,6 +35,7 @@ void	init_data(t_data *data)
 	while (i < KEYPRESS)
 		data->key_arrow_press[i++] = FALSE;
 	init_menu(data);
+	load_textures(data);
 }
 
 static void	init_imgs(t_data *data)

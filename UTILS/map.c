@@ -21,6 +21,10 @@ t_map	*map_new(void)
 		return (NULL);
 	new->degre = NO_PLAYER;
 	new->m = NULL;
+	new->t[NORTH].path = NULL;
+	new->t[SOUTH].path = NULL;
+	new->t[WEST].path = NULL;
+	new->t[EAST].path = NULL;
 	new->lst = NULL;
 	new->state = PARSING_NO;
 	new->next = NULL;
@@ -50,6 +54,11 @@ void	map_clear(t_map **map)
 	{
 		tmp = (*map)->next;
 		free_n_split((void **)(*map)->m, (*map)->height - 1);
+		free((*map)->t[NORTH].path);
+		free((*map)->t[SOUTH].path);
+		free((*map)->t[WEST].path);
+		free((*map)->t[EAST].path);
+
 		free(*map);
 		*map = tmp;
 	}

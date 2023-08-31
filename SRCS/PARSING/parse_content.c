@@ -12,11 +12,9 @@
 
 #include "cub3d.h"
 
-void			load_texture(t_texture *t, char *filename, void *mlx_ptr, \
-					t_parsing_state state);
 static t_exit	parse_color(t_map *map, char *line);
 
-t_exit	parse_content(t_map *map, char *line, void *mlx_ptr)
+t_exit	parse_content(t_map *map, char *line)
 {
 	char const	*identifiers[6] = {"NO ", "SO ", "WE ", "EA ", "F ", "C "};
 	char		*value;
@@ -25,7 +23,11 @@ t_exit	parse_content(t_map *map, char *line, void *mlx_ptr)
 	if (!value)
 		return (error_msg(map->is_error_msg, ERR_MAP_ID, line));
 	if (map->state <= PARSING_EA)
-		load_texture(map->t + map->state, value, mlx_ptr, map->state);
+	{
+		map->t[map->state].path = str_dup(value);
+		if (!map->t[map->state].path)
+			return (error_msg(map->is_error_msg, ERR_MALLOC));
+	}
 	else if (map->state == PARSING_FLOOR || map->state == PARSING_CEILING)
 		return (parse_color(map, value));
 	return (SUCCESS);

@@ -56,7 +56,6 @@ int			atoi_(char *s);
 char		*get_next_line(int fd);
 t_exit		error_msg(t_bool print, const char *format, ...);
 double		degre_to_radian(double angle);
-double		radian_to_degre(double radian);
 enum e_file	get_file_type(char *path);
 int			get_tab_size(char **tab);
 
@@ -65,6 +64,7 @@ char		*str_str(char *s1, char *s2);
 int			str_len(char *str);
 char		*str_join(char *s1, char *s2);
 t_bool		str_end_with(char *s1, char *s2);
+char		*str_dup(char *s);
 
 // LST ------------------------------------------
 struct s_list

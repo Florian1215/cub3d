@@ -78,7 +78,8 @@ void	set_minimap_animation(t_data *data)
 			map->offset_map_menu.x, i);
 		offset.y = animation(map->start_offset_map.y, \
 			map->offset_map_menu.y, i);
-		print_minimap(data, map, offset);
+		print_minimap(data, map, offset, TRUE);
+		print_minimap(data, map, offset, FALSE);
 		print_player(data, map, offset);
 		map = map->next;
 	}

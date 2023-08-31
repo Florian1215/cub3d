@@ -12,8 +12,6 @@
 
 #include "cub3d.h"
 
-#define FOV		90
-
 static void	draw_raycasting(t_data *data, t_dco pos, double angle, int i);
 void		draw_texture(t_data *data, t_raycatsing *r, int line_height);
 static void	check_horizontal(t_data *data, t_raycatsing *r, t_dco pos, \
@@ -52,13 +50,22 @@ static void	draw_raycasting(t_data *data, t_dco pos, double angle, int i)
 	check_vertical(data, r + 1, pos, degre_to_radian(angle));
 	m = (r[0].distance > r[1].distance);
 	r[m].distance *= cos(data->map->radian - degre_to_radian(angle));
-	line_height = data->map->line_size / r[m].distance;
-	if (line_height > data->map->line_size)
-		line_height = data->map->line_size;
+	line_height = WIN_HEIGHT / r[m].distance;
+	if (line_height > WIN_HEIGHT)
+		line_height = WIN_HEIGHT;
 	r[m].line = (t_dco){i, WIN_HEIGHT / 2 - line_height / 2};
-	draw_texture(data, r + m, line_height);
-	data->fov_line[i] = r[m].co;
+	if (data->map->t[r->wall].is_texture)
+		draw_texture(data, r + m, line_height);
+	else
+	{
+		draw_line(data, r[m].line, (t_dco){r[m].line.x, r[m].line.y + \
+			line_height}, data->map->t[r[m].wall].color);
+	}
+	data->fov_line[i] = (t_dco){r[m].co.x + (r[m].step.x / data->map-> \
+		square_size), r[m].co.y + (r[m].step.y / data->map->square_size)};
 }
+
+// TODO afficher mur apres le raycast
 
 static void	check_horizontal(t_data *data, t_raycatsing *r, t_dco pos, \
 				double angle)
@@ -69,7 +76,7 @@ static void	check_horizontal(t_data *data, t_raycatsing *r, t_dco pos, \
 	a_tan = -1.0 / tan(angle);
 	if (angle > PI)
 	{
-		r->co.y = (int)pos.y - 0.000001;
+		r->co.y = (int)pos.y - 0.0000001;
 		r->co.x = (pos.y - r->co.y) * a_tan + pos.x;
 		r->step.y = -1;
 		r->step.x = -r->step.y * a_tan;
@@ -102,7 +109,7 @@ static void	check_vertical(t_data *data, t_raycatsing *r, t_dco pos, \
 	n_tan = -tan(angle);
 	if (angle > PI2 && angle < PI3)
 	{
-		r->co.x = (int)pos.x - 0.000001;
+		r->co.x = (int)pos.x - 0.0000001;
 		r->co.y = (pos.x - r->co.x) * n_tan + pos.y;
 		r->step = (t_dco){-1, n_tan};
 		r->wall = NORTH;
