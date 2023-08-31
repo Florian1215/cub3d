@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-void	draw_texture(t_data *data, t_raycatsing *r, int line_height)
+void	draw_texture(t_data *data, t_raycatsing *r, int dlineh, int lineh)
 {
 	int		i;
 	double	value;
@@ -20,20 +20,17 @@ void	draw_texture(t_data *data, t_raycatsing *r, int line_height)
 	t_img	*t;
 	t_ico	ct;
 
-	if (r->wall == LEFT || r->wall == RIGHT)
-		value = r->co.y - (int)r->co.y;
-	else
+	if (r->wall == SOUTH || r->wall == NORTH)
 		value = r->co.x - (int)r->co.x;
-	i = 0;
+	else
+		value = r->co.y - (int)r->co.y;
 	t = &data->map->t[r->wall].img;
-//	printf("%f\n", value);
-	while (i < line_height)
+	i = 0;
+	while (i < dlineh)
 	{
-		printf("%f - %d - %d\n", value, t->width, data->map->t[r->wall].img.width);
-		ct = (t_ico){(int)(value * t->width), i * t->height / line_height};
-		printf("%d - %d\n", ct.x, ct.y);
-		color = *(int *)(t->addr + ct.x * t->bit_ratio + \
-				ct.y * t->line_length);
+		ct = (t_ico){(int)(value * t->width), (i + ((lineh - dlineh) / 2)) \
+				* t->height / lineh};
+		color = *(int *)(t->addr + ct.x * t->bit_ratio + ct.y * t->line_length);
 		mlx_pixel_put_img(&data->img, r->line.x, r->line.y + i, color);
 		i++;
 	}
@@ -51,10 +48,9 @@ void	load_textures(t_data *data)
 		s = PARSING_NO;
 		while (s <= PARSING_EA)
 		{
-			init_img(&m->t->img, m->t[s].path, data->mlx_ptr);
-			printf("%d\n", m->t->img.width);
-			m->t->color = colors[s];
-			m->t->is_texture = m->t->img.img != NULL;
+			init_img(&m->t[s].img, m->t[s].path, data->mlx_ptr);
+			m->t[s].color = colors[s];
+			m->t[s].is_texture = m->t->img.img != NULL;
 			s++;
 		}
 		m = m->next;

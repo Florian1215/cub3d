@@ -48,8 +48,6 @@
 # define MINIMAP_SIZE			300
 # define MINIMAP_OFFSET			20
 
-# define FOV_RANGE				800
-# define DEFINITION				0.05
 # define NUMBER					1
 # define FRAME					20
 # define PLAYER_ROTATE			1
