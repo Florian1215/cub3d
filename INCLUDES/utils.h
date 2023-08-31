@@ -56,6 +56,7 @@ int			atoi_(char *s);
 char		*get_next_line(int fd);
 t_exit		error_msg(t_bool print, const char *format, ...);
 double		degre_to_radian(double angle);
+double		radian_to_degre(double radian);
 enum e_file	get_file_type(char *path);
 int			get_tab_size(char **tab);
 

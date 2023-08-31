@@ -26,18 +26,24 @@ void	raycasting(t_data *data)
 	int				i;
 	t_dco			pos;
 	double			angle;
-	double			ratio_horizontal;
+//	double			ratio_horizontal;
 
 	// TODO animation start
 	angle = rotate_degre(data->map->degre - fovs[data->fov - FOV_70] / 2);
 	pos.x = (data->map->pos.x + data->map->hhitbox) / data->map->square_size;
 	pos.y = (data->map->pos.y + data->map->hhitbox) / data->map->square_size;
-	ratio_horizontal = 2 * tan(fovs[data->fov - FOV_70] / 2) / WIN_WIDTH;
-//	printf("%f\n", ratio_horizontal);
+//	ratio_horizontal = 2 * tan(fovs[data->fov - FOV_70] / 2) / WIN_WIDTH;
+//	ratio_horizontal = 2 * tan(fovs[data->fov - FOV_70] / 2) / WIN_WIDTH;
+//	printf("RATIO %f | DIRECTION %f\n", ratio_horizontal, data->map->degre);
 	i = 0;
+
 	while (i < WIN_WIDTH)
 	{
 		// TODO fisheye
+//		angle = radian_to_degre(atan((WIN_WIDTH - i) * ratio_horizontal));
+//		printf("ANGLE %f ", angle);
+//		angle = rotate_degre(data->map->degre + fovs[data->fov - FOV_70] / 2 - angle);
+//		printf("| FINAL %f\n", angle);
 		draw_raycasting(data, pos, angle, i);
 		angle = rotate_degre(angle + (fovs[data->fov - FOV_70] / WIN_WIDTH));
 		i++;
