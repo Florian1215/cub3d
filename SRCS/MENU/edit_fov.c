@@ -24,14 +24,14 @@ void	init_fov(t_data *data, int right_pan)
 	while (i <= FOV_110)
 	{
 		data->menu[i].pos.x = right_pan + (data->size_edit.x * (i - FOV_70)) + \
-			(MENU_PADX * (i - FOV_70)) + 5;
+			(MENU_PADX * (i - FOV_70)) + 10;
 		data->menu[i].pos.y = data->menu[POS_4].pos.y + \
-			data->fovs[POS_4].height + 20;
+			data->fovs[POS_4].height + 40;
 		data->menu[i].size = data->size_edit;
 		i++;
 	}
-	data->menu[FOV_TITLE].pos.x = data->menu[FOV_90].pos.x - 6;
-	data->menu[FOV_TITLE].pos.y = data->menu[POS_4].pos.y + 10;
+	data->menu[FOV_TITLE].pos.x = data->menu[FOV_90].pos.x - 12;
+	data->menu[FOV_TITLE].pos.y = data->menu[POS_4].pos.y + 20;
 	data->menu[FOV_BG].pos.x = data->menu[FOV_70].pos.x - MENU_PADX;
 	data->menu[FOV_BG].pos.y = data->menu[FOV_70].pos.y - MENU_PADX;
 	data->menu[FOV_BG].size.x = data->menu[FOV_70].size.x * 3 + MENU_PADX * 4;

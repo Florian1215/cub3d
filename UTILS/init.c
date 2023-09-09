@@ -73,7 +73,7 @@ static void	init_menu(t_data *data)
 	const int	right_pan = (size + offset) * 2 + offset + 5;
 	t_menus		i;
 
-	data->size_edit = (t_ico){100, 60};
+	data->size_edit = (t_ico){WIDTH_EDIT, HEIGHT_EDIT};
 	data->in_menu = FALSE;
 	data->menu_animation = FALSE;
 	data->hover_animation = FALSE;
@@ -86,7 +86,7 @@ static void	init_menu(t_data *data)
 		i++;
 	}
 	data->menu[LOGO].pos.x = right_pan;
-	data->menu[LOGO].pos.y = 110;
+	data->menu[LOGO].pos.y = PADY_LOGO;
 	init_fov(data, right_pan);
 	init_lvl(data);
 }

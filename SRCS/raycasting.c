@@ -26,26 +26,25 @@ void	raycasting(t_data *data)
 	int				i;
 	t_dco			pos;
 	double			angle;
-//	double			ratio_horizontal;
+	double			ratio_horizontal;
 
-	// TODO animation start
-	angle = rotate_degre(data->map->degre - fovs[data->fov - FOV_70] / 2);
 	pos.x = (data->map->pos.x + data->map->hhitbox) / data->map->square_size;
 	pos.y = (data->map->pos.y + data->map->hhitbox) / data->map->square_size;
-//	ratio_horizontal = 2 * tan(fovs[data->fov - FOV_70] / 2) / WIN_WIDTH;
-//	ratio_horizontal = 2 * tan(fovs[data->fov - FOV_70] / 2) / WIN_WIDTH;
-//	printf("RATIO %f | DIRECTION %f\n", ratio_horizontal, data->map->degre);
+	ratio_horizontal = 2 * tan(fovs[data->fov - FOV_70] / 2) / WIN_WIDTH;
 	i = 0;
-
-	while (i < WIN_WIDTH)
+	while (i < HWIN_WIDTH)
 	{
-		// TODO fisheye
-//		angle = radian_to_degre(atan((WIN_WIDTH - i) * ratio_horizontal));
-//		printf("ANGLE %f ", angle);
-//		angle = rotate_degre(data->map->degre + fovs[data->fov - FOV_70] / 2 - angle);
-//		printf("| FINAL %f\n", angle);
+		angle = radian_to_degre(atan((HWIN_WIDTH - i) * ratio_horizontal));
+		angle = rotate_degre(data->map->degre - angle);
 		draw_raycasting(data, pos, angle, i);
-		angle = rotate_degre(angle + (fovs[data->fov - FOV_70] / WIN_WIDTH));
+		i++;
+	}
+	i = 0;
+	while (i < HWIN_WIDTH)
+	{
+		angle = radian_to_degre(atan((i) * ratio_horizontal));
+		angle = rotate_degre(data->map->degre + angle);
+		draw_raycasting(data, pos, angle, i + HWIN_WIDTH);
 		i++;
 	}
 }
@@ -66,7 +65,7 @@ static void	draw_raycasting(t_data *data, t_dco pos, double angle, int i)
 		draw_line_height = WIN_HEIGHT;
 	else
 		draw_line_height = line_height;
-	r[m].line = (t_dco){i, WIN_HEIGHT / 2 - draw_line_height / 2};
+	r[m].line = (t_dco){i, HWIN_HEIGHT - draw_line_height / 2};
 	if (data->map->t[r->wall].is_texture)
 		draw_texture(data, r + m, draw_line_height, line_height);
 	else

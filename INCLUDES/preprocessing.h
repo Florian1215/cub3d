@@ -42,21 +42,26 @@
 // DEFINE ---------------------------------------
 # define TITLE					"cub3d"
 # define EXT					".cub"
-# define WIN_WIDTH				1080
-# define WIN_HEIGHT				720
+# define WIN_WIDTH				2560
+# define WIN_HEIGHT				1440
+# define HWIN_WIDTH				1280
+# define HWIN_HEIGHT			720
 
-# define MINIMAP_SIZE			300
-# define MINIMAP_OFFSET			20
+# define MINIMAP_SIZE			600
+# define MINIMAP_OFFSET			40
 
 # define NUMBER					1
 # define FRAME					20
 # define PLAYER_ROTATE			1
 # define KEYPRESS				6
 # define BINDS					15
-# define MENU_PADX				6
-# define MENU_RADIUS			12
-# define PADX_LVL				19
-# define PADY_LVL				184
+# define MENU_PADX				12
+# define MENU_RADIUS			24
+# define PADX_LVL				38
+# define PADY_LVL				368
+# define WIDTH_EDIT				200
+# define HEIGHT_EDIT			120
+# define PADY_LOGO				220
 
 // ERROR ----------------------------------------
 # define ERR_MALLOC				"Out of memory"
