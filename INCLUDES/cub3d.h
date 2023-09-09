@@ -74,7 +74,8 @@ enum e_side
 
 int			map_size(t_map *m);
 void		map_clear(t_map **map);
-int			get_map_coordinates(t_data *data, double co, double move);
+t_ico		get_map_ico(t_map *map, t_ico offset);
+t_dco		get_map_dco(t_map *map, t_ico offset);
 void		print_minimap(t_data *data, t_map *map, t_ico offset, \
 				t_bool background);
 t_bool		is_valid_pos(t_map *map, t_dco p1, t_dco p2);
@@ -102,7 +103,7 @@ void		draw_line(t_data *data, t_dco p1, t_dco p2, int color);
 void		draw_fov(t_data	*data, t_ico offset);
 
 // PLAYER ---------------------------------------
-void		set_player_position(t_map *map, int k, int i);
+void		set_player_position(t_map *map, int y, int x);
 void		update_direction(t_map *map);
 void		print_player(t_data *data, t_map *map, t_ico offset);
 double		rotate_degre(double a);
@@ -181,7 +182,6 @@ struct s_map
 	t_dco			pos;
 	double			hitbox;
 	double			hhitbox;
-	double			qhitbox;
 	double			square_size;
 	double			move_speed;
 	t_texture		t[4];
@@ -190,8 +190,8 @@ struct s_map
 	int				fd;
 	t_list			*lst;
 	t_parsing_state	state;
-	t_ico			offset_map_menu;
-	t_ico			start_offset_map;
+	t_ico			omap_menu;
+	t_ico			start_omap;
 	t_map			*next;
 };
 

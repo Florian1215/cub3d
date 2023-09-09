@@ -15,7 +15,6 @@
 static t_dco	dco_rotate(t_dco co, double t);
 static t_side	valid_pos(t_map *map, t_dco pos);
 static t_bool	make_valid_pos(t_map *map, t_dco *pos);
-static t_side	get_face_pos(t_map *map, t_side vpos, t_dco pos);
 
 void	move_player(t_data *data)
 {
@@ -45,19 +44,13 @@ void	move_player(t_data *data)
 
 static t_dco	dco_rotate(t_dco co, double t)
 {
-	double	m[2][2];
-
-	m[0][0] = cosf(t);
-	m[0][1] = -sinf(t);
-	m[1][0] = sinf(t);
-	m[1][1] = cosf(t);
-	return ((t_dco){m[0][0] * co.x + m[0][1] * co.y, \
-		m[1][0] * co.x + m[1][1] * co.y});
+	return ((t_dco){cosf(t) * co.x + -sinf(t) * co.y, \
+		sinf(t) * co.x + cosf(t) * co.y});
 }
 
 static t_side	valid_pos(t_map *map, t_dco pos)
 {
-	const t_side	faces[4] = {BOT_RIGHT, BOT_LEFT, TOP_RIGHT, TOP_LEFT};
+	const t_side	faces[4] = {TOP_LEFT, TOP_RIGHT, BOT_LEFT, BOT_RIGHT};
 	t_side			res;
 	t_dco			hitbox;
 	int				i;
@@ -66,8 +59,12 @@ static t_side	valid_pos(t_map *map, t_dco pos)
 	res = VALID_POS;
 	while (i < 4)
 	{
-		hitbox.x = map->hitbox * is_even(i);
-		hitbox.y = map->hitbox * (i < 2);
+		hitbox.x = map->hhitbox;
+		hitbox.y = hitbox.x;
+		if (is_even(i))
+			hitbox.x *= -1;
+		if (i < 2)
+			hitbox.y *= -1;
 		if (!is_valid_pos(map, pos, hitbox))
 			res |= faces[i];
 		i++;
@@ -80,33 +77,13 @@ static t_bool	make_valid_pos(t_map *map, t_dco *pos)
 	t_side	vpos;
 
 	vpos = valid_pos(map, *pos);
-	if (vpos == TOP_LEFT || vpos == TOP_RIGHT || \
-			vpos == BOT_LEFT || vpos == BOT_RIGHT)
-		vpos = get_face_pos(map, vpos, *pos);
-	if (vpos == TOP)
-		pos->y = ceil(pos->y);
-	else if (vpos == BOT)
-		pos->y = (int)pos->y;
-	else if (vpos == LEFT)
-		pos->x = ceil(pos->x);
-	else if (vpos == RIGHT)
-		pos->x = (int)pos->x;
+	if (vpos == TOP || vpos == TOP_LEFT || vpos == TOP_RIGHT)
+		pos->y = ceil(pos->y - map->hhitbox) + map->hhitbox;
+	if (vpos == BOT || vpos == BOT_LEFT || vpos == BOT_RIGHT)
+		pos->y = (int)(pos->y + map->hhitbox) - map->hhitbox;
+	if (vpos == LEFT || vpos == TOP_LEFT || vpos == BOT_LEFT)
+		pos->x = ceil(pos->x - map->hhitbox) + map->hhitbox;
+	if (vpos == RIGHT || vpos == TOP_RIGHT || vpos == BOT_RIGHT)
+		pos->x = (int)(pos->x + map->hhitbox) - map->hhitbox;
 	return (vpos == TOP || vpos == BOT || vpos == LEFT || vpos == RIGHT);
-}
-
-static t_side	get_face_pos(t_map *map, t_side vpos, t_dco pos)
-{
-	t_dco	hitbox;
-
-	hitbox.x = map->hitbox * (vpos == TOP_RIGHT || vpos == BOT_RIGHT);
-	hitbox.y = 2 + (map->hitbox - 4) * (vpos == BOT_LEFT || vpos == BOT_RIGHT);
-	if (is_valid_pos(map, pos, hitbox))
-	{
-		if (vpos & TOP)
-			return (TOP);
-		return (BOT);
-	}
-	if (vpos & LEFT)
-		return (LEFT);
-	return (RIGHT);
 }

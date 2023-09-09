@@ -20,16 +20,20 @@ void	draw_texture(t_data *data, t_raycatsing *r, int dlineh, int lineh)
 	t_img	*t;
 	t_ico	ct;
 
+	(void)lineh;
 	if (r->wall == SOUTH || r->wall == NORTH)
 		value = r->co.x - (int)r->co.x;
 	else
 		value = r->co.y - (int)r->co.y;
 	t = &data->map->t[r->wall].img;
 	i = 0;
+//	printf("%f\n", sqrt(lineh - dlineh));
+//	lineh = (lineh - dlineh) / 1.4 + dlineh;
 	while (i < dlineh)
 	{
-		ct = (t_ico){(int)(value * t->width), (i + ((lineh - dlineh) / 2)) \
-				* t->height / lineh};
+		ct.x = value * t->width;
+		ct.y = (i + ((lineh - dlineh) / 2)) * t->height / lineh;
+//		ct.y = i * t->height / dlineh;
 		color = *(int *)(t->addr + ct.x * t->bit_ratio + ct.y * t->line_length);
 		mlx_pixel_put_img(&data->img, r->line.x, r->line.y + i, color);
 		i++;

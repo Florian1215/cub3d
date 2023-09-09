@@ -42,21 +42,23 @@
 // DEFINE ---------------------------------------
 # define TITLE					"cub3d"
 # define EXT					".cub"
-# define WIN_WIDTH				2560
+# define WIN_WIDTH				2400
 # define WIN_HEIGHT				1440
-# define HWIN_WIDTH				1280
+# define HWIN_WIDTH				1200
 # define HWIN_HEIGHT			720
 
 # define MINIMAP_SIZE			600
 # define MINIMAP_OFFSET			40
 
-# define NUMBER					1
+# define PREC					0.0000001
+# define PREC_POS				0.001
 # define FRAME					20
-# define PLAYER_ROTATE			1
+# define PLAYER_ROTATE			3
 # define KEYPRESS				6
 # define BINDS					15
-# define MENU_PADX				12
+# define PADX_MENU				12
 # define MENU_RADIUS			24
+# define SELECT_RADIUS			8
 # define PADX_LVL				38
 # define PADY_LVL				368
 # define WIDTH_EDIT				200
@@ -106,8 +108,8 @@
 # define HARD_COLOR				0xE48586
 
 // MATHS ----------------------------------------
-# define PI						3.1415926
-# define PI2					1.5707963
-# define PI3					4.7123889
+# define PI						3.141592
+# define PI2					1.570796
+# define PI3					4.712388
 
 #endif

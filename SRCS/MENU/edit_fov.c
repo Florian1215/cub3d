@@ -24,7 +24,7 @@ void	init_fov(t_data *data, int right_pan)
 	while (i <= FOV_110)
 	{
 		data->menu[i].pos.x = right_pan + (data->size_edit.x * (i - FOV_70)) + \
-			(MENU_PADX * (i - FOV_70)) + 10;
+			(PADX_MENU * (i - FOV_70)) + 10;
 		data->menu[i].pos.y = data->menu[POS_4].pos.y + \
 			data->fovs[POS_4].height + 40;
 		data->menu[i].size = data->size_edit;
@@ -32,17 +32,17 @@ void	init_fov(t_data *data, int right_pan)
 	}
 	data->menu[FOV_TITLE].pos.x = data->menu[FOV_90].pos.x - 12;
 	data->menu[FOV_TITLE].pos.y = data->menu[POS_4].pos.y + 20;
-	data->menu[FOV_BG].pos.x = data->menu[FOV_70].pos.x - MENU_PADX;
-	data->menu[FOV_BG].pos.y = data->menu[FOV_70].pos.y - MENU_PADX;
-	data->menu[FOV_BG].size.x = data->menu[FOV_70].size.x * 3 + MENU_PADX * 4;
-	data->menu[FOV_BG].size.y = data->menu[FOV_70].size.y + MENU_PADX * 2;
+	data->menu[FOV_BG].pos.x = data->menu[FOV_70].pos.x - PADX_MENU;
+	data->menu[FOV_BG].pos.y = data->menu[FOV_70].pos.y - PADX_MENU;
+	data->menu[FOV_BG].size.x = data->menu[FOV_70].size.x * 3 + PADX_MENU * 4;
+	data->menu[FOV_BG].size.y = data->menu[FOV_70].size.y + PADX_MENU * 2;
 	data->fov_animation = FALSE;
 }
 
 void	set_fov_option(t_data *data)
 {
-	draw_round_rectangle((t_draw){&data->img, BG_ITEM_MENU, MENU_RADIUS + 4}, \
-		data->menu[FOV_BG].pos, data->menu[FOV_BG].size);
+	draw_round_rectangle((t_draw){&data->img, BG_ITEM_MENU, MENU_RADIUS + \
+		SELECT_RADIUS}, data->menu[FOV_BG].pos, data->menu[FOV_BG].size);
 	draw_alpha(&data->img, &data->fovs[3], data->menu[FOV_TITLE].pos);
 	if (data->hover >= FOV_70 && data->hover <= FOV_110 \
 			&& data->fov != data->hover)

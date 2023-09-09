@@ -24,10 +24,10 @@ void	compute_map_offset(t_data *data)
 	map = data->map;
 	while (i < data->n_map && map)
 	{
-		map->offset_map_menu = get_minimap_offset_menu(map);
-		map->offset_map_menu.x += MINIMAP_OFFSET / 2 + data->menu[i].pos.x;
-		map->offset_map_menu.y += MINIMAP_OFFSET / 2 + data->menu[i].pos.y;
-		map->start_offset_map = get_start_minimap_offset_menu(map, i);
+		map->omap_menu = get_minimap_offset_menu(map);
+		map->omap_menu.x += MINIMAP_OFFSET / 2 + data->menu[i].pos.x;
+		map->omap_menu.y += MINIMAP_OFFSET / 2 + data->menu[i].pos.y;
+		map->start_omap = get_start_minimap_offset_menu(map, i);
 		map = map->next;
 		i++;
 	}
@@ -54,10 +54,8 @@ static t_ico	get_start_minimap_offset_menu(t_map *map, int i)
 	if (i == 0)
 		return ((t_ico){MINIMAP_OFFSET, MINIMAP_OFFSET});
 	else if (i == 1)
-		return ((t_ico){map->offset_map_menu.x, map->offset_map_menu.y - \
-			MINIMAP_SIZE});
-	return ((t_ico){map->offset_map_menu.x, map->offset_map_menu.y + \
-		MINIMAP_SIZE});
+		return ((t_ico){map->omap_menu.x, map->omap_menu.y - MINIMAP_SIZE});
+	return ((t_ico){map->omap_menu.x, map->omap_menu.y + MINIMAP_SIZE});
 }
 
 void	set_minimap_animation(t_data *data)
@@ -74,10 +72,8 @@ void	set_minimap_animation(t_data *data)
 	sleep_until(i * FRAME + data->start_animation);
 	while (++k < data->n_map && map)
 	{
-		offset.x = animation(map->start_offset_map.x, \
-			map->offset_map_menu.x, i);
-		offset.y = animation(map->start_offset_map.y, \
-			map->offset_map_menu.y, i);
+		offset.x = animation(map->start_omap.x, map->omap_menu.x, i);
+		offset.y = animation(map->start_omap.y, map->omap_menu.y, i);
 		print_minimap(data, map, offset, TRUE);
 		print_minimap(data, map, offset, FALSE);
 		print_player(data, map, offset);

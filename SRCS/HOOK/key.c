@@ -22,10 +22,6 @@ int	key_event_press(int k, t_data *data)
 		close_mlx(data);
 	else if (k == TAB)
 		handle_menu(data);
-	else if (get_keypress(k) != KP_ERROR)
-		data->key_arrow_press[get_keypress(k)] = TRUE;
-	else if (k == Q)
-		change_map(data);
 	else if (data->in_menu)
 	{
 		if (k == PAV_1 || k == NUM_1)
@@ -36,6 +32,13 @@ int	key_event_press(int k, t_data *data)
 			launch_map(data, POS_3);
 		else if (k == PAV_4 || k == NUM_4)
 			launch_map(data, POS_4);
+	}
+	else
+	{
+		if (get_keypress(k) != KP_ERROR)
+			data->key_arrow_press[get_keypress(k)] = TRUE;
+		else if (k == Q)
+			change_map(data);
 	}
 	return (SUCCESS);
 }

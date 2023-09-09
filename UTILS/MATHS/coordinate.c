@@ -25,9 +25,13 @@ t_dco	dco_mul(t_dco c, double f)
 t_bool	is_valid_pos(t_map *map, t_dco p1, t_dco p2)
 {
 	t_case	c;
+	t_ico	p;
 
-	c = map->m[(int)((p1.y + p2.y) / map->square_size)] \
-		[(int)((p1.x + p2.x) / map->square_size)];
+	p.x = (int)(p1.x + p2.x);
+	p.y = (int)(p1.y + p2.y);
+	if (p.x < 0 || p.x >= map->width || p.y < 0 || p.y >= map->height)
+		return (FALSE);
+	c = map->m[p.y][p.x];
 	return (c == FLOOR || c == DOOR_OPEN);
 }
 

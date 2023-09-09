@@ -24,19 +24,16 @@ void	raycasting(t_data *data)
 {
 	const double	fovs[3] = {70, 90, 110};
 	int				i;
-	t_dco			pos;
 	double			angle;
 	double			ratio_horizontal;
 
-	pos.x = (data->map->pos.x + data->map->hhitbox) / data->map->square_size;
-	pos.y = (data->map->pos.y + data->map->hhitbox) / data->map->square_size;
 	ratio_horizontal = 2 * tan(fovs[data->fov - FOV_70] / 2) / WIN_WIDTH;
 	i = 0;
 	while (i < HWIN_WIDTH)
 	{
 		angle = radian_to_degre(atan((HWIN_WIDTH - i) * ratio_horizontal));
 		angle = rotate_degre(data->map->degre - angle);
-		draw_raycasting(data, pos, angle, i);
+		draw_raycasting(data, data->map->pos, angle, i);
 		i++;
 	}
 	i = 0;
@@ -44,7 +41,7 @@ void	raycasting(t_data *data)
 	{
 		angle = radian_to_degre(atan((i) * ratio_horizontal));
 		angle = rotate_degre(data->map->degre + angle);
-		draw_raycasting(data, pos, angle, i + HWIN_WIDTH);
+		draw_raycasting(data, data->map->pos, angle, i + HWIN_WIDTH);
 		i++;
 	}
 }
@@ -84,7 +81,7 @@ static void	check_horizontal(t_data *data, t_raycatsing *r, t_dco pos, \
 	a_tan = -1.0 / tan(angle);
 	if (angle > PI)
 	{
-		r->co.y = (int)pos.y - 0.0000001;
+		r->co.y = (int)pos.y - PREC;
 		r->co.x = (pos.y - r->co.y) * a_tan + pos.x;
 		r->step.y = -1;
 		r->step.x = -r->step.y * a_tan;
@@ -117,7 +114,7 @@ static void	check_vertical(t_data *data, t_raycatsing *r, t_dco pos, \
 	n_tan = -tan(angle);
 	if (angle > PI2 && angle < PI3)
 	{
-		r->co.x = (int)pos.x - 0.0000001;
+		r->co.x = (int)pos.x - PREC;
 		r->co.y = (pos.x - r->co.x) * n_tan + pos.y;
 		r->step = (t_dco){-1, n_tan};
 		r->wall = WEST;

@@ -19,11 +19,9 @@ void	draw_fov(t_data	*data, t_ico offset)
 	i = 0;
 	while (i < WIN_WIDTH)
 	{
-		draw_line(data, (t_dco){data->map->pos.x + data->map->hhitbox + \
-			offset.x, data->map->pos.y + data->map->hhitbox + \
-			offset.y}, (t_dco){data->fov_line[i].x * data->map->square_size + \
-			offset.x, data->fov_line[i].y * data->map->square_size + \
-			offset.y}, FOV_COLOR);
+		draw_line(data, get_map_dco(data->map, offset), (t_dco){data-> \
+		fov_line[i].x * data->map->square_size + offset.x, data->fov_line[i].y \
+		* data->map->square_size + offset.y}, FOV_COLOR);
 		i++;
 	}
 }

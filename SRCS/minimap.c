@@ -54,16 +54,26 @@ t_ico	get_minimap_offset(t_data *data)
 	sleep_until(i * FRAME + data->start_animation);
 	if (!data->launch_animation)
 		return ((t_ico){MINIMAP_OFFSET, MINIMAP_OFFSET});
-	offset.x = animation(data->map->offset_map_menu.x, \
-		MINIMAP_OFFSET, i);
-	offset.y = animation(data->map->offset_map_menu.y, \
-		MINIMAP_OFFSET, i);
+	offset.x = animation(data->map->omap_menu.x, MINIMAP_OFFSET, i);
+	offset.y = animation(data->map->omap_menu.y, MINIMAP_OFFSET, i);
 	i++;
 	return (offset);
 }
 
-int	get_map_coordinates(t_data *data, double co, double move)
+t_dco	get_map_dco(t_map *map, t_ico offset)
 {
-	return ((int)((co + move + data->map->hhitbox) \
-		/ data->map->square_size));
+	t_dco			pos;
+
+	pos.x = offset.x + (map->pos.x * map->square_size);
+	pos.y = offset.y + (map->pos.y * map->square_size);
+	return (pos);
+}
+
+t_ico	get_map_ico(t_map *map, t_ico offset)
+{
+	t_ico			pos;
+
+	pos.x = offset.x + (map->pos.x - map->hhitbox) * map->square_size;
+	pos.y = offset.y + (map->pos.y - map->hhitbox) * map->square_size;
+	return (pos);
 }

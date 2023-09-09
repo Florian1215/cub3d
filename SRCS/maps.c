@@ -26,9 +26,8 @@ t_exit	init_map(t_map *map)
 	k = 0;
 	map->square_size = MINIMAP_SIZE / fmax(map->height, map->width);
 	map->hitbox = map->square_size / 2;
-	map->hhitbox = map->hitbox / 2;
-	map->qhitbox = map->hhitbox / 2;
-	map->move_speed = 0.5f * map->hitbox / 15;
+	map->hhitbox = map->hitbox / 2 / map->square_size;
+	map->move_speed = 0.08; // TODO DEFINE
 	while (k < map->height)
 	{
 		map->m[k] = malloc(sizeof(t_map) * map->width);

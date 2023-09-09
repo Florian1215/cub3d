@@ -32,10 +32,10 @@ void	init_lvl(t_data *data)
 	data->menu[LVL_TITLE].pos = data->menu[FOV_TITLE].pos;
 	data->menu[LVL_TITLE].pos.x -= PADX_LVL;
 	data->menu[LVL_TITLE].pos.y += PADY_LVL;
-	data->menu[LVL_BG].pos.x = data->menu[LVL_EASY].pos.x - MENU_PADX;
-	data->menu[LVL_BG].pos.y = data->menu[LVL_EASY].pos.y - MENU_PADX;
-	data->menu[LVL_BG].size.x = data->menu[LVL_EASY].size.x * 3 + MENU_PADX * 4;
-	data->menu[LVL_BG].size.y = data->menu[LVL_EASY].size.y + MENU_PADX * 2;
+	data->menu[LVL_BG].pos.x = data->menu[LVL_EASY].pos.x - PADX_MENU;
+	data->menu[LVL_BG].pos.y = data->menu[LVL_EASY].pos.y - PADX_MENU;
+	data->menu[LVL_BG].size.x = data->menu[LVL_EASY].size.x * 3 + PADX_MENU * 4;
+	data->menu[LVL_BG].size.y = data->menu[LVL_EASY].size.y + PADX_MENU * 2;
 	data->lvl_animation = FALSE;
 	data->lvl_color[0] = (t_color){EASY_COLOR};
 	data->lvl_color[1] = (t_color){NORMAL_COLOR};
@@ -52,8 +52,8 @@ void	set_lvl_option(t_data *data)
 				data->lvl_color[data->lvl - LVL_EASY], i);
 	else
 		color = data->lvl_color[data->lvl - LVL_EASY].color;
-	draw_round_rectangle((t_draw){&data->img, color, MENU_RADIUS + 4}, \
-	data->menu[LVL_BG].pos, data->menu[LVL_BG].size);
+	draw_round_rectangle((t_draw){&data->img, color, MENU_RADIUS + \
+		SELECT_RADIUS}, data->menu[LVL_BG].pos, data->menu[LVL_BG].size);
 	draw_alpha(&data->img, &data->lvls[3], data->menu[LVL_TITLE].pos);
 	if (data->hover >= LVL_EASY && data->hover <= LVL_HARD \
 			&& data->lvl != data->hover)
