@@ -43,13 +43,22 @@
 // DEFINE ---------------------------------------
 # define TITLE					"cub3d"
 # define EXT					".cub"
-# define WIN_WIDTH				2400
-# define WIN_HEIGHT				1440
-# define HWIN_WIDTH				1200
-# define HWIN_HEIGHT			720
+# define WIDTH					2400
+# define HEIGHT					1440
+# define HWIDTH					1200
+# define HHEIGHT				720
 
 # define MINIMAP_SIZE			600
 # define MINIMAP_OFFSET			40
+
+# define DEAST					0
+# define DES					45
+# define DSOUTH					90
+# define DSW					135
+# define DWEST					180
+# define DWN					225
+# define DNORTH					270
+# define DNE					315
 
 # define PREC					0.0000001
 # define MAX_THREAD				8

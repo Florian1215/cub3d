@@ -43,6 +43,7 @@ t_ico	get_minimap_offset(t_data *data)
 {
 	static int		i = 0;
 	t_ico			offset;
+	double			*value;
 
 	if (i == 29)
 	{
@@ -56,6 +57,14 @@ t_ico	get_minimap_offset(t_data *data)
 		return ((t_ico){MINIMAP_OFFSET, MINIMAP_OFFSET});
 	offset.x = animation(data->map->omap_menu.x, MINIMAP_OFFSET, i);
 	offset.y = animation(data->map->omap_menu.y, MINIMAP_OFFSET, i);
+	if (is_look_up(data) || is_look_down(data))
+		value = &data->map->pos.y;
+	else
+		value = &data->map->pos.x;
+	if (is_look_up(data) || is_look_left(data))
+		*value = animation(ceil(*value), (int)*value + data->map->hhitbox, i);
+	else
+		*value = animation((int)*value, ceil(*value) - data->map->hhitbox, i);
 	i++;
 	return (offset);
 }

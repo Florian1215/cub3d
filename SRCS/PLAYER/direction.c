@@ -1,31 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   background.c                                       :+:      :+:    :+:   */
+/*   direction.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fguirama <fguirama@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/16 17:47:00 by fguirama          #+#    #+#             */
-/*   Updated: 2023/06/16 17:47:00 by fguirama         ###   ########lyon.fr   */
+/*   Created: 2023/09/10 18:56:00 by fguirama          #+#    #+#             */
+/*   Updated: 2023/09/10 18:56:00 by fguirama         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	print_background(t_data *data)
+t_bool	is_look_up(t_data *data)
 {
-	t_ico	i;
+	return ((DWN < data->map->degre && data->map->degre < DNE));
+}
 
-	i.x = 0;
-	while (i.x < WIDTH)
-	{
-		i.y = 0;
-		while (i.y < HEIGHT)
-		{
-			mlx_pixel_put_img(&data->img, i.x, i.y, \
-				data->map->color[i.y > HHEIGHT]);
-			i.y++;
-		}
-		i.x++;
-	}
+t_bool	is_look_down(t_data *data)
+{
+	return (DES < data->map->degre && data->map->degre < DSW);
+}
+
+t_bool	is_look_left(t_data *data)
+{
+	return ((DSW < data->map->degre && data->map->degre < DWN));
 }

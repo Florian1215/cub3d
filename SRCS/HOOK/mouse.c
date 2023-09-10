@@ -15,6 +15,7 @@
 static void	mouse_event_menu(t_data *data, t_ico co, int button);
 t_menus		select_binds(t_data *data, t_ico click);
 void		launch_map(t_data *data, t_menus n);
+static void	select_slider(t_data *data, t_slider *s, t_menus click);
 
 int	mouse_event_press(int button, int x, int y, t_data *data)
 {
@@ -80,19 +81,28 @@ static void	mouse_event_menu(t_data *data, t_ico co, int button)
 		click = select_binds(data, co);
 		if (click >= POS_1 && click <= POS_4)
 			launch_map(data, click);
-		else if (!data->fov_animation && click >= FOV_70 \
-					&& click <= FOV_110 && data->fov != click)
-		{
-			data->prev_fov = data->fov;
-			data->fov = click;
-			data->fov_animation = TRUE;
-		}
-		else if (!data->lvl_animation && click >= LVL_EASY \
-					&& click <= LVL_HARD && data->lvl != click)
-		{
-			data->prev_lvl = data->lvl;
-			data->lvl = click;
-			data->lvl_animation = TRUE;
-		}
+		else if (click >= FOV_70 && click <= FOV_110 && data->fov.s != click)
+			select_slider(data, &data->fov, click);
+		else if (click >= LVL_EASY && click <= LVL_HARD && data->lvl.s != click)
+			select_slider(data, &data->lvl, click);
+	}
+}
+
+static void	select_slider(t_data *data, t_slider *s, t_menus click)
+{
+	s->prev = s->s;
+	s->s = click;
+	s->animation = TRUE;
+	if (!s->i)
+		s->prev_x = data->menu[s->prev].pos.x;
+	else
+		s->prev_x = s->x;
+	s->i = 0;
+	if (s->is_color)
+	{
+		if (!s->i)
+			s->prev_color = data->lvl.colors[data->lvl.prev - LVL_EASY];
+		else
+			s->prev_color.color = s->c;
 	}
 }

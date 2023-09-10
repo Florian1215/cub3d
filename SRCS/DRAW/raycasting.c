@@ -43,14 +43,14 @@ static void	raycasting_thread(t_data *data)
 	i = data->raycast_i;
 	data->raycast_i++;
 	pthread_mutex_unlock(&data->mutex_i);
-	if (i >= WIN_WIDTH)
+	if (i >= WIDTH)
 		return ;
-	if (i < HWIN_WIDTH)
-		angle = HWIN_WIDTH - i;
+	if (i < HWIDTH)
+		angle = HWIDTH - i;
 	else
-		angle = i - HWIN_WIDTH;
+		angle = i - HWIDTH;
 	angle = radian_to_degre(atan(angle * data->ratio_horizontal));
-	if (i < HWIN_WIDTH)
+	if (i < HWIDTH)
 		angle *= -1;
 	angle = rotate_degre(data->map->degre + angle);
 	draw_raycasting(data, data->map->pos, angle, i);
@@ -70,12 +70,12 @@ static void	draw_raycasting(t_data *data, t_dco pos, double angle, int i)
 	check_vertical(data, r + 1, pos, degre_to_radian(angle));
 	m = (r[0].distance > r[1].distance);
 	r[m].distance *= cos(data->map->radian - degre_to_radian(angle));
-	line_height = WIN_HEIGHT / r[m].distance;
-	if (line_height > WIN_HEIGHT)
-		draw_line_height = WIN_HEIGHT;
+	line_height = HEIGHT / r[m].distance;
+	if (line_height > HEIGHT)
+		draw_line_height = HEIGHT;
 	else
 		draw_line_height = line_height;
-	r[m].line = (t_dco){i, HWIN_HEIGHT - draw_line_height / 2};
+	r[m].line = (t_dco){i, HHEIGHT - draw_line_height / 2};
 	if (data->map->t[r->wall].is_texture)
 		draw_texture(data, r + m, draw_line_height, line_height);
 	else

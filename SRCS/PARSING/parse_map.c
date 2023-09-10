@@ -83,13 +83,13 @@ static t_case	get_char(t_map *map, char c)
 		if (map->degre != NO_PLAYER)
 			return (INVALID_PLAYER);
 		if (c == 'E')
-			map->degre = 0;
+			map->degre = DEAST;
 		else if (c == 'S')
-			map->degre = 90;
+			map->degre = DSOUTH;
 		else if (c == 'W')
-			map->degre = 180;
+			map->degre = DWEST;
 		else
-			map->degre = 270;
+			map->degre = DNORTH;
 		return (PLAYER);
 	}
 	else if (c == ' ')

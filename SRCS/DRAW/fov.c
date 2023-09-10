@@ -17,7 +17,7 @@ void	draw_fov(t_data	*data, t_ico offset)
 	int	i;
 
 	i = 0;
-	while (i < WIN_WIDTH)
+	while (i < WIDTH)
 	{
 		draw_line(data, get_map_dco(data->map, offset), (t_dco){data-> \
 		fov_line[i].x * data->map->square_size + offset.x, data->fov_line[i].y \

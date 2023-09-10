@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-int	animation(double a, double b, int i)
+double	animation(double a, double b, int i)
 {
 	const double	values[29] = {0.4, 1.7, 4.6, 9.8, 19, \
 	32, 44.7, 54.7, 62.4, 68.6, 73.6, 77.7, 81.2, \

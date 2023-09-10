@@ -35,16 +35,21 @@ void	handle_menu(t_data *data)
 
 void	set_menu(t_data *data)
 {
+	pthread_t		t[MAX_THREAD];
+
 	data->in_menu = TRUE;
 	draw_rectangle((t_draw){&data->img, BG_MENU, 0}, (t_ico){0, 0}, \
-		(t_ico){WIN_WIDTH - 1, WIN_HEIGHT - 1});
-	draw_rounded_squares(data);
-	set_fov_option(data);
-	set_lvl_option(data);
+		(t_ico){WIDTH - 1, HEIGHT - 1});
+	pthread_create(t, NULL, (void *)draw_rounded_squares, data);
+	pthread_create(t + 1, NULL, (void *)set_fov_option, data);
+	pthread_create(t + 2, NULL, (void *)set_lvl_option, data);
+	pthread_join(t[0], NULL);
 	if (data->menu_animation)
 		set_minimap_animation(data);
 	else
 		set_minimap(data);
+	pthread_join(t[1], NULL);
+	pthread_join(t[2], NULL);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img, 0, 0);
 	if (data->logo.img)
 		mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->logo.img, \

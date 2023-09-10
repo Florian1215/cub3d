@@ -35,7 +35,6 @@ enum e_wall
 	SOUTH,
 	WEST,
 	EAST,
-	FACE_ERROR
 };
 
 void		parsing(t_data *data, int ac, char **av);
@@ -89,7 +88,7 @@ struct s_draw
 	int		radius;
 };
 
-int			animation(double a, double b, int i);
+double		animation(double a, double b, int i);
 void		render(t_data *data);
 void		draw_alpha(t_img *img, t_img *alpha, t_ico pos);
 
@@ -107,6 +106,9 @@ void		set_player_position(t_map *map, int y, int x);
 void		update_direction(t_map *map);
 void		print_player(t_data *data, t_map *map, t_ico offset);
 double		rotate_degre(double a);
+t_bool		is_look_down(t_data *data);
+t_bool		is_look_up(t_data *data);
+t_bool		is_look_left(t_data *data);
 
 // MATHS ----------------------------------------
 double		sqrt_(double num);
@@ -158,6 +160,21 @@ struct	s_menu
 	t_ico	size;
 };
 
+struct s_slider
+{
+	int		i;
+	t_bool	animation;
+	t_menus	s;
+	t_menus	prev;
+	double	x;
+	double	prev_x;
+	t_img	imgs[4];
+	t_bool	is_color;
+	t_color	colors[3];
+	int		c;
+	t_color	prev_color;
+};
+
 void		set_menu(t_data *data);
 void		handle_menu(t_data *data);
 
@@ -168,12 +185,6 @@ struct s_texture
 	t_img	img;
 	int		color;
 	char	*path;
-};
-
-struct s_rthread
-{
-	int		i;
-	t_data	*data;
 };
 
 struct s_map
@@ -202,6 +213,8 @@ struct s_map
 
 struct s_data
 {
+	t_slider		fov;
+	t_slider		lvl;
 	t_menu			menu[BINDS];
 	double			ratio_horizontal;
 	pthread_mutex_t	mutex_i;
@@ -218,19 +231,10 @@ struct s_data
 	int				n_map;
 	void			*mlx_ptr;
 	void			*win_ptr;
-	t_bool			fov_animation;
-	t_bool			lvl_animation;
-	t_menus			fov;
-	t_menus			prev_fov;
-	t_img			fovs[4];
-	t_dco			fov_line[WIN_WIDTH];
-	t_menus			lvl;
-	t_menus			prev_lvl;
-	t_img			lvls[4];
+	t_dco			fov_line[WIDTH];
 	t_img			img;
 	t_img			logo;
-	t_ico			size_edit;
-	t_color			lvl_color[3];
+	t_ico			size_slider;
 	t_time			start_animation;
 };
 

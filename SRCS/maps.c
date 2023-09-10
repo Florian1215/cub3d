@@ -44,7 +44,7 @@ void	launch_map(t_data *data, t_menus p)
 	if (p >= data->n_map)
 		return ;
 	change_n_map(data, p);
-	data->ratio_horizontal = 2 * tan(fovs[data->fov - FOV_70] / 2) / WIN_WIDTH;
+	data->ratio_horizontal = 2 * tan(fovs[data->fov.s - FOV_70] / 2) / WIDTH;
 	data->launch_animation = TRUE;
 	data->in_menu = FALSE;
 }

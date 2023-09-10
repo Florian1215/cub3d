@@ -1,4 +1,11 @@
-/* ************************************************************************** */
+/* **********************************************
+
+
+
+
+
+
+**************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   mlx_utils.c                                        :+:      :+:    :+:   */
@@ -14,7 +21,7 @@
 
 void	mlx_pixel_put_img(t_img *img, int x, int y, int color)
 {
-	if (x >= WIN_WIDTH || x < 0 || y >= WIN_HEIGHT || y < 0)
+	if (x >= WIDTH || x < 0 || y >= HEIGHT || y < 0)
 		return ;
 	*(unsigned int *)(img->addr + (y * img->line_length + x * \
 	(img->bits_per_pixel / 8))) = color;
@@ -24,14 +31,14 @@ int	close_mlx(t_data *data)
 {
 	map_clear(&data->map, data->mlx_ptr);
 	mlx_destroy_image(data->mlx_ptr, data->logo.img);
-	mlx_destroy_image(data->mlx_ptr, data->fovs[0].img);
-	mlx_destroy_image(data->mlx_ptr, data->fovs[1].img);
-	mlx_destroy_image(data->mlx_ptr, data->fovs[2].img);
-	mlx_destroy_image(data->mlx_ptr, data->fovs[3].img);
-	mlx_destroy_image(data->mlx_ptr, data->lvls[0].img);
-	mlx_destroy_image(data->mlx_ptr, data->lvls[1].img);
-	mlx_destroy_image(data->mlx_ptr, data->lvls[2].img);
-	mlx_destroy_image(data->mlx_ptr, data->lvls[3].img);
+	mlx_destroy_image(data->mlx_ptr, data->fov.imgs[0].img);
+	mlx_destroy_image(data->mlx_ptr, data->fov.imgs[1].img);
+	mlx_destroy_image(data->mlx_ptr, data->fov.imgs[2].img);
+	mlx_destroy_image(data->mlx_ptr, data->fov.imgs[3].img);
+	mlx_destroy_image(data->mlx_ptr, data->lvl.imgs[0].img);
+	mlx_destroy_image(data->mlx_ptr, data->lvl.imgs[1].img);
+	mlx_destroy_image(data->mlx_ptr, data->lvl.imgs[2].img);
+	mlx_destroy_image(data->mlx_ptr, data->lvl.imgs[3].img);
 	mlx_clear_window(data->mlx_ptr, data->win_ptr);
 	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 	exit(SUCCESS);
