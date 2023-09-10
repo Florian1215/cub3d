@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-static void	raycasting_thread(t_data *data);
+static void	send_rays(t_data *data);
 static void	draw_raycasting(t_data *data, t_dco pos, double angle, int i);
 void		draw_texture(t_data *data, t_raycatsing *r, int dlineh, int lineh);
 void		check_horizontal(t_data *data, t_raycatsing *r, t_dco pos, \
@@ -28,13 +28,13 @@ void	raycasting(t_data *data)
 	data->raycast_i = 0;
 	i = 0;
 	while (i < MAX_THREAD)
-		pthread_create(&t[i++], NULL, (void *)raycasting_thread, data);
+		pthread_create(&t[i++], NULL, (void *) send_rays, data);
 	i = 0;
 	while (i < MAX_THREAD)
 		pthread_join(t[i++], NULL);
 }
 
-static void	raycasting_thread(t_data *data)
+static void	send_rays(t_data *data)
 {
 	double	angle;
 	int		i;
@@ -54,7 +54,7 @@ static void	raycasting_thread(t_data *data)
 		angle *= -1;
 	angle = rotate_degre(data->map->degre + angle);
 	draw_raycasting(data, data->map->pos, angle, i);
-	raycasting_thread(data);
+	send_rays(data);
 }
 
 static void	draw_raycasting(t_data *data, t_dco pos, double angle, int i)

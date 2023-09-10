@@ -25,3 +25,10 @@ void	draw_fov(t_data	*data, t_ico offset)
 		i++;
 	}
 }
+
+void	init_ratio(t_data *data)
+{
+	const double	fovs[3] = {76.62, 76.96, 89.885};
+
+	data->ratio_horizontal = 2 * tan(fovs[data->fov.s - FOV_70] / 2) / WIDTH;
+}

@@ -39,12 +39,11 @@ t_exit	init_map(t_map *map)
 
 void	launch_map(t_data *data, t_menus p)
 {
-	const double	fovs[3] = {76.62, 76.96, 89.885};
 
 	if (p >= data->n_map)
 		return ;
 	change_n_map(data, p);
-	data->ratio_horizontal = 2 * tan(fovs[data->fov.s - FOV_70] / 2) / WIDTH;
+	init_ratio(data);
 	data->launch_animation = TRUE;
 	data->in_menu = FALSE;
 }

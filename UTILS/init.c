@@ -35,6 +35,7 @@ void	init_data(t_data *data)
 	while (i < KEYPRESS)
 		data->key_arrow_press[i++] = FALSE;
 	init_menu(data);
+	init_ratio(data);
 	load_textures(data);
 	pthread_mutex_init(&data->mutex_i, NULL);
 }
