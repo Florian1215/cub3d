@@ -32,7 +32,7 @@ void	parsing(t_data *data, int ac, char **av)
 		exit_status = parse_arguments(data, ac, av);
 	if (exit_status == ERROR)
 	{
-		map_clear(&data->map);
+		map_clear(&data->map, NULL);
 		exit(ERROR);
 	}
 }
@@ -71,7 +71,7 @@ t_exit	parse_file(t_data *data, char *filename, t_bool is_error_msg)
 	close(map->fd);
 	if (exit_status == SUCCESS && parse_map(map) == SUCCESS)
 		return (map_add_back(&data->map, map), SUCCESS);
-	map_clear(&map);
+	map_clear(&map, NULL);
 	return (ERROR);
 }
 

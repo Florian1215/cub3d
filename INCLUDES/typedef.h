@@ -24,6 +24,7 @@ typedef struct s_menu			t_menu;
 typedef struct s_draw			t_draw;
 typedef struct s_texture		t_texture;
 typedef struct s_raycatsing		t_raycatsing;
+typedef struct s_rthread		t_rthread;
 typedef enum e_case				t_case;
 typedef enum e_file				t_file;
 typedef enum e_side				t_side;

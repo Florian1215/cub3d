@@ -73,7 +73,7 @@ enum e_side
 };
 
 int			map_size(t_map *m);
-void		map_clear(t_map **map);
+void		map_clear(t_map **map, void *mlx_ptr);
 t_ico		get_map_ico(t_map *map, t_ico offset);
 t_dco		get_map_dco(t_map *map, t_ico offset);
 void		print_minimap(t_data *data, t_map *map, t_ico offset, \
@@ -170,6 +170,12 @@ struct s_texture
 	char	*path;
 };
 
+struct s_rthread
+{
+	int		i;
+	t_data	*data;
+};
+
 struct s_map
 {
 	t_case			**m;
@@ -183,7 +189,6 @@ struct s_map
 	double			hitbox;
 	double			hhitbox;
 	double			square_size;
-	double			move_speed;
 	t_texture		t[4];
 	int				color[2];
 	t_bool			is_error_msg;
@@ -197,33 +202,36 @@ struct s_map
 
 struct s_data
 {
-	t_menu		menu[BINDS];
-	t_menus		hover;
-	t_bool		hover_animation;
-	t_bool		in_menu;
-	t_bool		launch_animation;
-	t_bool		menu_animation;
-	t_bool		key_arrow_press[KEYPRESS];
-	t_bool		mouse_press;
-	int			mouse_cursor;
-	t_map		*map;
-	int			n_map;
-	void		*mlx_ptr;
-	void		*win_ptr;
-	t_bool		fov_animation;
-	t_bool		lvl_animation;
-	t_menus		fov;
-	t_menus		prev_fov;
-	t_img		fovs[4];
-	t_dco		fov_line[WIN_WIDTH];
-	t_menus		lvl;
-	t_menus		prev_lvl;
-	t_img		lvls[4];
-	t_img		img;
-	t_img		logo;
-	t_ico		size_edit;
-	t_color		lvl_color[3];
-	t_time		start_animation;
+	t_menu			menu[BINDS];
+	double			ratio_horizontal;
+	pthread_mutex_t	mutex_i;
+	int				raycast_i;
+	t_menus			hover;
+	t_bool			hover_animation;
+	t_bool			in_menu;
+	t_bool			launch_animation;
+	t_bool			menu_animation;
+	t_bool			key_arrow_press[KEYPRESS];
+	t_bool			mouse_press;
+	int				mouse_cursor;
+	t_map			*map;
+	int				n_map;
+	void			*mlx_ptr;
+	void			*win_ptr;
+	t_bool			fov_animation;
+	t_bool			lvl_animation;
+	t_menus			fov;
+	t_menus			prev_fov;
+	t_img			fovs[4];
+	t_dco			fov_line[WIN_WIDTH];
+	t_menus			lvl;
+	t_menus			prev_lvl;
+	t_img			lvls[4];
+	t_img			img;
+	t_img			logo;
+	t_ico			size_edit;
+	t_color			lvl_color[3];
+	t_time			start_animation;
 };
 
 void		init_data(t_data *data);

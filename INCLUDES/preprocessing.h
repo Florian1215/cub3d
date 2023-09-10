@@ -30,7 +30,7 @@
 # include <fcntl.h>
 # include <errno.h>
 # include <math.h>
-# include <unistd.h>
+# include <pthread.h>
 # include <stdarg.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -38,6 +38,7 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <sys/time.h>
+# include <unistd.h>
 
 // DEFINE ---------------------------------------
 # define TITLE					"cub3d"
@@ -51,9 +52,10 @@
 # define MINIMAP_OFFSET			40
 
 # define PREC					0.0000001
-# define PREC_POS				0.001
+# define MAX_THREAD				8
 # define FRAME					20
-# define PLAYER_ROTATE			3
+# define ROTATE_SPEED			3
+# define MOVE_SPEED				0.1
 # define KEYPRESS				6
 # define BINDS					15
 # define PADX_MENU				12
@@ -106,6 +108,11 @@
 # define EASY_COLOR				0xFAE392
 # define NORMAL_COLOR			0xF0B86E
 # define HARD_COLOR				0xE48586
+
+# define NORTH_COLOR			0xD0BFFF
+# define SOUTH_COLOR			NORMAL_COLOR
+# define WEST_COLOR				HARD_COLOR
+# define EAST_COLOR				0xA8DF8E
 
 // MATHS ----------------------------------------
 # define PI						3.141592

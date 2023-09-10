@@ -64,7 +64,7 @@ int	mouse_event_motion(int x, int y, t_data *data)
 	}
 	else if (data->mouse_press)
 	{
-		data->map->degre += ((x - data->mouse_cursor) / 4) * -1;
+		data->map->degre += ((x - data->mouse_cursor) * 0.5) * -1;
 		update_direction(data->map);
 		data->mouse_cursor = x;
 	}

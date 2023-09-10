@@ -46,19 +46,25 @@ t_map	*map_last(t_map *m)
 	return (map_last(m->next));
 }
 
-void	map_clear(t_map **map)
+void	map_clear(t_map **map, void *mlx_ptr)
 {
 	t_map	*tmp;
+	t_wall	w;
 
 	while (*map)
 	{
 		tmp = (*map)->next;
 		free_n_split((void **)(*map)->m, (*map)->height - 1);
-		free((*map)->t[NORTH].path);
-		free((*map)->t[SOUTH].path);
-		free((*map)->t[WEST].path);
-		free((*map)->t[EAST].path);
-
+		w = NORTH;
+		while (w <= EAST && mlx_ptr)
+		{
+			if ((*map)->t[w].is_texture)
+				mlx_destroy_image(mlx_ptr, (*map)->t[w].img.img);
+			w++;
+		}
+		w = NORTH;
+		while (w <= EAST)
+			free((*map)->t[w++].path);
 		free(*map);
 		*map = tmp;
 	}

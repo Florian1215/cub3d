@@ -27,7 +27,6 @@ t_exit	init_map(t_map *map)
 	map->square_size = MINIMAP_SIZE / fmax(map->height, map->width);
 	map->hitbox = map->square_size / 2;
 	map->hhitbox = map->hitbox / 2 / map->square_size;
-	map->move_speed = 0.08; // TODO DEFINE
 	while (k < map->height)
 	{
 		map->m[k] = malloc(sizeof(t_map) * map->width);
@@ -40,9 +39,12 @@ t_exit	init_map(t_map *map)
 
 void	launch_map(t_data *data, t_menus p)
 {
+	const double	fovs[3] = {76.62, 76.96, 89.885};
+
 	if (p >= data->n_map)
 		return ;
 	change_n_map(data, p);
+	data->ratio_horizontal = 2 * tan(fovs[data->fov - FOV_70] / 2) / WIN_WIDTH;
 	data->launch_animation = TRUE;
 	data->in_menu = FALSE;
 }

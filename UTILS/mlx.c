@@ -22,9 +22,16 @@ void	mlx_pixel_put_img(t_img *img, int x, int y, int color)
 
 int	close_mlx(t_data *data)
 {
-	map_clear(&data->map);
+	map_clear(&data->map, data->mlx_ptr);
 	mlx_destroy_image(data->mlx_ptr, data->logo.img);
-	// TODO destroy all image
+	mlx_destroy_image(data->mlx_ptr, data->fovs[0].img);
+	mlx_destroy_image(data->mlx_ptr, data->fovs[1].img);
+	mlx_destroy_image(data->mlx_ptr, data->fovs[2].img);
+	mlx_destroy_image(data->mlx_ptr, data->fovs[3].img);
+	mlx_destroy_image(data->mlx_ptr, data->lvls[0].img);
+	mlx_destroy_image(data->mlx_ptr, data->lvls[1].img);
+	mlx_destroy_image(data->mlx_ptr, data->lvls[2].img);
+	mlx_destroy_image(data->mlx_ptr, data->lvls[3].img);
 	mlx_clear_window(data->mlx_ptr, data->win_ptr);
 	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 	exit(SUCCESS);

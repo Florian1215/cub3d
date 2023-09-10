@@ -36,6 +36,7 @@ void	init_data(t_data *data)
 		data->key_arrow_press[i++] = FALSE;
 	init_menu(data);
 	load_textures(data);
+	pthread_mutex_init(&data->mutex_i, NULL);
 }
 
 static void	init_imgs(t_data *data)
