@@ -52,8 +52,7 @@ void	set_menu(t_data *data)
 	pthread_join(t[2], NULL);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img, 0, 0);
 	if (data->logo.img)
-		mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->logo.img, \
-			data->menu[LOGO].pos.x, data->menu[LOGO].pos.y);
+		draw_alpha(&data->img, &data->logo, data->menu[LOGO].pos, RLOGO);
 	if (data->hover_animation)
 		data->hover_animation = FALSE;
 }

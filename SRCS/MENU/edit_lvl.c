@@ -31,7 +31,6 @@ void	init_lvl(t_data *data)
 		i++;
 	}
 	data->menu[LVL_TITLE].pos = data->menu[FOV_TITLE].pos;
-	data->menu[LVL_TITLE].pos.x -= PADX_LVL;
 	data->menu[LVL_TITLE].pos.y += PADY_LVL;
 	data->menu[LVL_BG].pos.x = data->menu[LVL_EASY].pos.x - PADX_MENU;
 	data->menu[LVL_BG].pos.y = data->menu[LVL_EASY].pos.y - PADX_MENU;
@@ -54,7 +53,8 @@ void	set_lvl_option(t_data *data)
 		data->lvl.c = data->lvl.colors[data->lvl.s - LVL_EASY].color;
 	draw_round_rectangle((t_draw){&data->img, data->lvl.c, MENU_RADIUS + \
 		SELECT_RADIUS}, data->menu[LVL_BG].pos, data->menu[LVL_BG].size);
-	draw_alpha(&data->img, &data->lvl.imgs[3], data->menu[LVL_TITLE].pos);
+	draw_alpha(&data->img, &data->lvl.imgs[3], data->menu[LVL_TITLE].pos, \
+	RTITLE);
 	if (data->hover >= LVL_EASY && data->hover <= LVL_HARD \
 			&& data->lvl.s != data->hover)
 		draw_round_rectangle((t_draw){&data->img, FLOOR_COLOR, MENU_RADIUS}, \
@@ -99,10 +99,10 @@ static void	set_text_lvl(t_data *data)
 		p = data->menu[i].pos;
 		s = data->menu[i].size;
 		f = &data->lvl.imgs[i - LVL_EASY];
-		p.x += (s.x / 2) - (f->width / 2);
-		p.y += (s.y / 2) - (f->height / 2) + i - 4;
+		p.x += (s.x / 2) - ((f->width * RSLIDER) / 2);
+		p.y += (s.y / 2) - ((f->height * RSLIDER) / 2) + i - 4;
 		if (f->img)
-			draw_alpha(&data->img, f, p);
+			draw_alpha(&data->img, f, p, RSLIDER);
 		i++;
 	}
 }

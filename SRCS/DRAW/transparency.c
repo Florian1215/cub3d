@@ -12,28 +12,27 @@
 
 #include "cub3d.h"
 
-void	draw_alpha(t_img *img, t_img *alpha, t_ico pos)
+void	draw_alpha(t_img *img, t_img *alpha, t_ico pos, double ratio)
 {
-	t_ico	i;
+	t_ico	size;
 	t_ico	texture;
 	int		c;
 
-	i.y = pos.y;
+	size = (t_ico){alpha->width * ratio, alpha->height * ratio};
 	texture.y = 0;
-	while (texture.y < alpha->height)
+	while (texture.y < size.y)
 	{
-		i.x = pos.x;
 		texture.x = 0;
-		while (texture.x < alpha->width)
+		while (texture.x < size.x)
 		{
-			c = *(int *)(alpha->addr + texture.x * alpha->bit_ratio + \
-				texture.y * alpha->line_length);
+			c = *(int *)(alpha->addr + (int)(texture.x / ratio) *alpha-> \
+				bit_ratio + (int)(texture.y / ratio) *alpha->line_length);
 			if (!(c & 0xFF000000))
-				mlx_pixel_put_img(img, i.x, i.y, c);
-			i.x++;
+			{
+				mlx_pixel_put_img(img, pos.x + texture.x, pos.y + texture.y, c);
+			}
 			texture.x++;
 		}
-		i.y++;
 		texture.y++;
 	}
 }

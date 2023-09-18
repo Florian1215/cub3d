@@ -14,7 +14,7 @@
 
 static void	init_imgs(t_data *data);
 static void	init_menu(t_data *data);
-void		init_fov(t_data *data, int right_pan);
+void		init_fov(t_data *data, int rpan);
 void		init_lvl(t_data *data);
 void		load_textures(t_data *data);
 
@@ -72,7 +72,8 @@ static void	init_menu(t_data *data)
 {
 	const int	size = MINIMAP_SIZE + MINIMAP_OFFSET;
 	const int	offset = (HEIGHT - (size * 2)) / 3;
-	const int	right_pan = (size + offset) * 2 + offset + 5;
+	const int	right_pan = (size + offset) * 2;
+	const int	offset_x = right_pan + ((WIDTH - right_pan) / 2);
 	t_menus		i;
 
 	data->size_slider = (t_ico){WIDTH_EDIT, HEIGHT_EDIT};
@@ -87,8 +88,9 @@ static void	init_menu(t_data *data)
 		data->menu[i].size = (t_ico){size, size};
 		i++;
 	}
-	data->menu[LOGO].pos.x = right_pan;
-	data->menu[LOGO].pos.y = PADY_LOGO;
-	init_fov(data, right_pan);
+	data->menu[LOGO].pos.x = offset_x - ((data->logo.width * RLOGO) / 2);
+	data->menu[LOGO].pos.y = (offset / 2) + (HEIGHT / 4) - \
+		((data->logo.height * RLOGO) / 2);
+	init_fov(data, offset_x);
 	init_lvl(data);
 }

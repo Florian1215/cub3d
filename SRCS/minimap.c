@@ -50,9 +50,6 @@ t_ico	get_minimap_offset(t_data *data)
 		i = 0;
 		data->launch_animation = FALSE;
 	}
-	if (i == 0)
-		data->start_animation = get_timestamp();
-	sleep_until(i * FRAME + data->start_animation);
 	if (!data->launch_animation)
 		return ((t_ico){MINIMAP_OFFSET, MINIMAP_OFFSET});
 	offset.x = animation(data->map->omap_menu.x, MINIMAP_OFFSET, i);

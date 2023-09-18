@@ -68,13 +68,15 @@
 # define KEYPRESS				6
 # define BINDS					15
 # define PADX_MENU				12
+# define PADY_FOV				20
 # define MENU_RADIUS			24
 # define SELECT_RADIUS			8
-# define PADX_LVL				38
-# define PADY_LVL				368
-# define WIDTH_EDIT				200
+# define PADY_LVL				340
+# define WIDTH_EDIT				230
 # define HEIGHT_EDIT			120
-# define PADY_LOGO				220
+# define RLOGO					0.2
+# define RSLIDER				0.06
+# define RTITLE					0.15
 
 // ERROR ----------------------------------------
 # define ERR_MALLOC				"Out of memory"

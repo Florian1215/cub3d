@@ -90,7 +90,7 @@ struct s_draw
 
 double		animation(double a, double b, int i);
 void		render(t_data *data);
-void		draw_alpha(t_img *img, t_img *alpha, t_ico pos);
+void		draw_alpha(t_img *img, t_img *alpha, t_ico pos, double ratio);
 
 void		draw_square(t_draw d, t_ico co, int size);
 void		draw_round_square(t_draw d, t_ico co, int size);

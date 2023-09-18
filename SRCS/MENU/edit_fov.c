@@ -15,24 +15,26 @@
 static void	set_fov_animation(t_data *data);
 static void	set_text_fov(t_data *data);
 
-void	init_fov(t_data *data, int right_pan)
+void	init_fov(t_data *data, int rpan)
 {
 	t_menus		i;
+	int			offset_x;
 
 	data->fov.s = FOV_90;
 	data->fov.prev = FOV_90;
 	i = FOV_70;
+	offset_x = rpan - ((data->size_slider.x * 3 + PADX_MENU * 2) / 2);
 	while (i <= FOV_110)
 	{
-		data->menu[i].pos.x = right_pan + (data->size_slider.x * (i - FOV_70)) \
-			+ (PADX_MENU * (i - FOV_70)) + 10;
+		data->menu[i].pos.x = offset_x + \
+			(data->size_slider.x + PADX_MENU) * (i - FOV_70);
 		data->menu[i].pos.y = data->menu[POS_4].pos.y + \
-			data->fov.imgs[POS_4].height + 40;
+			(data->fov.imgs[POS_4].height * RTITLE) + (PADY_FOV * 3);
 		data->menu[i].size = data->size_slider;
 		i++;
 	}
-	data->menu[FOV_TITLE].pos.x = data->menu[FOV_90].pos.x - 12;
-	data->menu[FOV_TITLE].pos.y = data->menu[POS_4].pos.y + 20;
+	data->menu[FOV_TITLE].pos.x = rpan - (data->fov.imgs[3].width * RTITLE) / 2;
+	data->menu[FOV_TITLE].pos.y = data->menu[POS_4].pos.y + PADY_FOV;
 	data->menu[FOV_BG].pos.x = data->menu[FOV_70].pos.x - PADX_MENU;
 	data->menu[FOV_BG].pos.y = data->menu[FOV_70].pos.y - PADX_MENU;
 	data->menu[FOV_BG].size.x = data->menu[FOV_70].size.x * 3 + PADX_MENU * 4;
@@ -46,7 +48,8 @@ void	set_fov_option(t_data *data)
 {
 	draw_round_rectangle((t_draw){&data->img, BG_ITEM_MENU, MENU_RADIUS + \
 		SELECT_RADIUS}, data->menu[FOV_BG].pos, data->menu[FOV_BG].size);
-	draw_alpha(&data->img, &data->fov.imgs[3], data->menu[FOV_TITLE].pos);
+	draw_alpha(&data->img, &data->fov.imgs[3], data->menu[FOV_TITLE].pos, \
+		RTITLE);
 	if (data->hover >= FOV_70 && data->hover <= FOV_110 \
 			&& data->fov.s != data->hover)
 		draw_round_rectangle((t_draw){&data->img, FLOOR_COLOR, MENU_RADIUS}, \
@@ -91,10 +94,10 @@ static void	set_text_fov(t_data *data)
 		p = data->menu[i].pos;
 		s = data->menu[i].size;
 		f = &data->fov.imgs[i - FOV_70];
-		p.x += (s.x / 2) - (f->width / 2);
-		p.y += (s.y / 2) - (f->height / 2);
+		p.x += (s.x / 2) - ((f->width * RSLIDER) / 2);
+		p.y += (s.y / 2) - ((f->height * RSLIDER) / 2);
 		if (f->img)
-			draw_alpha(&data->img, f, p);
+			draw_alpha(&data->img, f, p, RSLIDER);
 		i++;
 	}
 }
