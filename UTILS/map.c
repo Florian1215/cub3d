@@ -25,6 +25,7 @@ t_map	*map_new(void)
 	new->t[SOUTH].path = NULL;
 	new->t[WEST].path = NULL;
 	new->t[EAST].path = NULL;
+	new->t[DOOR].path = NULL;
 	new->lst = NULL;
 	new->state = PARSING_NO;
 	new->next = NULL;

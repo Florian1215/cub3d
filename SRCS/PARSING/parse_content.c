@@ -16,13 +16,19 @@ static t_exit	parse_color(t_map *map, char *line);
 
 t_exit	parse_content(t_map *map, char *line)
 {
-	char const	*identifiers[6] = {"NO ", "SO ", "WE ", "EA ", "F ", "C "};
+	char const	*identifiers[7] = {"NO ", "SO ", "WE ", "EA ", \
+									"DO ", "F ", "C "};
 	char		*value;
 
 	value = str_str(line, (char *)identifiers[map->state]);
+	if (!value && map->state == PARSING_DOOR)
+	{
+		map->state++;
+		return (parse_content(map, line));
+	}
 	if (!value)
 		return (error_msg(map->is_error_msg, ERR_MAP_ID, line));
-	if (map->state <= PARSING_EA)
+	if (map->state <= PARSING_DOOR)
 	{
 		map->t[map->state].path = str_dup(value);
 		if (!map->t[map->state].path)

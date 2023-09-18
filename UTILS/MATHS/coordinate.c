@@ -35,12 +35,9 @@ t_bool	is_valid_pos(t_map *map, t_dco p1, t_dco p2)
 	return (c == FLOOR || c == DOOR_OPEN);
 }
 
-t_bool	is_wall_or_close_door(t_map *map, t_dco p)
+t_case	get_case(t_map *map, t_dco p)
 {
-	t_case	c;
-
 	if (p.x < 0 || p.x >= map->width || p.y < 0 || p.y >= map->height)
-		return (FALSE);
-	c = map->m[(int)p.y][(int)p.x];
-	return (c == WALL || c == DOOR_CLOSE);
+		return (INVALID_CHAR);
+	return (map->m[(int)p.y][(int)p.x]);
 }

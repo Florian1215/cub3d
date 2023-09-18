@@ -82,7 +82,7 @@
 # define ERR_MALLOC				"Out of memory"
 # define ERR_OPEN_DIR			"cannot open directory '%s': %s"
 # define ERR_NB_ARGS			"Wrong number of arguments"
-# define ERR_VALID_MAP			"no valid minimap in '%s' directory"
+# define ERR_VALID_MAP			"no valid maps in '%s' directory"
 # define ERR_VALID_ARG_MAP		"None of the maps passed as arguments are valid"
 # define ERR_EXT				"Map: %s: file does not match extension %s"
 # define ERR_OPEN_MAP			"Map: %s: %s"

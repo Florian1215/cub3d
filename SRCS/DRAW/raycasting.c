@@ -71,6 +71,11 @@ static void	draw_raycasting(t_data *data, t_dco pos, double angle, int i)
 	m = (r[0].distance > r[1].distance);
 	r[m].distance *= cos(data->map->radian - degre_to_radian(angle));
 	line_height = HEIGHT / r[m].distance;
+	if (i == WIDTH / 2)
+	{
+		data->door.scope = r->wall == DOOR && r[m].distance < 2;
+		data->door.co = r[m].co;
+	}
 	if (line_height > HEIGHT)
 		draw_line_height = HEIGHT;
 	else
@@ -81,6 +86,5 @@ static void	draw_raycasting(t_data *data, t_dco pos, double angle, int i)
 	else
 		draw_line(data, r[m].line, (t_dco){r[m].line.x, r[m].line.y + \
 			draw_line_height}, data->map->t[r[m].wall].color);
-	data->fov_line[i] = (t_dco){r[m].co.x + (r[m].step.x / data->map-> \
-		square_size), r[m].co.y + (r[m].step.y / data->map->square_size)};
+	data->fov_line[i] = (t_dco){r[m].co.x, r[m].co.y};
 }

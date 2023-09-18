@@ -25,6 +25,8 @@ void	draw_texture(t_data *data, t_raycatsing *r, int dlineh, int lineh)
 		value = r->co.x - (int)r->co.x;
 	else
 		value = r->co.y - (int)r->co.y;
+	if (dlineh != lineh)
+		lineh = dlineh + ((lineh - dlineh) * r->distance * 1.7);
 	t = &data->map->t[r->wall].img;
 	i = 0;
 	while (i < dlineh)
@@ -39,7 +41,8 @@ void	draw_texture(t_data *data, t_raycatsing *r, int dlineh, int lineh)
 
 void	load_textures(t_data *data)
 {
-	const int	colors[4] = {NORTH_COLOR, SOUTH_COLOR, WEST_COLOR, EAST_COLOR};
+	const int	colors[5] = {NORTH_COLOR, SOUTH_COLOR, WEST_COLOR, EAST_COLOR, \
+							DOOR_CLOSE_COLOR};
 	t_map		*m;
 	t_wall		s;
 
@@ -47,11 +50,12 @@ void	load_textures(t_data *data)
 	while (m)
 	{
 		s = NORTH;
-		while (s <= EAST)
+		while (s <= DOOR)
 		{
-			init_img(&m->t[s].img, m->t[s].path, data->mlx_ptr);
+			if (s != DOOR || m->t[s].path)
+				init_img(&m->t[s].img, m->t[s].path, data->mlx_ptr);
 			m->t[s].color = colors[s];
-			m->t[s].is_texture = m->t->img.img != NULL;
+			m->t[s].is_texture = m->t[s].path && m->t->img.img;
 			s++;
 		}
 		m = m->next;

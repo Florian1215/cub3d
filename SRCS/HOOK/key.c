@@ -39,6 +39,8 @@ int	key_event_press(int k, t_data *data)
 			data->key_arrow_press[get_keypress(k)] = TRUE;
 		else if (k == Q)
 			change_map(data);
+//		else if (k == E)
+//			toggle_door();
 	}
 	return (SUCCESS);
 }

@@ -22,6 +22,7 @@ enum e_parsing_state
 	PARSING_SO,
 	PARSING_WE,
 	PARSING_EA,
+	PARSING_DOOR,
 	PARSING_FLOOR,
 	PARSING_CEILING,
 	PARSING_MAP_NEWLINE,
@@ -35,6 +36,7 @@ enum e_wall
 	SOUTH,
 	WEST,
 	EAST,
+	DOOR
 };
 
 void		parsing(t_data *data, int ac, char **av);
@@ -78,7 +80,6 @@ t_dco		get_map_dco(t_map *map, t_ico offset);
 void		print_minimap(t_data *data, t_map *map, t_ico offset, \
 				t_bool background);
 t_bool		is_valid_pos(t_map *map, t_dco p1, t_dco p2);
-t_bool		is_wall_or_close_door(t_map *map, t_dco p1);
 
 // DRAW -----------------------------------------
 struct s_draw
@@ -120,6 +121,13 @@ t_dco		dco_add(t_dco co1, t_dco co2);
 t_dco		dco_mul(t_dco c, double f);
 t_time		get_timestamp(void);
 void		sleep_until(t_time until);
+
+// DOOR -----------------------------------------
+struct s_door
+{
+	t_bool	scope;
+	t_dco	co;
+};
 
 // RAYCASTING -----------------------------------
 struct s_raycatsing
@@ -200,7 +208,7 @@ struct s_map
 	double			hitbox;
 	double			hhitbox;
 	double			square_size;
-	t_texture		t[4];
+	t_texture		t[5];
 	int				color[2];
 	t_bool			is_error_msg;
 	int				fd;
@@ -236,6 +244,7 @@ struct s_data
 	t_img			logo;
 	t_ico			size_slider;
 	t_time			start_animation;
+	t_door			door;
 };
 
 void		init_data(t_data *data);

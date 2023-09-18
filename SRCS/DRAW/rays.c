@@ -12,7 +12,8 @@
 
 #include "cub3d.h"
 
-static void	loop_until_hit_wall(t_map *map, t_raycatsing *r);
+static t_bool	loop_until_hit_wall(t_map *map, t_raycatsing *r);
+t_case			get_case(t_map *map, t_dco p);
 
 void	check_horizontal(t_data *data, t_raycatsing *r, t_dco pos, \
 				double angle)
@@ -40,7 +41,8 @@ void	check_horizontal(t_data *data, t_raycatsing *r, t_dco pos, \
 		r->wall = WEST + (angle != PI);
 		return ;
 	}
-	loop_until_hit_wall(data->map, r);
+	if (loop_until_hit_wall(data->map, r))
+		r->wall = DOOR;
 	r->distance = distance_between_points(pos, r->co);
 }
 
@@ -70,21 +72,25 @@ void	check_vertical(t_data *data, t_raycatsing *r, t_dco pos, \
 		r->wall = NOTHING + (angle == PI3);
 		return ;
 	}
-	loop_until_hit_wall(data->map, r);
+	if (loop_until_hit_wall(data->map, r))
+		r->wall = DOOR;
 	r->distance = distance_between_points(pos, r->co);
 }
 
-static void	loop_until_hit_wall(t_map *map, t_raycatsing *r)
+static t_bool	loop_until_hit_wall(t_map *map, t_raycatsing *r)
 {
 	int	i;
 
 	i = 0;
 	while (i < fmax(map->height, map->width))
 	{
-		if (is_wall_or_close_door(map, r->co))
+		if (get_case(map, r->co) == DOOR_CLOSE)
+			return (TRUE);
+		if (get_case(map, r->co) == WALL)
 			break ;
 		r->co.x += r->step.x;
 		r->co.y += r->step.y;
 		i++;
 	}
+	return (FALSE);
 }
