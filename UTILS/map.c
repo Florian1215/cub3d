@@ -57,14 +57,14 @@ void	map_clear(t_map **map, void *mlx_ptr)
 		tmp = (*map)->next;
 		free_n_split((void **)(*map)->m, (*map)->height - 1);
 		w = NORTH;
-		while (w <= EAST && mlx_ptr)
+		while (w <= DOOR && mlx_ptr)
 		{
 			if ((*map)->t[w].is_texture)
 				mlx_destroy_image(mlx_ptr, (*map)->t[w].img.img);
 			w++;
 		}
 		w = NORTH;
-		while (w <= EAST)
+		while (w <= DOOR)
 			free((*map)->t[w++].path);
 		free(*map);
 		*map = tmp;
