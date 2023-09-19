@@ -35,7 +35,7 @@ enum e_keycode
 	W = 119,
 	S = 115,
 	D = 100,
-	E = 120,
+	E = 101,
 	ESQ = 65307,
 	TAB = 65289,
 	LEFT_KEY = 65361,

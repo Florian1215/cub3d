@@ -12,8 +12,9 @@
 
 #include "cub3d.h"
 
-static t_bool	loop_until_hit_wall(t_map *map, t_raycatsing *r);
+static void		loop_until_hit_wall(t_data *data, t_raycatsing *r, t_dco pos);
 t_case			get_case(t_map *map, t_dco p);
+t_bool			door_animation(t_data *data, t_raycatsing *r);
 
 void	check_horizontal(t_data *data, t_raycatsing *r, t_dco pos, \
 				double angle)
@@ -41,8 +42,7 @@ void	check_horizontal(t_data *data, t_raycatsing *r, t_dco pos, \
 		r->wall = WEST + (angle != PI);
 		return ;
 	}
-	if (loop_until_hit_wall(data->map, r))
-		r->wall = DOOR;
+	loop_until_hit_wall(data, r, pos);
 	r->distance = distance_between_points(pos, r->co);
 }
 
@@ -72,25 +72,35 @@ void	check_vertical(t_data *data, t_raycatsing *r, t_dco pos, \
 		r->wall = NOTHING + (angle == PI3);
 		return ;
 	}
-	if (loop_until_hit_wall(data->map, r))
-		r->wall = DOOR;
+	loop_until_hit_wall(data, r, pos);
 	r->distance = distance_between_points(pos, r->co);
 }
 
-static t_bool	loop_until_hit_wall(t_map *map, t_raycatsing *r)
+static void	loop_until_hit_wall(t_data *data, t_raycatsing *r, t_dco pos)
 {
-	int	i;
+	t_case	c;
+	int		i;
 
 	i = 0;
-	while (i < fmax(map->height, map->width))
+	r->is_open_door = FALSE;
+	while (i++ < fmax(data->map->height, data->map->width))
 	{
-		if (get_case(map, r->co) == DOOR_CLOSE)
-			return (TRUE);
-		if (get_case(map, r->co) == WALL)
+		c = get_case(data->map, r->co);
+		if (c == DOOR_CLOSE || (c == DOOR_ANIMATION && door_animation(data, r)))
+		{
+			r->wall = DOOR;
 			break ;
-		r->co.x += r->step.x;
-		r->co.y += r->step.y;
-		i++;
+		}
+		if (c == WALL)
+			break ;
+		if (c == DOOR_OPEN && r->is_active && !data->door.is_animation)
+		{
+			data->door.is_scope = distance_between_points(pos, r->co) < 2 \
+				&& distance_between_points(pos, r->co) > data->map->hhitbox;
+			data->door.co = (t_ico){r->co.x, r->co.y};
+			data->door.is_opening = TRUE;
+			r->is_open_door = TRUE;
+		}
+		r->co = (t_dco){r->co.x + r->step.x, r->co.y + r->step.y};
 	}
-	return (FALSE);
 }

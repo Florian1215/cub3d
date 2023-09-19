@@ -77,6 +77,10 @@
 # define RLOGO					0.2
 # define RSLIDER				0.06
 # define RTITLE					0.15
+# define SIZE_V					5
+
+# define MSG_OPEN_DOOR			"press 'E' to close the door"
+# define MSG_CLOSE_DOOR			"press 'E' to open the door"
 
 // ERROR ----------------------------------------
 # define ERR_MALLOC				"Out of memory"
@@ -106,6 +110,7 @@
 # define PATH_LVL				"./ASSET/LEVEL.xpm"
 
 // COLOR ----------------------------------------
+# define WHITE					0xFFFFFF
 # define BG_MENU				0x7EAA92
 # define BG_ITEM_MENU			0xC8E4B2
 # define BG_ITEM_MENU_HOVER		0xFFF2CC

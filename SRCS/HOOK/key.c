@@ -13,8 +13,9 @@
 #include "cub3d.h"
 
 static t_keypress	get_keypress(int k);
-void				change_map(t_data *data);
 void				launch_map(t_data *data, t_menus n);
+void				change_map(t_data *data);
+void				toggle_door(t_data *data);
 
 int	key_event_press(int k, t_data *data)
 {
@@ -39,8 +40,8 @@ int	key_event_press(int k, t_data *data)
 			data->key_arrow_press[get_keypress(k)] = TRUE;
 		else if (k == Q)
 			change_map(data);
-//		else if (k == E)
-//			toggle_door();
+		else if (k == E && data->door.is_scope)
+			toggle_door(data);
 	}
 	return (SUCCESS);
 }

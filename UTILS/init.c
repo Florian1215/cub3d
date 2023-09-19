@@ -25,9 +25,14 @@ void	init_data(t_data *data)
 	data->hover = POS_ERROR;
 	data->launch_animation = FALSE;
 	data->mouse_press = FALSE;
+	data->door.is_animation = FALSE;
 	data->n_map = map_size(data->map);
 	if (data->n_map > 4)
 		data->n_map = 4;
+	data->txt_pos.x = WIDTH / 2 - 76;
+	data->txt_pos.y = HEIGHT / 2 - 15;
+	data->v_pos.x = WIDTH / 2 - SIZE_V / 2;
+	data->v_pos.y = HEIGHT / 2 - SIZE_V / 2;
 	data->mlx_ptr = mlx_init();
 	data->win_ptr = mlx_new_window(data->mlx_ptr, WIDTH, HEIGHT, TITLE);
 	init_imgs(data);

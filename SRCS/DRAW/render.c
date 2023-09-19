@@ -19,7 +19,8 @@ void	move_player(t_data *data);
 
 void	render(t_data *data)
 {
-	t_ico	offset;
+	const char	*s[2] = {MSG_CLOSE_DOOR, MSG_OPEN_DOOR};
+	t_ico		offset;
 
 	offset = get_minimap_offset(data);
 	print_background(data);
@@ -30,5 +31,10 @@ void	render(t_data *data)
 	draw_fov(data, offset);
 	print_minimap(data, data->map, offset, FALSE);
 	print_player(data, data->map, offset);
+	draw_square((t_draw){&data->img, WHITE, 0}, \
+	data->v_pos, SIZE_V);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img, 0, 0);
+	if (data->door.is_scope)
+		mlx_string_put(data->mlx_ptr, data->win_ptr, data->txt_pos.x, \
+			data->txt_pos.y, WHITE, (char *)s[data->door.is_opening]);
 }

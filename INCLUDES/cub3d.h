@@ -54,6 +54,7 @@ enum e_case
 	WALL,
 	DOOR_OPEN,
 	DOOR_CLOSE,
+	DOOR_ANIMATION,
 	NOTHING,
 	PLAYER,
 	CHECK_FLOOR,
@@ -125,8 +126,11 @@ void		sleep_until(t_time until);
 // DOOR -----------------------------------------
 struct s_door
 {
-	t_bool	scope;
-	t_dco	co;
+	t_bool	is_scope;
+	t_ico	co;
+	t_bool	is_opening;
+	int		i;
+	t_bool	is_animation;
 };
 
 // RAYCASTING -----------------------------------
@@ -137,6 +141,8 @@ struct s_raycatsing
 	t_dco	co;
 	t_dco	step;
 	t_dco	line;
+	t_bool	is_open_door;
+	t_bool	is_active;
 };
 
 void		raycasting(t_data *data);
@@ -245,6 +251,8 @@ struct s_data
 	t_ico			size_slider;
 	t_time			start_animation;
 	t_door			door;
+	t_ico			txt_pos;
+	t_ico			v_pos;
 };
 
 void		init_data(t_data *data);
