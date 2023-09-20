@@ -2,6 +2,7 @@ NO ./ASSET/wall_north.xpm
 SO ./ASSET/wall_south.xpm
 WE ./ASSET/wall_west.xpm
 EA ./ASSET/wall_east.xpm
+DO ./ASSET/wall_east.xpm
 
 F 202,237,255
 C 92,131,116

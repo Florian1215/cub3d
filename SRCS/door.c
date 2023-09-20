@@ -12,9 +12,17 @@
 
 #include "cub3d.h"
 
-static t_bool	door_opening(t_data *data, t_raycatsing *r);
-static t_bool	door_closing(t_data *data, t_raycatsing *r);
 static void		stop_animation(t_data *data);
+
+void	init_door(t_data *data, t_raycatsing *r, double d, t_bool opening)
+{
+	if (opening)
+		data->door.is_scope = d < 2 && d > data->map->hhitbox;
+	else
+		data->door.is_scope = r->is_door && d < 2;
+	data->door.co = (t_ico){r->co.x, r->co.y};
+	data->door.is_opening = opening;
+}
 
 void	toggle_door(t_data *data)
 {
@@ -25,17 +33,11 @@ void	toggle_door(t_data *data)
 	data->door.i = 0;
 	data->door.is_opening = *c == DOOR_CLOSE;
 	*c = DOOR_ANIMATION;
+	data->door.is_scope = FALSE;
 }
 
 t_bool	door_animation(t_data *data, t_raycatsing *r)
 {
-	if (data->door.is_opening)
-		return (door_opening(data, r));
-	return (door_closing(data, r));
-}
-
-static t_bool	door_opening(t_data *data, t_raycatsing *r)
-{
 	double	p;
 	double	value;
 
@@ -46,23 +48,8 @@ static t_bool	door_opening(t_data *data, t_raycatsing *r)
 	else
 		value = r->co.y - (int)r->co.y;
 	value *= 100;
-	p = animation(100, 0, data->door.i);
-	return (p > value);
-}
-
-static t_bool	door_closing(t_data *data, t_raycatsing *r)
-{
-	double	p;
-	double	value;
-
-	if (data->door.i == 28)
-		return (stop_animation(data), TRUE);
-	if (r->wall == SOUTH || r->wall == NORTH)
-		value = r->co.x - (int)r->co.x;
-	else
-		value = r->co.y - (int)r->co.y;
-	value *= 100;
-	p = animation(0, 100, data->door.i);
+	p = animation(100 * data->door.is_opening, 100 * \
+		(!data->door.is_opening), data->door.i);
 	return (p > value);
 }
 

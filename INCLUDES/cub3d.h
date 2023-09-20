@@ -127,10 +127,10 @@ void		sleep_until(t_time until);
 struct s_door
 {
 	t_bool	is_scope;
-	t_ico	co;
 	t_bool	is_opening;
-	int		i;
 	t_bool	is_animation;
+	int		i;
+	t_ico	co;
 };
 
 // RAYCASTING -----------------------------------
@@ -141,6 +141,7 @@ struct s_raycatsing
 	t_dco	co;
 	t_dco	step;
 	t_dco	line;
+	t_bool	is_door;
 	t_bool	is_open_door;
 	t_bool	is_active;
 };

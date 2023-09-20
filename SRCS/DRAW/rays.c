@@ -15,6 +15,16 @@
 static void		loop_until_hit_wall(t_data *data, t_raycatsing *r, t_dco pos);
 t_case			get_case(t_map *map, t_dco p);
 t_bool			door_animation(t_data *data, t_raycatsing *r);
+void			init_door(t_data *data, t_raycatsing *r, double d, \
+					t_bool opening);
+
+void	init_rays(t_raycatsing *r, int i)
+{
+	r->is_active = i == WIDTH / 2;
+	r->distance = 10000;
+	r->is_open_door = FALSE;
+	r->is_door = FALSE;
+}
 
 void	check_horizontal(t_data *data, t_raycatsing *r, t_dco pos, \
 				double angle)
@@ -82,23 +92,19 @@ static void	loop_until_hit_wall(t_data *data, t_raycatsing *r, t_dco pos)
 	int		i;
 
 	i = 0;
-	r->is_open_door = FALSE;
 	while (i++ < fmax(data->map->height, data->map->width))
 	{
 		c = get_case(data->map, r->co);
 		if (c == DOOR_CLOSE || (c == DOOR_ANIMATION && door_animation(data, r)))
 		{
-			r->wall = DOOR;
+			r->is_door = TRUE;
 			break ;
 		}
 		if (c == WALL)
 			break ;
 		if (c == DOOR_OPEN && r->is_active && !data->door.is_animation)
 		{
-			data->door.is_scope = distance_between_points(pos, r->co) < 2 \
-				&& distance_between_points(pos, r->co) > data->map->hhitbox;
-			data->door.co = (t_ico){r->co.x, r->co.y};
-			data->door.is_opening = TRUE;
+			init_door(data, r, distance_between_points(pos, r->co), TRUE);
 			r->is_open_door = TRUE;
 		}
 		r->co = (t_dco){r->co.x + r->step.x, r->co.y + r->step.y};

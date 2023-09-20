@@ -14,12 +14,14 @@
 
 static void	send_rays(t_data *data);
 static void	draw_raycasting(t_data *data, t_dco pos, double angle, int i);
+void		init_door(t_data *data, t_raycatsing *r, double d, t_bool opening);
 void		draw_texture(t_data *data, t_raycatsing *r, int dlineh, int lineh);
+void		init_rays(t_raycatsing *r, int i);
 void		check_horizontal(t_data *data, t_raycatsing *r, t_dco pos, \
 				double angle);
 void		check_vertical(t_data *data, t_raycatsing *r, t_dco pos, \
 				double angle);
-static void	comput_line_height(t_data *data, t_raycatsing *r, double angle, \
+static void	compute_line_height(t_data *data, t_raycatsing *r, double angle, \
 				int i);
 
 void	raycasting(t_data *data)
@@ -68,40 +70,39 @@ static void	draw_raycasting(t_data *data, t_dco pos, double angle, int i)
 {
 	t_raycatsing	r[2];
 
-	r[0].is_active = i == WIDTH / 2;
-	r[0].distance = 10000;
+	init_rays(r, i);
 	check_horizontal(data, r, pos, degre_to_radian(angle));
-	r[1].is_active = i == WIDTH / 2;
-	r[1].distance = 10000;
+	init_rays(r + 1, i);
 	check_vertical(data, r + 1, pos, degre_to_radian(angle));
 	r[0].is_open_door = r[0].is_open_door || r[1].is_open_door;
 	r[1].is_open_door = r[0].is_open_door;
-	comput_line_height(data, r + (r[1].distance < r[0].distance), angle, i);
+	compute_line_height(data, r + (r[1].distance < r[0].distance), angle, i);
 }
 
-static void	comput_line_height(t_data *data, t_raycatsing *r, double angle, \
+static void	compute_line_height(t_data *data, t_raycatsing *r, double angle, \
 				int i)
 {
 	int				line_height;
 	int				draw_line_height;
+	t_wall			w;
 
 	r->distance *= cos(data->map->radian - degre_to_radian(angle));
 	line_height = HEIGHT / r->distance;
 	if (r->is_active && !r->is_open_door && !data->door.is_animation)
-	{
-		data->door.is_scope = r->wall == DOOR && r->distance < 2;
-		data->door.co = (t_ico){r->co.x, r->co.y};
-		data->door.is_opening = FALSE;
-	}
+		init_door(data, r, r->distance, FALSE);
 	if (line_height > HEIGHT)
 		draw_line_height = HEIGHT;
 	else
 		draw_line_height = line_height;
 	r->line = (t_dco){i, HHEIGHT - draw_line_height / 2};
-	if (data->map->t[r->wall].is_texture)
+	if (r->is_door)
+		w = DOOR;
+	else
+		w = r->wall;
+	if (data->map->t[w].is_texture)
 		draw_texture(data, r, draw_line_height, line_height);
 	else
 		draw_line(data, r->line, (t_dco){r->line.x, r->line.y + \
-			draw_line_height}, data->map->t[r->wall].color);
+			draw_line_height}, data->map->t[w].color);
 	data->fov_line[i] = (t_dco){r->co.x, r->co.y};
 }

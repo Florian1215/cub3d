@@ -25,9 +25,7 @@ void	draw_texture(t_data *data, t_raycatsing *r, int dlineh, int lineh)
 		value = r->co.x - (int)r->co.x;
 	else
 		value = r->co.y - (int)r->co.y;
-	if (dlineh != lineh)
-		lineh = dlineh + ((lineh - dlineh) * r->distance * 1.7);
-	t = &data->map->t[r->wall].img;
+	t = &data->map->t[r->wall * !r->is_door + DOOR * r->is_door].img;
 	i = 0;
 	while (i < dlineh)
 	{
