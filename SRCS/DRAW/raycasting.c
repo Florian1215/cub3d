@@ -29,7 +29,7 @@ void	raycasting(t_data *data)
 	pthread_t		t[MAX_THREAD];
 	int				i;
 
-	data->raycast_i = 0;
+	data->i = 0;
 	i = 0;
 	while (i < MAX_THREAD)
 	{
@@ -49,8 +49,8 @@ static void	send_rays(t_data *data)
 	int		i;
 
 	pthread_mutex_lock(&data->mutex_i);
-	i = data->raycast_i;
-	data->raycast_i++;
+	i = data->i;
+	data->i++;
 	pthread_mutex_unlock(&data->mutex_i);
 	if (i >= WIDTH)
 		return ;

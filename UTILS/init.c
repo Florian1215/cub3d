@@ -38,7 +38,7 @@ void	init_data(t_data *data)
 	init_imgs(data);
 	i = 0;
 	while (i < KEYPRESS)
-		data->key_arrow_press[i++] = FALSE;
+		data->keypress[i++] = FALSE;
 	init_menu(data);
 	init_ratio(data);
 	load_textures(data);

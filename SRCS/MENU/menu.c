@@ -81,8 +81,7 @@ static void	set_minimap(t_data *data)
 	map = data->map;
 	while (i < data->n_map && map)
 	{
-		print_minimap(data, map, map->omap_menu, TRUE);
-		print_minimap(data, map, map->omap_menu, FALSE);
+		print_minimap(data, map, map->omap_menu);
 		print_player(data, map, map->omap_menu);
 		map = map->next;
 		i++;

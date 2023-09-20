@@ -27,14 +27,14 @@ void	move_player(t_data *data)
 	k = KP_UP;
 	while (k < 4)
 	{
-		if (data->key_arrow_press[k])
+		if (data->keypress[k])
 		{
 			if (k == KP_UP)
 				direction = data->map->direction;
 			else
 				direction = dco_rotate(data->map->direction, ts[k]);
-			new_pos = dco_add(data->map->pos, \
-				dco_mul(direction, MOVE_SPEED));
+			new_pos = dco_add(data->map->pos, dco_mul(direction, \
+				MOVE_SPEED * (1 + data->keypress[KP_SHIFT])));
 			if (valid_pos(data->map, new_pos) == VALID_POS || \
 					make_valid_pos(data->map, &new_pos))
 				data->map->pos = new_pos;

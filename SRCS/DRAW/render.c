@@ -27,9 +27,8 @@ void	render(t_data *data)
 	rotate_player(data);
 	move_player(data);
 	raycasting(data);
-	print_minimap(data, data->map, offset, TRUE);
+	print_minimap(data, data->map, offset);
 	draw_fov(data, offset);
-	print_minimap(data, data->map, offset, FALSE);
 	print_player(data, data->map, offset);
 	draw_square((t_draw){&data->img, WHITE, 0}, \
 	data->v_pos, SIZE_V);

@@ -37,7 +37,7 @@ int	key_event_press(int k, t_data *data)
 	else
 	{
 		if (get_keypress(k) != KP_ERROR)
-			data->key_arrow_press[get_keypress(k)] = TRUE;
+			data->keypress[get_keypress(k)] = TRUE;
 		else if (k == Q)
 			change_map(data);
 		else if (k == E && data->door.is_scope)
@@ -49,13 +49,13 @@ int	key_event_press(int k, t_data *data)
 int	key_event_release(int k, t_data *data)
 {
 	if (get_keypress(k) != KP_ERROR)
-		data->key_arrow_press[get_keypress(k)] = FALSE;
+		data->keypress[get_keypress(k)] = FALSE;
 	return (SUCCESS);
 }
 
 static t_keypress	get_keypress(int k)
 {
-	const int	dic[KEYPRESS] = {W, S, A, D, LEFT_KEY, RIGHT_KEY};
+	const int	dic[KEYPRESS] = {W, S, A, D, LEFT_KEY, RIGHT_KEY, SHIFT};
 	t_keypress	key;
 
 	key = KP_UP;

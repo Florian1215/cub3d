@@ -48,8 +48,13 @@ t_bool	door_animation(t_data *data, t_raycatsing *r)
 	else
 		value = r->co.y - (int)r->co.y;
 	value *= 100;
-	p = animation(100 * data->door.is_opening, 100 * \
+	p = animation(50 * data->door.is_opening, 50 * \
 		(!data->door.is_opening), data->door.i);
+	if (value > 50)
+	{
+		p = 100 - p;
+		return (p < value);
+	}
 	return (p > value);
 }
 

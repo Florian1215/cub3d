@@ -78,8 +78,7 @@ int			map_size(t_map *m);
 void		map_clear(t_map **map, void *mlx_ptr);
 t_ico		get_map_ico(t_map *map, t_ico offset);
 t_dco		get_map_dco(t_map *map, t_ico offset);
-void		print_minimap(t_data *data, t_map *map, t_ico offset, \
-				t_bool background);
+void		print_minimap(t_data *data, t_map *map, t_ico offset);
 t_bool		is_valid_pos(t_map *map, t_dco p1, t_dco p2);
 
 // DRAW -----------------------------------------
@@ -233,13 +232,13 @@ struct s_data
 	t_menu			menu[BINDS];
 	double			ratio_horizontal;
 	pthread_mutex_t	mutex_i;
-	int				raycast_i;
+	int				i;
 	t_menus			hover;
 	t_bool			hover_animation;
 	t_bool			in_menu;
 	t_bool			launch_animation;
 	t_bool			menu_animation;
-	t_bool			key_arrow_press[KEYPRESS];
+	t_bool			keypress[KEYPRESS];
 	t_bool			mouse_press;
 	int				mouse_cursor;
 	t_map			*map;

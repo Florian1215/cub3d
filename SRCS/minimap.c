@@ -12,9 +12,9 @@
 
 #include "cub3d.h"
 
-void	print_minimap(t_data *data, t_map *map, t_ico offset, t_bool background)
+void	print_minimap(t_data *data, t_map *map, t_ico offset)
 {
-	const int	colors[5] = {FLOOR_COLOR, WALL_COLOR, DOOR_OPEN_COLOR, \
+	const int	colors[5] = {FLOOR_COLOR, WALL_COLOR, DOOR_CLOSE_COLOR, \
 								DOOR_CLOSE_COLOR, DOOR_CLOSE_COLOR};
 	t_ico		i;
 	t_case		c;
@@ -26,8 +26,7 @@ void	print_minimap(t_data *data, t_map *map, t_ico offset, t_bool background)
 		while (i.y < map->width)
 		{
 			c = map->m[i.x][i.y];
-			if (((c == FLOOR || c == DOOR_OPEN || c == DOOR_ANIMATION) && \
-				background) || (!background && (c == WALL || c == DOOR_CLOSE)))
+			if (FLOOR <= c && c <= DOOR_ANIMATION)
 			{
 				draw_square((t_draw){&data->img, colors[map->m[i.x][i.y]], \
 				0}, (t_ico){offset.x + i.y * map->square_size, offset.y + \

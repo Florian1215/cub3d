@@ -22,6 +22,7 @@ enum e_keypress
 	KP_RIGHT,
 	KP_I,
 	KP_O,
+	KP_SHIFT,
 };
 
 # ifdef __linux__
@@ -36,6 +37,7 @@ enum e_keycode
 	S = 115,
 	D = 100,
 	E = 101,
+	SHIFT = 65505,
 	ESQ = 65307,
 	TAB = 65289,
 	LEFT_KEY = 65361,
@@ -62,7 +64,6 @@ enum e_keycode
 	W = 13,
 	S = 1,
 	D = 2,
-	E = 13,
 	ESQ = 53,
 	TAB = 48,
 	LEFT_KEY = 123,
