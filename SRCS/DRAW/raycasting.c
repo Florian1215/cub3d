@@ -14,12 +14,12 @@
 
 static void	send_rays(t_data *data);
 static void	draw_raycasting(t_data *data, t_dco pos, double angle, int i);
-void		init_door(t_data *data, t_raycatsing *r, double d, t_bool opening);
-void		draw_texture(t_data *data, t_raycatsing *r, int dlineh, int lineh);
-void		init_rays(t_raycatsing *r, int i);
-void		check_horizontal(t_data *data, t_raycatsing *r, t_dco pos, \
+void		init_door(t_data *data, t_raycatsing *r, t_raycatsing *door);
+void		init_texture(t_data *data, t_raycatsing *r, t_ico lineh);
+void		init_rays(t_raycatsing *r, t_dco pos, int i);
+void		check_horizontal(t_data *data, t_raycatsing *r, t_raycatsing *door, \
 				double angle);
-void		check_vertical(t_data *data, t_raycatsing *r, t_dco pos, \
+void		check_vertical(t_data *data, t_raycatsing *r, t_raycatsing *door, \
 				double angle);
 static void	compute_line_height(t_data *data, t_raycatsing *r, double angle, \
 				int i);
@@ -49,34 +49,39 @@ static void	send_rays(t_data *data)
 	int		i;
 
 	pthread_mutex_lock(&data->mutex_i);
-	i = data->i;
-	data->i++;
+	while (data->i < WIDTH)
+	{
+		i = data->i;
+		data->i++;
+		pthread_mutex_unlock(&data->mutex_i);
+		if (i < HWIDTH)
+			angle = HWIDTH - i;
+		else
+			angle = i - HWIDTH;
+		angle = radian_to_degre(atan(angle * data->ratio_horizontal));
+		if (i < HWIDTH)
+			angle *= -1;
+		angle = rotate_degre(data->map->degre + angle);
+		draw_raycasting(data, data->map->pos, angle, i);
+		pthread_mutex_lock(&data->mutex_i);
+	}
 	pthread_mutex_unlock(&data->mutex_i);
-	if (i >= WIDTH)
-		return ;
-	if (i < HWIDTH)
-		angle = HWIDTH - i;
-	else
-		angle = i - HWIDTH;
-	angle = radian_to_degre(atan(angle * data->ratio_horizontal));
-	if (i < HWIDTH)
-		angle *= -1;
-	angle = rotate_degre(data->map->degre + angle);
-	draw_raycasting(data, data->map->pos, angle, i);
-	send_rays(data);
 }
 
 static void	draw_raycasting(t_data *data, t_dco pos, double angle, int i)
 {
-	t_raycatsing	r[2];
+	t_raycatsing	r[3];
 
-	init_rays(r, i);
-	check_horizontal(data, r, pos, degre_to_radian(angle));
-	init_rays(r + 1, i);
-	check_vertical(data, r + 1, pos, degre_to_radian(angle));
-	r[0].is_open_door = r[0].is_open_door || r[1].is_open_door;
-	r[1].is_open_door = r[0].is_open_door;
-	compute_line_height(data, r + (r[1].distance < r[0].distance), angle, i);
+	init_rays(r + DOOR_STATE, pos, i);
+	init_rays(r, pos, i);
+	check_horizontal(data, r, r + DOOR_STATE, degre_to_radian(angle));
+	init_rays(r + VERTICAL, pos, i);
+	check_vertical(data, r + VERTICAL, r + DOOR_STATE, degre_to_radian(angle));
+	r[HORIZONTAL].co_door = r[DOOR_STATE].co_door;
+	r[HORIZONTAL].is_open_door = r[DOOR_STATE].is_open_door;
+	r[VERTICAL].co_door = r[DOOR_STATE].co_door;
+	r[VERTICAL].is_open_door = r[DOOR_STATE].is_open_door;
+	compute_line_height(data, r + (r[VERTICAL].distance < r[HORIZONTAL].distance), angle, i);
 }
 
 static void	compute_line_height(t_data *data, t_raycatsing *r, double angle, \
@@ -88,8 +93,8 @@ static void	compute_line_height(t_data *data, t_raycatsing *r, double angle, \
 
 	r->distance *= cos(data->map->radian - degre_to_radian(angle));
 	line_height = HEIGHT / r->distance;
-	if (r->is_active && !r->is_open_door && !data->door.is_animation)
-		init_door(data, r, r->distance, FALSE);
+	if (r->is_active && !r->is_open_door)
+		init_door(data, r, NULL);
 	if (line_height > HEIGHT)
 		draw_line_height = HEIGHT;
 	else
@@ -100,7 +105,7 @@ static void	compute_line_height(t_data *data, t_raycatsing *r, double angle, \
 	else
 		w = r->wall;
 	if (data->map->t[w].is_texture)
-		draw_texture(data, r, draw_line_height, line_height);
+		init_texture(data, r, (t_ico){draw_line_height, line_height});
 	else
 		draw_line(data, r->line, (t_dco){r->line.x, r->line.y + \
 			draw_line_height}, data->map->t[w].color);

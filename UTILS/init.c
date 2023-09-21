@@ -3,6 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+/*   By: fguirama <fguirama@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/20 17:11:45 by fguirama          #+#    #+#             */
+/*   Updated: 2023/09/20 17:11:45 by fguirama         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 18:50:00 by fguirama          #+#    #+#             */
@@ -26,6 +38,8 @@ void	init_data(t_data *data)
 	data->launch_animation = FALSE;
 	data->mouse_press = FALSE;
 	data->door.is_animation = FALSE;
+	data->door.is_scope = FALSE;
+	data->door.is_opening = FALSE;
 	data->n_map = map_size(data->map);
 	if (data->n_map > 4)
 		data->n_map = 4;

@@ -14,31 +14,55 @@
 
 static void		stop_animation(t_data *data);
 
-void	init_door(t_data *data, t_raycatsing *r, double d, t_bool opening)
+void	init_door(t_data *data, t_raycatsing *r, t_raycatsing *door)
 {
-	if (opening)
+	double	d;
+
+	if (data->door.is_animation && (data->door.co.x != (int)r->co.x || \
+			data->door.co.y != (int)r->co.y))
+		return ;
+	if (door)
+	{
+		d = distance_between_points(r->pos, r->co);
 		data->door.is_scope = d < 2 && d > data->map->hhitbox;
+		door->is_open_door = TRUE;
+	}
 	else
-		data->door.is_scope = r->is_door && d < 2;
+	{
+		data->door.is_scope = r->is_door && r->distance < 2;
+		r->co_door = r->co;
+	}
 	data->door.co = (t_ico){r->co.x, r->co.y};
-	data->door.is_opening = opening;
 }
 
 void	toggle_door(t_data *data)
 {
 	t_case	*c;
+	t_bool	is_opening;
+	int		start;
 
 	c = &data->map->m[data->door.co.y][data->door.co.x];
-	data->door.is_animation = TRUE;
+	if (data->door.is_animation)
+	{
+		is_opening = !data->door.is_opening;
+		start = 100 - data->door.pos;
+	}
+	else
+	{
+		start = 50;
+		is_opening = *c == DOOR_CLOSE;
+		*c = DOOR_ANIMATION;
+	}
 	data->door.i = 0;
-	data->door.is_opening = *c == DOOR_CLOSE;
-	*c = DOOR_ANIMATION;
-	data->door.is_scope = FALSE;
+	data->door.is_opening = is_opening;
+	data->door.start = start * (is_opening || \
+		(!is_opening && data->door.is_animation));
+	data->door.end = 50 * (!is_opening);
+	data->door.is_animation = TRUE;
 }
 
 t_bool	door_animation(t_data *data, t_raycatsing *r)
 {
-	double	p;
 	double	value;
 
 	if (data->door.i == 28)
@@ -48,14 +72,13 @@ t_bool	door_animation(t_data *data, t_raycatsing *r)
 	else
 		value = r->co.y - (int)r->co.y;
 	value *= 100;
-	p = animation(50 * data->door.is_opening, 50 * \
-		(!data->door.is_opening), data->door.i);
+	data->door.pos = animation(data->door.start, data->door.end, data->door.i);
 	if (value > 50)
 	{
-		p = 100 - p;
-		return (p < value);
+		data->door.pos = 100 - data->door.pos;
+		return (data->door.pos < value);
 	}
-	return (p > value);
+	return (data->door.pos > value);
 }
 
 static void	stop_animation(t_data *data)

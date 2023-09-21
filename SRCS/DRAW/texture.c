@@ -12,27 +12,45 @@
 
 #include "cub3d.h"
 
-void	draw_texture(t_data *data, t_raycatsing *r, int dlineh, int lineh)
-{
-	int		i;
-	double	value;
-	int		color;
-	t_img	*t;
-	t_ico	ct;
+static void	draw_texture(t_data *data, t_raycatsing *r, t_ico lineh, \
+				double value);
 
-	(void)lineh;
+void	init_texture(t_data *data, t_raycatsing *r, t_ico lineh)
+{
+	double	value;
+
 	if (r->wall == SOUTH || r->wall == NORTH)
 		value = r->co.x - (int)r->co.x;
 	else
 		value = r->co.y - (int)r->co.y;
+	if ((r->is_door || r->is_open_door) && data->door.is_animation && \
+		data->door.co.x == (int)r->co_door.x && \
+		data->door.co.y == (int)r->co_door.y)
+	{
+		if ((data->door.is_opening && value > 0.5))
+			value -= (data->door.pos - 50) / 100;
+		else
+			value += (data->door.end - data->door.pos) / 100;
+	}
+	draw_texture(data, r, lineh, value);
+}
+
+static void	draw_texture(t_data *data, t_raycatsing *r, t_ico lineh, \
+				double value)
+{
+	int		color;
+	int		i;
+	t_img	*t;
+	t_ico	ct;
+
 	t = &data->map->t[r->wall * !r->is_door + DOOR * r->is_door].img;
 	i = 0;
-	while (i < dlineh)
+	while (i < lineh.x)
 	{
 		ct.x = value * t->width;
-		ct.y = (i + ((lineh - dlineh) / 2)) * t->height / lineh;
+		ct.y = (i + ((lineh.y - lineh.x) / 2)) * t->height / lineh.y;
 		color = *(int *)(t->addr + ct.x * t->bit_ratio + ct.y * t->line_length);
-		mlx_pixel_put_img(&data->img, r->line.x, r->line.y + i, color);
+		mlx_pixel_put_img(&data->img, r->line.x, (int)r->line.y + i, color);
 		i++;
 	}
 }

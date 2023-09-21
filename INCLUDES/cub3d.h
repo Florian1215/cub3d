@@ -130,14 +130,26 @@ struct s_door
 	t_bool	is_animation;
 	int		i;
 	t_ico	co;
+	double	pos;
+	int		start;
+	int		end;
 };
 
 // RAYCASTING -----------------------------------
+enum s_raycatsing_state
+{
+	HORIZONTAL,
+	VERTICAL,
+	DOOR_STATE,
+};
+
 struct s_raycatsing
 {
 	t_wall	wall;
 	double	distance;
 	t_dco	co;
+	t_dco	pos;
+	t_dco	co_door;
 	t_dco	step;
 	t_dco	line;
 	t_bool	is_door;
