@@ -52,7 +52,7 @@ void	set_lvl_option(t_data *data)
 	else
 		data->lvl.c = data->lvl.colors[data->lvl.s - LVL_EASY].color;
 	draw_round_rectangle((t_draw){&data->img, data->lvl.c, MENU_RADIUS + \
-		SELECT_RADIUS}, data->menu[LVL_BG].pos, data->menu[LVL_BG].size);
+		PADX_MENU}, data->menu[LVL_BG].pos, data->menu[LVL_BG].size);
 	draw_alpha(&data->img, &data->lvl.imgs[3], data->menu[LVL_TITLE].pos, \
 	RTITLE);
 	if (data->hover >= LVL_EASY && data->hover <= LVL_HARD \

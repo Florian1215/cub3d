@@ -1,27 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   time.c                                             :+:      :+:    :+:   */
+/*   sprite.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fguirama <fguirama@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/24 18:27:00 by fguirama          #+#    #+#             */
-/*   Updated: 2023/07/24 18:27:00 by fguirama         ###   ########lyon.fr   */
+/*   Created: 2023/09/26 19:10:00 by fguirama          #+#    #+#             */
+/*   Updated: 2023/09/26 19:10:00 by fguirama         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	sleep_until(t_time until)
+void	init_sprites(t_data *data)
 {
-	while (get_timestamp() < until)
-		usleep(1);
-}
-
-t_time	get_timestamp(void)
-{
-	struct timeval	timestamp;
-
-	gettimeofday(&timestamp, NULL);
-	return ((timestamp.tv_sec * 1000) + (timestamp.tv_usec / 1000));
+	data->sprites[0].co = (t_dco){1.5, 1.5};
+	data->sprites[1].co = (t_dco){8.5, 1.5};
+	data->sprites[2].co = (t_dco){4.5, 7.5};
+	data->sprites[3].co = (t_dco){8.5, 7.5};
+	data->sprites[4].co = (t_dco){6.5, 3.5};
 }

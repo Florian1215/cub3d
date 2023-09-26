@@ -19,6 +19,7 @@ void	draw_fov(t_data	*data, t_ico offset)
 	pthread_t		t[MAX_THREAD];
 	int				i;
 
+	// TODO data race
 	data->i = 0;
 	i = 0;
 	data->map->omap_menu = offset;
@@ -37,17 +38,19 @@ static void	draw_fov_line(t_data *data)
 {
 	int	i;
 
-	pthread_mutex_lock(&data->mutex_i);
-	i = data->i;
-	data->i++;
-	pthread_mutex_unlock(&data->mutex_i);
-	if (i >= WIDTH)
-		return ;
-	draw_line(data, get_map_dco(data->map, data->map->omap_menu), (t_dco) \
+	while (TRUE)
+	{
+		pthread_mutex_lock(&data->mutex_i);
+		i = data->i;
+		data->i++;
+		pthread_mutex_unlock(&data->mutex_i);
+		if (i >= WIDTH)
+			break ;
+		draw_line(data, get_map_dco(data->map, data->map->omap_menu), (t_dco) \
 		{data->fov_line[i].x * data->map->square_size + data->map->omap_menu.x, \
 		data->fov_line[i].y * data->map->square_size + data->map->omap_menu.y}, \
 		FOV_COLOR);
-	draw_fov_line(data);
+	}
 }
 
 void	init_ratio(t_data *data)

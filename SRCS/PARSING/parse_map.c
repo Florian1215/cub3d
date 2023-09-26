@@ -76,7 +76,7 @@ static t_case	get_char(t_map *map, char c)
 		return (FLOOR);
 	else if (c == '1')
 		return (WALL);
-	else if (c == '2')
+	else if (c == 'D')
 		return (DOOR_CLOSE);
 	else if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
 	{

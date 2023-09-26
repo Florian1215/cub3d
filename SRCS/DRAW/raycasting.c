@@ -24,12 +24,22 @@ void		check_vertical(t_data *data, t_raycatsing *r, t_raycatsing *door, \
 static void	compute_line_height(t_data *data, t_raycatsing *r, double angle, \
 				int i);
 
+void		stop_animation(t_data *data);
+
+
 void	raycasting(t_data *data)
 {
 	pthread_t		t[MAX_THREAD];
 	int				i;
 
 	data->i = 0;
+	if (data->door.is_animation)
+	{
+		data->door.pos = animation(data->door.start, data->door.end, \
+			data->door.i);
+		if (data->door.i == 28)
+			stop_animation(data);
+	}
 	i = 0;
 	while (i < MAX_THREAD)
 	{
@@ -40,7 +50,7 @@ void	raycasting(t_data *data)
 	while (i < MAX_THREAD)
 		pthread_join(t[i++], NULL);
 	if (data->door.is_animation)
-		data->door.i += 2;
+		data->door.i += 1;
 }
 
 static void	send_rays(t_data *data)
@@ -48,12 +58,14 @@ static void	send_rays(t_data *data)
 	double	angle;
 	int		i;
 
-	pthread_mutex_lock(&data->mutex_i);
-	while (data->i < WIDTH)
+	while (TRUE)
 	{
+		pthread_mutex_lock(&data->mutex_i);
 		i = data->i;
 		data->i++;
 		pthread_mutex_unlock(&data->mutex_i);
+		if (i >= WIDTH)
+			break ;
 		if (i < HWIDTH)
 			angle = HWIDTH - i;
 		else
@@ -63,9 +75,7 @@ static void	send_rays(t_data *data)
 			angle *= -1;
 		angle = rotate_degre(data->map->degre + angle);
 		draw_raycasting(data, data->map->pos, angle, i);
-		pthread_mutex_lock(&data->mutex_i);
 	}
-	pthread_mutex_unlock(&data->mutex_i);
 }
 
 static void	draw_raycasting(t_data *data, t_dco pos, double angle, int i)
@@ -93,6 +103,7 @@ static void	compute_line_height(t_data *data, t_raycatsing *r, double angle, \
 
 	r->distance *= cos(data->map->radian - degre_to_radian(angle));
 	line_height = HEIGHT / r->distance;
+//	dprintf(STDERR_FILENO, "LENGTH %f | HEIGHT %d\n", r->distance, line_height);
 	if (r->is_active && !r->is_open_door)
 		init_door(data, r, NULL);
 	if (line_height > HEIGHT)

@@ -67,9 +67,7 @@ void	set_minimap_animation(t_data *data)
 
 	k = -1;
 	map = data->map;
-	if (++i == 0)
-		data->start_animation = get_timestamp();
-	sleep_until(i * FRAME + data->start_animation);
+	i++;
 	while (++k < data->n_map && map)
 	{
 		offset.x = animation(map->start_omap.x, map->omap_menu.x, i);

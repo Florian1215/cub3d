@@ -62,7 +62,6 @@
 
 # define PREC					0.0000001
 # define MAX_THREAD				8
-# define FRAME					20
 # define ROTATE_SPEED			3
 # define MOVE_SPEED				0.1
 # define KEYPRESS				7
@@ -70,7 +69,6 @@
 # define PADX_MENU				12
 # define PADY_FOV				20
 # define MENU_RADIUS			24
-# define SELECT_RADIUS			8
 # define PADY_LVL				340
 # define WIDTH_EDIT				230
 # define HEIGHT_EDIT			120
@@ -108,6 +106,7 @@
 # define PATH_NORMAL			"./ASSET/normal.xpm"
 # define PATH_HARD				"./ASSET/hard.xpm"
 # define PATH_LVL				"./ASSET/LEVEL.xpm"
+# define PATH_COINS				"./ASSET/coins.xpm"
 
 // COLOR ----------------------------------------
 # define WHITE					0xFFFFFF

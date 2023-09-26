@@ -27,10 +27,12 @@ void	init_texture(t_data *data, t_raycatsing *r, t_ico lineh)
 		data->door.co.x == (int)r->co_door.x && \
 		data->door.co.y == (int)r->co_door.y)
 	{
-		if ((data->door.is_opening && value > 0.5))
+		if (data->door.is_opening && value < 0.5)
 			value -= (data->door.pos - 50) / 100;
+		else if (!data->door.is_opening && value < 0.5)
+			value += (50 - data->door.pos) / 100;
 		else
-			value += (data->door.end - data->door.pos) / 100;
+			value += (data->door.pos - 50) / 100;
 	}
 	draw_texture(data, r, lineh, value);
 }

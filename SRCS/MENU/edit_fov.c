@@ -47,7 +47,7 @@ void	init_fov(t_data *data, int rpan)
 void	set_fov_option(t_data *data)
 {
 	draw_round_rectangle((t_draw){&data->img, BG_ITEM_MENU, MENU_RADIUS + \
-		SELECT_RADIUS}, data->menu[FOV_BG].pos, data->menu[FOV_BG].size);
+		PADX_MENU}, data->menu[FOV_BG].pos, data->menu[FOV_BG].size);
 	draw_alpha(&data->img, &data->fov.imgs[3], data->menu[FOV_TITLE].pos, \
 		RTITLE);
 	if (data->hover >= FOV_70 && data->hover <= FOV_110 \

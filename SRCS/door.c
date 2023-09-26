@@ -12,7 +12,6 @@
 
 #include "cub3d.h"
 
-static void		stop_animation(t_data *data);
 
 void	init_door(t_data *data, t_raycatsing *r, t_raycatsing *door)
 {
@@ -45,7 +44,7 @@ void	toggle_door(t_data *data)
 	if (data->door.is_animation)
 	{
 		is_opening = !data->door.is_opening;
-		start = 100 - data->door.pos;
+		start = data->door.pos;
 	}
 	else
 	{
@@ -65,23 +64,17 @@ t_bool	door_animation(t_data *data, t_raycatsing *r)
 {
 	double	value;
 
-	if (data->door.i == 28)
-		return (stop_animation(data), TRUE);
 	if (r->wall == SOUTH || r->wall == NORTH)
 		value = r->co.x - (int)r->co.x;
 	else
 		value = r->co.y - (int)r->co.y;
 	value *= 100;
-	data->door.pos = animation(data->door.start, data->door.end, data->door.i);
 	if (value > 50)
-	{
-		data->door.pos = 100 - data->door.pos;
-		return (data->door.pos < value);
-	}
+		return ((100 - data->door.pos) < value);
 	return (data->door.pos > value);
 }
 
-static void	stop_animation(t_data *data)
+void	stop_animation(t_data *data)
 {
 	t_case	*c;
 

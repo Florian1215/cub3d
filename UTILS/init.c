@@ -71,6 +71,7 @@ static void	init_imgs(t_data *data)
 	init_img(&data->lvl.imgs[1], PATH_NORMAL, data->mlx_ptr);
 	init_img(&data->lvl.imgs[2], PATH_HARD, data->mlx_ptr);
 	init_img(&data->lvl.imgs[3], PATH_LVL, data->mlx_ptr);
+	init_img(&data->sprite_img, PATH_COINS, data->mlx_ptr);
 }
 
 void	init_img(t_img *img, char *path, void *mlx_ptr)

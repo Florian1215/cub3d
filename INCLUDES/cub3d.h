@@ -119,8 +119,6 @@ t_bool		is_even(int n);
 double		distance_between_points(t_dco p1, t_dco p2);
 t_dco		dco_add(t_dco co1, t_dco co2);
 t_dco		dco_mul(t_dco c, double f);
-t_time		get_timestamp(void);
-void		sleep_until(t_time until);
 
 // DOOR -----------------------------------------
 struct s_door
@@ -136,7 +134,7 @@ struct s_door
 };
 
 // RAYCASTING -----------------------------------
-enum s_raycatsing_state
+enum e_raycatsing_state
 {
 	HORIZONTAL,
 	VERTICAL,
@@ -204,6 +202,13 @@ struct s_slider
 void		set_menu(t_data *data);
 void		handle_menu(t_data *data);
 
+// SPRIT ----------------------------------------
+struct s_sprite
+{
+	t_dco	co;
+};
+
+
 // DATA -----------------------------------------
 struct s_texture
 {
@@ -260,8 +265,10 @@ struct s_data
 	t_dco			fov_line[WIDTH];
 	t_img			img;
 	t_img			logo;
+	t_sprite		sprites[5];
+	t_raycatsing	*sprite_raycasting;
+	t_img			sprite_img;
 	t_ico			size_slider;
-	t_time			start_animation;
 	t_door			door;
 	t_ico			txt_pos;
 	t_ico			v_pos;

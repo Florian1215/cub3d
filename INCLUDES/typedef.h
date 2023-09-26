@@ -23,6 +23,7 @@ typedef struct s_list			t_list;
 typedef struct s_menu			t_menu;
 typedef struct s_draw			t_draw;
 typedef struct s_door			t_door;
+typedef struct s_sprite			t_sprite;
 typedef struct s_slider			t_slider;
 typedef struct s_texture		t_texture;
 typedef struct s_raycatsing		t_raycatsing;
