@@ -12,108 +12,109 @@
 
 #include "cub3d.h"
 
-static void	send_rays(t_data *data);
-static void	draw_raycasting(t_data *data, t_dco pos, double angle, int i);
-void		init_door(t_data *data, t_raycatsing *r, t_raycatsing *door);
-void		init_texture(t_data *data, t_raycatsing *r, t_ico lineh);
-void		init_rays(t_raycatsing *r, t_dco pos, int i);
-void		check_horizontal(t_data *data, t_raycatsing *r, t_raycatsing *door, \
-				double angle);
-void		check_vertical(t_data *data, t_raycatsing *r, t_raycatsing *door, \
-				double angle);
-static void	compute_line_height(t_data *data, t_raycatsing *r, double angle, \
-				int i);
-void		stop_animation(t_data *data);
+void	draw_wall(t_data *data, int screen_x, t_ray ray);
+
+static void	set_ray_step(t_ray *ray, t_dco ray_dir)
+{
+	if (ray_dir.x > 0)
+	{
+		ray->step.x = 1;
+		ray->ray.x = ((int) ray->pos.x + 1 - ray->pos.x) * ray->unit_step.x;
+	}
+	else
+	{
+		ray->step.x = -1;
+		ray->ray.x = (ray->pos.x - (int) ray->pos.x) * ray->unit_step.x;
+	}
+	if (ray_dir.y > 0)
+	{
+		ray->step.y = 1;
+		ray->ray.y = ((int) ray->pos.y + 1 - ray->pos.y) * ray->unit_step.y;
+	}
+	else
+	{
+		ray->step.y = -1;
+		ray->ray.y = (ray->pos.y - (int) ray->pos.y) * ray->unit_step.y;
+	}
+}
+
+t_ray	ray_init(t_data *data, t_dco ray_dir)
+{
+	t_ray	ray;
+
+	ray.pos = data->map->pos;
+	ray.unit_step.x = fabs(1 / ray_dir.x);
+	ray.unit_step.y = fabs(1 / ray_dir.y);
+	ray.ray = (t_dco){0, 0};
+	ray.is_door = FALSE;
+	set_ray_step(&ray, ray_dir);
+	return (ray);
+}
+
+static void	ray_update(t_data *data, t_ray *ray, t_ico *map_index)
+{
+	ray->is_door = FALSE;
+	if (data->map->m[map_index->y][map_index->x] == DOOR_OPEN)
+		ray->is_door = TRUE;
+	if (ray->ray.x < ray->ray.y)
+	{
+		map_index->x += ray->step.x;
+		ray->ray.x += ray->unit_step.x;
+		if (ray->step.x == 1)
+			ray->wall_face = WEST;
+		else
+			ray->wall_face = EAST;
+	}
+	else
+	{
+		map_index->y += ray->step.y;
+		ray->ray.y += ray->unit_step.y;
+		if (ray->step.y == 1)
+			ray->wall_face = NORTH;
+		else
+			ray->wall_face = SOUTH;
+	}
+}
+
+t_ray	ray_cast(t_data *data, t_dco ray_dir)
+{
+	t_ray	ray;
+	t_ico	map_index;
+
+	ray = ray_init(data, ray_dir);
+	map_index = (t_ico) {(int)data->map->pos.x, (int)data->map->pos.y};
+	while (data->map->m[map_index.y][map_index.x] != WALL && data->map->m[map_index.y][map_index.x] != DOOR_CLOSE)
+		ray_update(data, &ray, &map_index);
+	if (ray.wall_face == WEST || ray.wall_face == EAST)
+	{
+		ray.length = ray.ray.x - ray.unit_step.x;
+		ray.pos.y = data->map->pos.y + ray.length * ray_dir.y;
+	}
+	else
+	{
+		ray.length = ray.ray.y - ray.unit_step.y;
+		ray.pos.x = data->map->pos.x + ray.length * ray_dir.x;
+	}
+	if (data->map->m[map_index.y][map_index.x] == DOOR_CLOSE)
+		ray.is_door = TRUE;
+	return (ray);
+}
 
 void	raycasting(t_data *data)
 {
-	pthread_t		t[MAX_THREAD];
-	int				i;
-
-	data->i = 0;
-	if (data->door.is_animation)
-	{
-		data->door.pos = animation(data->door.start, data->door.end, \
-			data->door.i);
-		if (data->door.i == 28)
-			stop_animation(data);
-	}
-	i = 0;
-	while (i < MAX_THREAD)
-		pthread_create(&t[i++], NULL, (void *)send_rays, data);
-	i = 0;
-	while (i < MAX_THREAD)
-		pthread_join(t[i++], NULL);
-	if (data->door.is_animation)
-		data->door.i += 1;
-}
-
-static void	send_rays(t_data *data)
-{
-	double	angle;
+	t_ray	ray;
+	t_dco	ray_dir;
+	float	camera_x;
 	int		i;
 
-	while (TRUE)
+	i = 0;
+	while (i < WIDTH)
 	{
-		pthread_mutex_lock(&data->mutex_i);
-		i = data->i;
-		data->i++;
-		pthread_mutex_unlock(&data->mutex_i);
-		if (i >= WIDTH)
-			break ;
-		if (i < HWIDTH)
-			angle = HWIDTH - i;
-		else
-			angle = i - HWIDTH;
-		angle = radian_to_degre(atan(angle * data->ratio_horizontal));
-		if (i < HWIDTH)
-			angle *= -1;
-		angle = rotate_degre(data->map->degre + angle);
-		draw_raycasting(data, data->map->pos, angle, i);
+		camera_x = 2.f * (float)i / WIDTH - 1;
+		ray_dir = dco_add(data->map->direction, dco_mul(dco_rotate(data->map->direction, PI2), camera_x));
+		ray = ray_cast(data, ray_dir);
+		data->z_buffer[i] = ray.length;
+		draw_wall(data, i, ray);
+		i++;
 	}
-}
-
-static void	draw_raycasting(t_data *data, t_dco pos, double angle, int i)
-{
-	t_raycatsing	r[3];
-
-	init_rays(r + DOOR_STATE, pos, i);
-	init_rays(r, pos, i);
-	check_horizontal(data, r, r + DOOR_STATE, degre_to_radian(angle));
-	init_rays(r + VERTICAL, pos, i);
-	check_vertical(data, r + VERTICAL, r + DOOR_STATE, degre_to_radian(angle));
-	r[HORIZONTAL].co_door = r[DOOR_STATE].co_door;
-	r[HORIZONTAL].is_open_door = r[DOOR_STATE].is_open_door;
-	r[VERTICAL].co_door = r[DOOR_STATE].co_door;
-	r[VERTICAL].is_open_door = r[DOOR_STATE].is_open_door;
-	compute_line_height(data, r + (r[VERTICAL].distance < \
-		r[HORIZONTAL].distance), angle, i);
-}
-
-static void	compute_line_height(t_data *data, t_raycatsing *r, double angle, \
-				int i)
-{
-	int				line_height;
-	int				draw_line_height;
-	t_wall			w;
-
-	r->distance *= cos(data->map->radian - degre_to_radian(angle));
-	line_height = HEIGHT / r->distance;
-	if (r->is_active && !r->is_open_door)
-		init_door(data, r, NULL);
-	if (line_height > HEIGHT)
-		draw_line_height = HEIGHT;
-	else
-		draw_line_height = line_height;
-	r->line = (t_dco){i, HHEIGHT - draw_line_height / 2};
-	if (r->is_door)
-		w = DOOR;
-	else
-		w = r->wall;
-	if (data->map->t[w].is_texture)
-		init_texture(data, r, (t_ico){draw_line_height, line_height});
-	else
-		draw_line(data, r->line, (t_dco){r->line.x, r->line.y + \
-			draw_line_height}, data->map->t[w].color);
-	data->fov_line[i] = (t_dco){r->co.x, r->co.y};
 }

@@ -12,49 +12,75 @@
 
 #include "cub3d.h"
 
-static void	draw_texture(t_data *data, t_raycatsing *r, t_ico lineh, \
-				double value);
+static void	draw_wall_band(t_data *data, t_ray ray, t_draw_param dp);
+static void	mlx_get_wall_stripe(int *stripe, t_draw_param dp);
+static void	mlx_put_wall_stripe(t_data *data, const int *stripe, t_draw_param dp);
 
-void	init_texture(t_data *data, t_raycatsing *r, t_ico lineh)
+void	draw_wall(t_data *data, int screen_x, t_ray ray)
 {
-	double	value;
+	t_draw_param	dp;
 
-	if (r->wall == SOUTH || r->wall == NORTH)
-		value = r->co.x - (int)r->co.x;
-	else
-		value = r->co.y - (int)r->co.y;
-	if ((r->is_door || r->is_open_door) && data->door.is_animation && \
-		data->door.co.x == (int)r->co_door.x && \
-		data->door.co.y == (int)r->co_door.y)
-	{
-		if (data->door.is_opening && value < 0.5)
-			value -= (data->door.pos - 50) / 100;
-		else if (!data->door.is_opening && value < 0.5)
-			value += (50 - data->door.pos) / 100;
-		else
-			value += (data->door.pos - 50) / 100;
-	}
-	draw_texture(data, r, lineh, value);
+	dp.screen.x = screen_x;
+	dp.height = HEIGHT / ray.length;
+	dp.draw_start.y = HEIGHT / 2 - dp.height / 2;
+	dp.draw_end.y = HEIGHT / 2 + dp.height / 2;
+	draw_wall_band(data, ray, dp);
 }
 
-// TODO fix fisheye texture
-
-static void	draw_texture(t_data *data, t_raycatsing *r, t_ico lineh, \
-				double value)
+static void	draw_wall_band(t_data *data, t_ray ray, t_draw_param dp)
 {
-	int		color;
-	int		i;
-	t_img	*t;
-	t_ico	ct;
+	int			stripe[HEIGHT];
 
-	t = &data->map->t[r->wall * !r->is_door + DOOR * r->is_door].img;
+	if (ray.is_door)
+		dp.sprite = data->map->t[DOOR].img;
+	else
+		dp.sprite = data->map->t[ray.wall_face].img;
+	if (ray.wall_face == NORTH || ray.wall_face == SOUTH)
+		dp.texture.x = (ray.pos.x - (int) ray.pos.x) * dp.sprite.width;
+	else
+		dp.texture.x = (ray.pos.y - (int) ray.pos.y) * dp.sprite.width;
+	dp.screen.y = dp.draw_start.y;
+	if (dp.screen.y < 0)
+		dp.screen.y = 0;
+	mlx_get_wall_stripe(stripe, dp);
+	mlx_put_wall_stripe(data, stripe, dp);
+}
+
+static void	mlx_get_wall_stripe(int *stripe, t_draw_param dp)
+{
+	char	*texture_addr;
+	float	step;
+	int		i;
+
+	step = (float) dp.sprite.height / dp.height;
+	texture_addr = dp.sprite.addr
+				   + dp.texture.x * dp.sprite.bit_ratio;
 	i = 0;
-	while (i < lineh.x)
+	while (dp.screen.y < dp.draw_end.y && dp.screen.y < HEIGHT)
 	{
-		ct.x = value * t->width;
-		ct.y = (i + ((lineh.y - lineh.x) / 2)) * t->height / lineh.y;
-		color = *(int *)(t->addr + ct.x * t->bit_ratio + ct.y * t->line_length);
-		mlx_pixel_put_img(&data->img, r->line.x, (int)r->line.y + i, color);
+		dp.texture.y = (dp.screen.y - dp.draw_start.y) * step;
+		stripe[i] = *(int *)(texture_addr
+							 + dp.texture.y * dp.sprite.line_length);
+		dp.screen.y++;
+		i++;
+	}
+}
+
+static void	mlx_put_wall_stripe(t_data *data, const int *stripe, t_draw_param dp)
+{
+	char	*img_addr;
+	int		i;
+
+	if (dp.draw_end.y > HEIGHT)
+		dp.draw_end.y = HEIGHT;
+	img_addr = data->img.addr;
+	img_addr += dp.screen.x * data->img.bit_ratio;
+	img_addr += dp.screen.y * data->img.line_length;
+	i = 0;
+	while (dp.screen.y + i < dp.draw_end.y)
+	{
+		*(int *)img_addr = stripe[i];
+		img_addr += data->img.line_length;
 		i++;
 	}
 }

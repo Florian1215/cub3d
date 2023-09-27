@@ -119,6 +119,7 @@ t_bool		is_even(int n);
 double		distance_between_points(t_dco p1, t_dco p2);
 t_dco		dco_add(t_dco co1, t_dco co2);
 t_dco		dco_mul(t_dco c, double f);
+t_dco		dco_rotate(t_dco co, double t);
 
 // DOOR -----------------------------------------
 struct s_door
@@ -140,6 +141,29 @@ enum e_raycatsing_state
 	VERTICAL,
 	DOOR_STATE,
 };
+
+typedef struct s_ray
+{
+	t_dco	ray;
+	t_dco	pos;
+	t_dco	unit_step;
+	t_ico	step;
+	t_wall	wall_face;
+	t_bool	is_door;
+	float	length;
+}	t_ray;
+
+typedef struct s_draw_param
+{
+	int			color;
+	int			height;
+	int			width;
+	t_ico		screen;
+	t_ico		texture;
+	t_ico		draw_start;
+	t_ico		draw_end;
+	t_img		sprite;
+}	t_draw_param;
 
 struct s_raycatsing
 {
@@ -272,6 +296,7 @@ struct s_data
 	t_door			door;
 	t_ico			txt_pos;
 	t_ico			v_pos;
+	float			z_buffer[WIDTH];
 };
 
 void		init_data(t_data *data);

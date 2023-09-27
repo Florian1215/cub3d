@@ -12,7 +12,6 @@
 
 #include "cub3d.h"
 
-static t_dco	dco_rotate(t_dco co, double t);
 static t_side	valid_pos(t_map *map, t_dco pos);
 static t_bool	make_valid_pos(t_map *map, t_dco *pos);
 static t_side	get_face_pos(t_map *map, t_side vpos, t_dco pos);
@@ -41,12 +40,6 @@ void	move_player(t_data *data)
 		}
 		k++;
 	}
-}
-
-static t_dco	dco_rotate(t_dco co, double t)
-{
-	return ((t_dco){cosf(t) * co.x + -sinf(t) * co.y, \
-		sinf(t) * co.x + cosf(t) * co.y});
 }
 
 static t_side	valid_pos(t_map *map, t_dco pos)

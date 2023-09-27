@@ -22,6 +22,12 @@ t_dco	dco_mul(t_dco c, double f)
 	return ((t_dco){c.x * f, c.y * f});
 }
 
+t_dco	dco_rotate(t_dco co, double t)
+{
+	return ((t_dco){cosf(t) * co.x + -sinf(t) * co.y, \
+		sinf(t) * co.x + cosf(t) * co.y});
+}
+
 t_bool	is_valid_pos(t_map *map, t_dco p1, t_dco p2)
 {
 	t_case	c;
