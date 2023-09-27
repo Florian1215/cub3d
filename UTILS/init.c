@@ -3,18 +3,6 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fguirama <fguirama@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/20 17:11:45 by fguirama          #+#    #+#             */
-/*   Updated: 2023/09/20 17:11:45 by fguirama         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
 /*   By: mfinette <mfinette@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 18:50:00 by fguirama          #+#    #+#             */
@@ -28,6 +16,7 @@ static void	init_imgs(t_data *data);
 static void	init_menu(t_data *data);
 void		init_fov(t_data *data, int rpan);
 void		init_lvl(t_data *data);
+void		init_slide(t_data *data);
 void		load_textures(t_data *data);
 
 void	init_data(t_data *data)
@@ -37,9 +26,13 @@ void	init_data(t_data *data)
 	data->hover = POS_ERROR;
 	data->launch_animation = FALSE;
 	data->mouse_press = FALSE;
+	data->slide.animation = FALSE;
 	data->door.is_animation = FALSE;
 	data->door.is_scope = FALSE;
 	data->door.is_opening = FALSE;
+	i = 0;
+	while (i < KEYPRESS)
+		data->keypress[i++] = FALSE;
 	data->n_map = map_size(data->map);
 	if (data->n_map > 4)
 		data->n_map = 4;
@@ -47,21 +40,21 @@ void	init_data(t_data *data)
 	data->txt_pos.y = HEIGHT / 2 - 15;
 	data->v_pos.x = WIDTH / 2 - SIZE_V / 2;
 	data->v_pos.y = HEIGHT / 2 - SIZE_V / 2;
-	data->mlx_ptr = mlx_init();
-	data->win_ptr = mlx_new_window(data->mlx_ptr, WIDTH, HEIGHT, TITLE);
 	init_imgs(data);
-	i = 0;
-	while (i < KEYPRESS)
-		data->keypress[i++] = FALSE;
 	init_menu(data);
 	init_ratio(data);
 	load_textures(data);
 	pthread_mutex_init(&data->mutex_i, NULL);
 }
 
+// TODO Make init imgs && load img in multithread
+
 static void	init_imgs(t_data *data)
 {
+	data->mlx_ptr = mlx_init();
+	data->win_ptr = mlx_new_window(data->mlx_ptr, WIDTH, HEIGHT, TITLE);
 	init_img(&data->img, NULL, data->mlx_ptr);
+	init_img(&data->slide.imgs[0], NULL, data->mlx_ptr);
 	init_img(&data->logo, PATH_LOGO, data->mlx_ptr);
 	init_img(&data->fov.imgs[0], PATH_70, data->mlx_ptr);
 	init_img(&data->fov.imgs[1], PATH_90, data->mlx_ptr);

@@ -208,7 +208,6 @@ struct s_sprite
 	t_dco	co;
 };
 
-
 // DATA -----------------------------------------
 struct s_texture
 {
@@ -254,6 +253,7 @@ struct s_data
 	t_bool			hover_animation;
 	t_bool			in_menu;
 	t_bool			launch_animation;
+	t_slider		slide;
 	t_bool			menu_animation;
 	t_bool			keypress[KEYPRESS];
 	t_bool			mouse_press;

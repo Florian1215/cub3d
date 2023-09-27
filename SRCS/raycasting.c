@@ -23,9 +23,7 @@ void		check_vertical(t_data *data, t_raycatsing *r, t_raycatsing *door, \
 				double angle);
 static void	compute_line_height(t_data *data, t_raycatsing *r, double angle, \
 				int i);
-
 void		stop_animation(t_data *data);
-
 
 void	raycasting(t_data *data)
 {
@@ -91,7 +89,8 @@ static void	draw_raycasting(t_data *data, t_dco pos, double angle, int i)
 	r[HORIZONTAL].is_open_door = r[DOOR_STATE].is_open_door;
 	r[VERTICAL].co_door = r[DOOR_STATE].co_door;
 	r[VERTICAL].is_open_door = r[DOOR_STATE].is_open_door;
-	compute_line_height(data, r + (r[VERTICAL].distance < r[HORIZONTAL].distance), angle, i);
+	compute_line_height(data, r + (r[VERTICAL].distance < \
+		r[HORIZONTAL].distance), angle, i);
 }
 
 static void	compute_line_height(t_data *data, t_raycatsing *r, double angle, \
@@ -103,7 +102,6 @@ static void	compute_line_height(t_data *data, t_raycatsing *r, double angle, \
 
 	r->distance *= cos(data->map->radian - degre_to_radian(angle));
 	line_height = HEIGHT / r->distance;
-//	dprintf(STDERR_FILENO, "LENGTH %f | HEIGHT %d\n", r->distance, line_height);
 	if (r->is_active && !r->is_open_door)
 		init_door(data, r, NULL);
 	if (line_height > HEIGHT)

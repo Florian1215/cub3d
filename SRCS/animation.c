@@ -25,3 +25,26 @@ double	animation(double a, double b, int i)
 		return ((values[i] * (b - a) / 100) + a);
 	return (a);
 }
+
+void	slide_animation(t_data *data)
+{
+	static int	i = 0;
+	double		*value;
+
+	if (i == 29)
+	{
+		i = 0;
+		data->slide.animation = FALSE;
+		return ;
+	}
+	data->slide.x = animation(100, 0, i) / 100 * WIDTH;
+	if (is_look_up(data) || is_look_down(data))
+		value = &data->map->pos.x;
+	else
+		value = &data->map->pos.y;
+	if (is_look_up(data) || is_look_left(data))
+		*value = animation((int)*value, ceil(*value) - data->map->hhitbox, i);
+	else
+		*value = animation(ceil(*value), (int)*value + data->map->hhitbox, i);
+	i++;
+}

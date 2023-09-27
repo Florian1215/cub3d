@@ -51,8 +51,10 @@ void	change_map(t_data *data)
 {
 	t_map	*tmp;
 
-	if (!data->map->next)
+	if (!data->map->next || data->slide.animation)
 		return ;
+	data->slide.animation = TRUE;
+	dup_img(&data->img, &data->slide.imgs[0]);
 	tmp = data->map;
 	data->map = data->map->next;
 	tmp->next = NULL;

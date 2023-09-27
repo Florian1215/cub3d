@@ -108,5 +108,6 @@ struct	s_img
 void		mlx_pixel_put_img(t_img *img, int x, int y, int color);
 void		set_hook(t_data *data);
 int			close_mlx(t_data *data);
+void		dup_img(t_img *img1, t_img *img2);
 
 #endif

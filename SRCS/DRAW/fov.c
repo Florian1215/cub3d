@@ -14,12 +14,13 @@
 
 static void	draw_fov_line(t_data *data);
 
+// TODO fix data race
+
 void	draw_fov(t_data	*data, t_ico offset)
 {
 	pthread_t		t[MAX_THREAD];
 	int				i;
 
-	// TODO data race
 	data->i = 0;
 	i = 0;
 	data->map->omap_menu = offset;

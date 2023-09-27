@@ -34,7 +34,7 @@ int	key_event_press(int k, t_data *data)
 		else if (k == PAV_4 || k == NUM_4)
 			launch_map(data, POS_4);
 	}
-	else
+	else if (!data->slide.animation)
 	{
 		if (get_keypress(k) != KP_ERROR)
 			data->keypress[get_keypress(k)] = TRUE;

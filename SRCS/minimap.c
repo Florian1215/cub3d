@@ -44,13 +44,13 @@ t_ico	get_minimap_offset(t_data *data)
 	t_ico			offset;
 	double			*value;
 
+	if (!data->launch_animation)
+		return ((t_ico){MINIMAP_OFFSET, MINIMAP_OFFSET});
 	if (i == 29)
 	{
 		i = 0;
 		data->launch_animation = FALSE;
 	}
-	if (!data->launch_animation)
-		return ((t_ico){MINIMAP_OFFSET, MINIMAP_OFFSET});
 	offset.x = animation(data->map->omap_menu.x, MINIMAP_OFFSET, i);
 	offset.y = animation(data->map->omap_menu.y, MINIMAP_OFFSET, i);
 	if (is_look_up(data) || is_look_down(data))

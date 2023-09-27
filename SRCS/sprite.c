@@ -12,6 +12,8 @@
 
 #include "cub3d.h"
 
+// TODO add sprite
+
 void	init_sprites(t_data *data)
 {
 	data->sprites[0].co = (t_dco){1.5, 1.5};

@@ -37,6 +37,8 @@ void	init_texture(t_data *data, t_raycatsing *r, t_ico lineh)
 	draw_texture(data, r, lineh, value);
 }
 
+// TODO fix fisheye texture
+
 static void	draw_texture(t_data *data, t_raycatsing *r, t_ico lineh, \
 				double value)
 {

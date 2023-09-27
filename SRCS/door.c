@@ -12,7 +12,6 @@
 
 #include "cub3d.h"
 
-
 void	init_door(t_data *data, t_raycatsing *r, t_raycatsing *door)
 {
 	double	d;
