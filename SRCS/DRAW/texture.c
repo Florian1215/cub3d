@@ -70,10 +70,10 @@ void	load_textures(t_data *data)
 		s = NORTH;
 		while (s <= DOOR)
 		{
-			if (s != DOOR || m->t[s].path)
+			if (m->t[s].path)
 				init_img(&m->t[s].img, m->t[s].path, data->mlx_ptr);
 			m->t[s].color = colors[s];
-			m->t[s].is_texture = m->t[s].path && m->t->img.img;
+			m->t[s].is_texture = m->t[s].path && m->t[s].img.img;
 			s++;
 		}
 		m = m->next;

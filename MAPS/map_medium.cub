@@ -2,6 +2,7 @@ NO ./ASSET/wall_north.xpm
 SO ./ASSET/wall_south.xpm
 WE ./ASSET/wall_west.xpm
 EA ./ASSET/wall_east.xpm
+DO ./ASSET/door.xpm
 
 F 45, 67, 86
 C 67, 91, 102
