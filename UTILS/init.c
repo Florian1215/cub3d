@@ -47,8 +47,6 @@ void	init_data(t_data *data)
 	pthread_mutex_init(&data->mutex_i, NULL);
 }
 
-// TODO Make init imgs && load img in multithread
-
 static void	init_imgs(t_data *data)
 {
 	data->mlx_ptr = mlx_init();

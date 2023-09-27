@@ -37,6 +37,5 @@ typedef enum e_menus			t_menus;
 typedef enum e_keypress			t_keypress;
 typedef enum e_parsing_state	t_parsing_state;
 typedef union u_color			t_color;
-typedef unsigned long long int	t_time;
 
 #endif

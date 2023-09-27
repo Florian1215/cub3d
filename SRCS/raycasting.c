@@ -40,10 +40,7 @@ void	raycasting(t_data *data)
 	}
 	i = 0;
 	while (i < MAX_THREAD)
-	{
-		if (pthread_create(&t[i++], NULL, (void *)send_rays, data) != SUCCESS)
-			close_mlx(data);
-	}
+		pthread_create(&t[i++], NULL, (void *)send_rays, data);
 	i = 0;
 	while (i < MAX_THREAD)
 		pthread_join(t[i++], NULL);

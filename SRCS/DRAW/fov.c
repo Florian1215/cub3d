@@ -25,11 +25,7 @@ void	draw_fov(t_data	*data, t_ico offset)
 	i = 0;
 	data->map->omap_menu = offset;
 	while (i < MAX_THREAD)
-	{
-		if (pthread_create(&t[i++], NULL, \
-		(void *)draw_fov_line, data) != SUCCESS)
-			close_mlx(data);
-	}
+		pthread_create(&t[i++], NULL, (void *)draw_fov_line, data);
 	i = 0;
 	while (i < MAX_THREAD)
 		pthread_join(t[i++], NULL);

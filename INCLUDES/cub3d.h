@@ -275,7 +275,6 @@ struct s_data
 };
 
 void		init_data(t_data *data);
-void		init_img(t_img *img, char *path, void *mlx_ptr);
 void		init_ratio(t_data *data);
 
 #endif
