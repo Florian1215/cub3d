@@ -12,105 +12,92 @@
 
 #include "cub3d.h"
 
-static void		loop_until_hit_wall(t_data *data, t_raycatsing *r, \
-					t_raycatsing *d);
-t_case			get_case(t_map *map, t_dco p);
-t_bool			door_animation(t_data *data, t_raycatsing *r);
-void			init_door(t_data *data, t_raycatsing *r, t_raycatsing *door);
+static void		ray_update(t_data *data, t_ray *ray, t_ico *map_index);
+static t_ray	ray_init(t_data *data, t_dco ray_dir);
+static void		set_ray_step(t_ray *ray, t_dco ray_dir);
 
-void	init_rays(t_raycatsing *r, t_dco pos, int i)
+t_ray	ray_cast(t_data *data, t_dco ray_dir)
 {
-	r->is_active = i == WIDTH / 2;
-	r->distance = 10000;
-	r->is_open_door = FALSE;
-	r->is_door = FALSE;
-	r->co_door = (t_dco){-1, -1};
-	r->pos = pos;
-}
+	t_ray	ray;
+	t_ico	map_index;
 
-void	check_horizontal(t_data *data, t_raycatsing *r, t_raycatsing *door, \
-				double angle)
-{
-	double	a_tan;
-
-	a_tan = -1.0 / tan(angle);
-	if (angle > PI)
+	ray = ray_init(data, ray_dir);
+	map_index = (t_ico){(int)data->map->pos.x, (int)data->map->pos.y};
+	while (data->map->m[map_index.y][map_index.x] != WALL && data->map->m[map_index.y][map_index.x] != DOOR_CLOSE)
+		ray_update(data, &ray, &map_index);
+	if (ray.wall == WEST || ray.wall == EAST)
 	{
-		r->co.y = (int)r->pos.y - PREC;
-		r->co.x = (r->pos.y - r->co.y) * a_tan + r->pos.x;
-		r->step = (t_dco){a_tan, -1};
-		r->wall = SOUTH;
-	}
-	else if (angle < PI)
-	{
-		r->co.y = (int)r->pos.y + 1;
-		r->co.x = (r->pos.y - r->co.y) * a_tan + r->pos.x;
-		r->step = (t_dco){-a_tan, 1};
-		r->wall = NORTH;
+		ray.distance = ray.ray.x - ray.unit_step.x;
+		ray.pos.y = data->map->pos.y + ray.distance * ray_dir.y;
 	}
 	else
 	{
-		r->co = r->pos;
-		r->wall = WEST + (angle != PI);
-		return ;
+		ray.distance = ray.ray.y - ray.unit_step.y;
+		ray.pos.x = data->map->pos.x + ray.distance * ray_dir.x;
 	}
-	loop_until_hit_wall(data, r, door);
-	r->distance = distance_between_points(r->pos, r->co);
+	if (data->map->m[map_index.y][map_index.x] == DOOR_CLOSE)
+		ray.is_door = TRUE;
+	return (ray);
 }
 
-void	check_vertical(t_data *data, t_raycatsing *r, t_raycatsing *door, \
-				double angle)
+static void	ray_update(t_data *data, t_ray *ray, t_ico *map_index)
 {
-	double	n_tan;
-
-	n_tan = -tan(angle);
-	if (angle > PI2 && angle < PI3)
+	ray->is_door = FALSE;
+	if (data->map->m[map_index->y][map_index->x] == DOOR_OPEN)
+		ray->is_door = TRUE;
+	if (ray->ray.x < ray->ray.y)
 	{
-		r->co.x = (int)r->pos.x - PREC;
-		r->co.y = (r->pos.x - r->co.x) * n_tan + r->pos.y;
-		r->step = (t_dco){-1, n_tan};
-		r->wall = WEST;
-	}
-	else if (angle < PI2 || angle > PI3)
-	{
-		r->co.x = (int)r->pos.x + 1;
-		r->co.y = (r->pos.x - r->co.x) * n_tan + r->pos.y;
-		r->step = (t_dco){1, -n_tan};
-		r->wall = EAST;
+		map_index->x += ray->step.x;
+		ray->ray.x += ray->unit_step.x;
+		if (ray->step.x == 1)
+			ray->wall = WEST;
+		else
+			ray->wall = EAST;
 	}
 	else
 	{
-		r->co = r->pos;
-		r->wall = NOTHING + (angle == PI3);
-		return ;
+		map_index->y += ray->step.y;
+		ray->ray.y += ray->unit_step.y;
+		if (ray->step.y == 1)
+			ray->wall = NORTH;
+		else
+			ray->wall = SOUTH;
 	}
-	loop_until_hit_wall(data, r, door);
-	r->distance = distance_between_points(r->pos, r->co);
 }
 
-static void	loop_until_hit_wall(t_data *data, t_raycatsing *r, t_raycatsing *d)
+static t_ray	ray_init(t_data *data, t_dco ray_dir)
 {
-	t_case	c;
-	int		i;
+	t_ray	ray;
 
-	i = 0;
-	while (i++ < fmax(data->map->height, data->map->width))
+	ray.pos = data->map->pos;
+	ray.unit_step.x = fabs(1 / ray_dir.x);
+	ray.unit_step.y = fabs(1 / ray_dir.y);
+	ray.ray = (t_dco){0, 0};
+	ray.is_door = FALSE;
+	set_ray_step(&ray, ray_dir);
+	return (ray);
+}
+
+static void	set_ray_step(t_ray *ray, t_dco ray_dir)
+{
+	if (ray_dir.x > 0)
 	{
-		c = get_case(data->map, r->co);
-		if (c == DOOR_CLOSE || (c == DOOR_ANIMATION && door_animation(data, r)))
-		{
-			r->is_door = TRUE;
-			d->co_door = r->co;
-			break ;
-		}
-		if (c == WALL)
-			break ;
-		if (c == DOOR_OPEN || c == DOOR_ANIMATION)
-		{
-			if (r->is_active)
-				init_door(data, r, d);
-			d->co_door = r->co;
-		}
-		r->co = (t_dco){r->co.x + r->step.x, r->co.y + r->step.y};
+		ray->step.x = 1;
+		ray->ray.x = ((int) ray->pos.x + 1 - ray->pos.x) * ray->unit_step.x;
+	}
+	else
+	{
+		ray->step.x = -1;
+		ray->ray.x = (ray->pos.x - (int) ray->pos.x) * ray->unit_step.x;
+	}
+	if (ray_dir.y > 0)
+	{
+		ray->step.y = 1;
+		ray->ray.y = ((int) ray->pos.y + 1 - ray->pos.y) * ray->unit_step.y;
+	}
+	else
+	{
+		ray->step.y = -1;
+		ray->ray.y = (ray->pos.y - (int) ray->pos.y) * ray->unit_step.y;
 	}
 }

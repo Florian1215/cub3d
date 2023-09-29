@@ -142,17 +142,6 @@ enum e_raycatsing_state
 	DOOR_STATE,
 };
 
-typedef struct s_ray
-{
-	t_dco	ray;
-	t_dco	pos;
-	t_dco	unit_step;
-	t_ico	step;
-	t_wall	wall_face;
-	t_bool	is_door;
-	float	length;
-}	t_ray;
-
 typedef struct s_draw_param
 {
 	int			color;
@@ -165,14 +154,28 @@ typedef struct s_draw_param
 	t_img		sprite;
 }	t_draw_param;
 
+
+typedef struct s_ray
+{
+	t_dco	ray;
+	t_dco	pos;
+	t_dco	unit_step;
+	t_ico	step;
+	t_wall	wall;
+	t_bool	is_door;
+	float	distance;
+}	t_ray;
+
 struct s_raycatsing
 {
 	t_wall	wall;
 	double	distance;
-	t_dco	co;
 	t_dco	pos;
+	t_dco	direction;
+	t_dco	co;
 	t_dco	co_door;
 	t_dco	step;
+	t_dco	step_unit;
 	t_dco	line;
 	t_bool	is_door;
 	t_bool	is_open_door;
@@ -296,7 +299,6 @@ struct s_data
 	t_door			door;
 	t_ico			txt_pos;
 	t_ico			v_pos;
-	float			z_buffer[WIDTH];
 };
 
 void		init_data(t_data *data);
