@@ -42,7 +42,6 @@ void	launch_map(t_data *data, t_menus p)
 	if (p >= data->n_map)
 		return ;
 	change_n_map(data, p);
-	init_ratio(data);
 	data->launch_animation = TRUE;
 	data->in_menu = FALSE;
 }

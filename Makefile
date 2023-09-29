@@ -51,7 +51,7 @@ endif
 all:				mlx $(NAME)
 
 run:				all
-					./$(NAME) ./MAPS/map_big.cub
+					./$(NAME) ./MAPS/
 
 norm:
 					norminette $(SRCS) $(HEAD)/*.h | grep -E "(Error|Warning)"

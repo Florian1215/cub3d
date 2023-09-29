@@ -16,7 +16,6 @@ static void	init_imgs(t_data *data);
 static void	init_menu(t_data *data);
 void		init_fov(t_data *data, int rpan);
 void		init_lvl(t_data *data);
-void		init_slide(t_data *data);
 void		load_textures(t_data *data);
 
 void	init_data(t_data *data)
@@ -42,7 +41,6 @@ void	init_data(t_data *data)
 	data->v_pos.y = HEIGHT / 2 - SIZE_V / 2;
 	init_imgs(data);
 	init_menu(data);
-	init_ratio(data);
 	load_textures(data);
 	pthread_mutex_init(&data->mutex_i, NULL);
 }

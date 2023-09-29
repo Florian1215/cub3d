@@ -25,14 +25,12 @@ void	init_raycasting(t_data *data, t_raycatsing *r, t_dco ray_dir, int i)
 	r->step.y = fabs(1 / ray_dir.y);
 	r->direction = ray_dir;
 	r->is_active = i == WIDTH / 2;
-	r->co = (t_dco){0, 0};
+	r->ray = (t_dco){0, 0};
 	r->is_door = FALSE;
 	r->is_open_door = FALSE;
 	r->co_door = (t_ico){-1, -1};
 	r->map_i = (t_ico){(int)data->map->pos.x, (int)data->map->pos.y};
 	init_step(r);
-//	if (r->is_active)
-//		printf("%f - %f\n", r->co.x, r->co.y);
 }
 
 static void	init_step(t_raycatsing *r)
@@ -40,22 +38,22 @@ static void	init_step(t_raycatsing *r)
 	if (r->direction.x > 0)
 	{
 		r->map_step.x = 1;
-		r->co.x = ((int)r->pos.x + 1 - r->pos.x) * r->step.x;
+		r->ray.x = ((int)r->pos.x + 1 - r->pos.x) * r->step.x;
 	}
 	else
 	{
 		r->map_step.x = -1;
-		r->co.x = (r->pos.x - (int)r->pos.x) * r->step.x;
+		r->ray.x = (r->pos.x - (int)r->pos.x) * r->step.x;
 	}
 	if (r->direction.y > 0)
 	{
 		r->map_step.y = 1;
-		r->co.y = ((int)r->pos.y + 1 - r->pos.y) * r->step.y;
+		r->ray.y = ((int)r->pos.y + 1 - r->pos.y) * r->step.y;
 	}
 	else
 	{
 		r->map_step.y = -1;
-		r->co.y = (r->pos.y - (int)r->pos.y) * r->step.y;
+		r->ray.y = (r->pos.y - (int)r->pos.y) * r->step.y;
 	}
 }
 
@@ -84,28 +82,35 @@ void	loop_until_hit_wall(t_data *data, t_raycatsing *r)
 	}
 	if (r->wall == WEST || r->wall == EAST)
 	{
-		r->distance = r->co.x - r->step.x;
+		r->distance = r->ray.x - r->step.x;
 		r->pos.y = data->map->pos.y + r->distance * r->direction.y;
 	}
 	else
 	{
-		r->distance = r->co.y - r->step.y;
+		r->distance = r->ray.y - r->step.y;
 		r->pos.x = data->map->pos.x + r->distance * r->direction.x;
 	}
+	r->co = get_co_ray(data, r);
 }
 
 static void	ray_update(t_raycatsing *r)
 {
-	if (r->co.x < r->co.y)
+	if (r->ray.x < r->ray.y)
 	{
 		r->map_i.x += r->map_step.x;
-		r->co.x += r->step.x;
+		r->ray.x += r->step.x;
 		r->wall = EAST - (r->map_step.x == 1);
 	}
 	else
 	{
 		r->map_i.y += r->map_step.y;
-		r->co.y += r->step.y;
+		r->ray.y += r->step.y;
 		r->wall = SOUTH - (r->map_step.y == 1);
 	}
+}
+
+t_dco	get_co_ray(t_data *data, t_raycatsing *r)
+{
+	return ((t_dco){data->map->pos.x + r->distance * r->direction.x, \
+		data->map->pos.y + r->distance * r->direction.y});
 }

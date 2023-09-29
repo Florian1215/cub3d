@@ -21,10 +21,10 @@ void	init_door(t_data *data, t_raycatsing *r, t_bool is_open_door)
 		return ;
 	if (is_open_door)
 	{
-		if (r->wall == SOUTH || r->wall == NORTH)
-			d = r->co.x - r->step.x;
+		if (r->wall == WEST || r->wall == EAST)
+			d = r->ray.x - r->step.x;
 		else
-			d = r->co.y - r->step.y;
+			d = r->ray.y - r->step.y;
 		data->door.is_scope = d < 2 && d > data->map->hhitbox;
 		r->is_open_door = TRUE;
 	}
@@ -67,10 +67,12 @@ t_bool	door_animation(t_data *data, t_raycatsing *r)
 	double	value;
 
 	if (r->wall == SOUTH || r->wall == NORTH)
-		value = 1 - (r->pos.x - (int)r->pos.x);
+		value = data->map->pos.x + (r->ray.y - r->step.y) * r->direction.x;
 	else
-		value = 1 - (r->pos.y - (int)r->pos.y);
-	value *= 100;
+	{
+		value = data->map->pos.y + (r->ray.x - r->step.x) * r->direction.y;
+	}
+	value = (1 - (value - (int)value)) * 100;
 	if (value > 50)
 		return ((100 - data->door.pos) < value);
 	return (data->door.pos > value);

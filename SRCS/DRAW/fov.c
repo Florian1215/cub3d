@@ -21,7 +21,6 @@ void	draw_fov(t_data	*data, t_ico offset)
 	pthread_t		t[MAX_THREAD];
 	int				i;
 
-//	return ;
 	data->i = 0;
 	i = 0;
 	data->map->omap_menu = offset;
@@ -49,11 +48,4 @@ static void	draw_fov_line(t_data *data)
 		data->fov_line[i].y * data->map->square_size + data->map->omap_menu.y}, \
 		FOV_COLOR);
 	}
-}
-
-void	init_ratio(t_data *data)
-{
-	const double	fovs[3] = {76.62, 76.96, 89.885};
-
-	data->ratio_horizontal = 2 * tan(fovs[data->fov.s - FOV_70] / 2) / WIDTH;
 }

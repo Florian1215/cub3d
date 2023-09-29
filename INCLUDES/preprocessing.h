@@ -45,7 +45,6 @@
 # define EXT					".cub"
 # define WIDTH					2400
 # define HEIGHT					1440
-# define HWIDTH					1200
 # define HHEIGHT				720
 
 # define MINIMAP_SIZE			600
@@ -60,9 +59,8 @@
 # define DNORTH					270
 # define DNE					315
 
-# define PREC					0.0000001
 # define MAX_THREAD				8
-# define ROTATE_SPEED			3
+# define ROTATE_SPEED			2.5
 # define MOVE_SPEED				0.1
 # define KEYPRESS				7
 # define BINDS					15
@@ -131,6 +129,5 @@
 // MATHS ----------------------------------------
 # define PI						3.141592
 # define PI2					1.570796
-# define PI3					4.712388
 
 #endif

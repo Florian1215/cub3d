@@ -141,6 +141,7 @@ struct s_raycatsing
 	double	distance;
 	t_dco	pos;
 	t_dco	direction;
+	t_dco	ray;
 	t_dco	co;
 	t_ico	co_door;
 	t_ico	map_i;
@@ -153,6 +154,7 @@ struct s_raycatsing
 };
 
 void		raycasting(t_data *data);
+t_dco		get_co_ray(t_data *data, t_raycatsing *r);
 
 // MENU -----------------------------------------
 enum e_menus
@@ -243,7 +245,6 @@ struct s_data
 	t_slider		fov;
 	t_slider		lvl;
 	t_menu			menu[BINDS];
-	double			ratio_horizontal;
 	pthread_mutex_t	mutex_i;
 	int				i;
 	t_menus			hover;
@@ -272,6 +273,5 @@ struct s_data
 };
 
 void		init_data(t_data *data);
-void		init_ratio(t_data *data);
 
 #endif

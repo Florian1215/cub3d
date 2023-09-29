@@ -44,8 +44,6 @@ void	raycasting(t_data *data)
 		data->door.i += 1;
 }
 
-
-
 static void	send_rays(t_data *data)
 {
 	int				i;
@@ -91,11 +89,5 @@ static void	draw_raycasting(t_data *data, t_raycatsing *r, int i)
 	else
 		draw_line(data, r->line, (t_dco){r->line.x, r->line.y + \
 			draw_line_height}, data->map->t[w].color);
-
-	data->fov_line[i] = (t_dco){r->map_i.x, r->map_i.y};
-	if (r->wall == SOUTH || r->wall == NORTH)
-		data->fov_line[i].x += 1 - (r->pos.x - (int)r->pos.x);
-	else
-		data->fov_line[i].y += 1 - (r->pos.y - (int)r->pos.y);
-//	data->fov_line[i] = (t_dco){r->co.x, r->co.y};
+	data->fov_line[i] = r->co;
 }
