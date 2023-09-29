@@ -19,10 +19,12 @@ void	init_texture(t_data *data, t_raycatsing *r, t_ico lineh)
 {
 	double	value;
 
+//	if (r->is_active)
+//		printf("%f - %f\n", r->pos.x, r->pos.y);
 	if (r->wall == SOUTH || r->wall == NORTH)
-		value = r->pos.x - (int)r->pos.x;
+		value = 1 - (r->pos.x - (int)r->pos.x);
 	else
-		value = r->pos.y - (int)r->pos.y;
+		value = 1 - (r->pos.y - (int)r->pos.y);
 	if ((r->is_door || r->is_open_door) && data->door.is_animation && \
 		data->door.co.x == (int)r->co_door.x && \
 		data->door.co.y == (int)r->co_door.y)

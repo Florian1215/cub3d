@@ -135,37 +135,6 @@ struct s_door
 };
 
 // RAYCASTING -----------------------------------
-enum e_raycatsing_state
-{
-	HORIZONTAL,
-	VERTICAL,
-	DOOR_STATE,
-};
-
-typedef struct s_draw_param
-{
-	int			color;
-	int			height;
-	int			width;
-	t_ico		screen;
-	t_ico		texture;
-	t_ico		draw_start;
-	t_ico		draw_end;
-	t_img		sprite;
-}	t_draw_param;
-
-
-typedef struct s_ray
-{
-	t_dco	ray;
-	t_dco	pos;
-	t_dco	unit_step;
-	t_ico	step;
-	t_wall	wall;
-	t_bool	is_door;
-	float	distance;
-}	t_ray;
-
 struct s_raycatsing
 {
 	t_wall	wall;
@@ -173,9 +142,10 @@ struct s_raycatsing
 	t_dco	pos;
 	t_dco	direction;
 	t_dco	co;
-	t_dco	co_door;
+	t_ico	co_door;
+	t_ico	map_i;
+	t_ico	map_step;
 	t_dco	step;
-	t_dco	step_unit;
 	t_dco	line;
 	t_bool	is_door;
 	t_bool	is_open_door;

@@ -12,12 +12,13 @@
 
 #include "cub3d.h"
 
-static void	send_rays(t_data *data);
-void		init_door(t_data *data, t_raycatsing *r, t_raycatsing *door);
-void		init_texture(t_data *data, t_raycatsing *r, t_ico lineh);
 void		stop_animation(t_data *data);
-
-t_ray		ray_cast(t_data *data, t_dco ray_dir);
+static void	send_rays(t_data *data);
+void		init_raycasting(t_data *data, t_raycatsing *r, t_dco ray_dir, \
+				int i);
+void		loop_until_hit_wall(t_data *data, t_raycatsing *r);
+void		init_door(t_data *data, t_raycatsing *r, t_bool is_open_door);
+void		init_texture(t_data *data, t_raycatsing *r, t_ico lineh);
 static void	draw_raycasting(t_data *data, t_raycatsing *r, int i);
 
 void	raycasting(t_data *data)
@@ -43,13 +44,13 @@ void	raycasting(t_data *data)
 		data->door.i += 1;
 }
 
+
+
 static void	send_rays(t_data *data)
 {
 	int				i;
 	t_raycatsing	r;
 	float			camera_x;
-	t_dco			ray_dir;
-	t_ray			ray;
 
 	while (TRUE)
 	{
@@ -60,21 +61,9 @@ static void	send_rays(t_data *data)
 		if (i >= WIDTH)
 			break ;
 		camera_x = 2.f * (float)i / WIDTH - 1;
-//		init_raycasting(data, &r, dco_add(data->map->direction, \
-//			dco_mul(dco_rotate(data->map->direction, PI2), camera_x)), i);
-//		loop_until_hit_wall(data, &r);
-//		draw_raycasting(data, &r, i);
-		ray_dir = dco_add(data->map->direction, dco_mul(dco_rotate(data->map->direction, PI2), camera_x));
-		ray = ray_cast(data, ray_dir);
-		r.wall = ray.wall;
-		r.is_door = ray.is_door;
-		r.distance = ray.distance;
-		r.is_open_door = FALSE;
-		r.is_active = i == WIDTH / 2;
-		r.co_door = (t_dco){-1, -1};
-		r.pos = ray.pos;
-		r.co.x = ray.ray.x;
-		r.co.y = ray.ray.y;
+		init_raycasting(data, &r, dco_add(data->map->direction, \
+			dco_mul(dco_rotate(data->map->direction, PI2), camera_x)), i);
+		loop_until_hit_wall(data, &r);
 		draw_raycasting(data, &r, i);
 	}
 }
@@ -87,7 +76,7 @@ static void	draw_raycasting(t_data *data, t_raycatsing *r, int i)
 
 	line_height = HEIGHT / r->distance;
 	if (r->is_active && !r->is_open_door)
-		init_door(data, r, NULL);
+		init_door(data, r, FALSE);
 	if (line_height > HEIGHT)
 		draw_line_height = HEIGHT;
 	else
@@ -102,5 +91,11 @@ static void	draw_raycasting(t_data *data, t_raycatsing *r, int i)
 	else
 		draw_line(data, r->line, (t_dco){r->line.x, r->line.y + \
 			draw_line_height}, data->map->t[w].color);
-	data->fov_line[i] = (t_dco){r->co.x, r->co.y};
+
+	data->fov_line[i] = (t_dco){r->map_i.x, r->map_i.y};
+	if (r->wall == SOUTH || r->wall == NORTH)
+		data->fov_line[i].x += 1 - (r->pos.x - (int)r->pos.x);
+	else
+		data->fov_line[i].y += 1 - (r->pos.y - (int)r->pos.y);
+//	data->fov_line[i] = (t_dco){r->co.x, r->co.y};
 }

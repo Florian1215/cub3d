@@ -21,7 +21,7 @@ void	draw_fov(t_data	*data, t_ico offset)
 	pthread_t		t[MAX_THREAD];
 	int				i;
 
-	return ;
+//	return ;
 	data->i = 0;
 	i = 0;
 	data->map->omap_menu = offset;

@@ -12,25 +12,28 @@
 
 #include "cub3d.h"
 
-void	init_door(t_data *data, t_raycatsing *r, t_raycatsing *door)
+void	init_door(t_data *data, t_raycatsing *r, t_bool is_open_door)
 {
 	double	d;
 
 	if (data->door.is_animation && (data->door.co.x != (int)r->pos.x || \
 			data->door.co.y != (int)r->pos.y))
 		return ;
-	if (door)
+	if (is_open_door)
 	{
-		d = distance_between_points(r->co, r->pos);
+		if (r->wall == SOUTH || r->wall == NORTH)
+			d = r->co.x - r->step.x;
+		else
+			d = r->co.y - r->step.y;
 		data->door.is_scope = d < 2 && d > data->map->hhitbox;
-		door->is_open_door = TRUE;
+		r->is_open_door = TRUE;
 	}
 	else
 	{
 		data->door.is_scope = r->is_door && r->distance < 2;
-		r->co_door = r->pos;
+		r->co_door = r->map_i;
 	}
-	data->door.co = (t_ico){r->pos.x, r->pos.y};
+	data->door.co = r->map_i;
 }
 
 void	toggle_door(t_data *data)
@@ -64,9 +67,9 @@ t_bool	door_animation(t_data *data, t_raycatsing *r)
 	double	value;
 
 	if (r->wall == SOUTH || r->wall == NORTH)
-		value = r->pos.x - (int)r->pos.x;
+		value = 1 - (r->pos.x - (int)r->pos.x);
 	else
-		value = r->pos.y - (int)r->pos.y;
+		value = 1 - (r->pos.y - (int)r->pos.y);
 	value *= 100;
 	if (value > 50)
 		return ((100 - data->door.pos) < value);

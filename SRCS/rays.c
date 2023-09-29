@@ -12,92 +12,100 @@
 
 #include "cub3d.h"
 
-static void		ray_update(t_data *data, t_ray *ray, t_ico *map_index);
-static t_ray	ray_init(t_data *data, t_dco ray_dir);
-static void		set_ray_step(t_ray *ray, t_dco ray_dir);
+static void	init_step(t_raycatsing *r);
+t_case		get_case(t_map *map, t_ico p);
+static void	ray_update(t_raycatsing *ray);
+t_bool		door_animation(t_data *data, t_raycatsing *r);
+void		init_door(t_data *data, t_raycatsing *r, t_bool is_open_door);
 
-t_ray	ray_cast(t_data *data, t_dco ray_dir)
+void	init_raycasting(t_data *data, t_raycatsing *r, t_dco ray_dir, int i)
 {
-	t_ray	ray;
-	t_ico	map_index;
-
-	ray = ray_init(data, ray_dir);
-	map_index = (t_ico){(int)data->map->pos.x, (int)data->map->pos.y};
-	while (data->map->m[map_index.y][map_index.x] != WALL && data->map->m[map_index.y][map_index.x] != DOOR_CLOSE)
-		ray_update(data, &ray, &map_index);
-	if (ray.wall == WEST || ray.wall == EAST)
-	{
-		ray.distance = ray.ray.x - ray.unit_step.x;
-		ray.pos.y = data->map->pos.y + ray.distance * ray_dir.y;
-	}
-	else
-	{
-		ray.distance = ray.ray.y - ray.unit_step.y;
-		ray.pos.x = data->map->pos.x + ray.distance * ray_dir.x;
-	}
-	if (data->map->m[map_index.y][map_index.x] == DOOR_CLOSE)
-		ray.is_door = TRUE;
-	return (ray);
+	r->pos = data->map->pos;
+	r->step.x = fabs(1 / ray_dir.x);
+	r->step.y = fabs(1 / ray_dir.y);
+	r->direction = ray_dir;
+	r->is_active = i == WIDTH / 2;
+	r->co = (t_dco){0, 0};
+	r->is_door = FALSE;
+	r->is_open_door = FALSE;
+	r->co_door = (t_ico){-1, -1};
+	r->map_i = (t_ico){(int)data->map->pos.x, (int)data->map->pos.y};
+	init_step(r);
+//	if (r->is_active)
+//		printf("%f - %f\n", r->co.x, r->co.y);
 }
 
-static void	ray_update(t_data *data, t_ray *ray, t_ico *map_index)
+static void	init_step(t_raycatsing *r)
 {
-	ray->is_door = FALSE;
-	if (data->map->m[map_index->y][map_index->x] == DOOR_OPEN)
-		ray->is_door = TRUE;
-	if (ray->ray.x < ray->ray.y)
+	if (r->direction.x > 0)
 	{
-		map_index->x += ray->step.x;
-		ray->ray.x += ray->unit_step.x;
-		if (ray->step.x == 1)
-			ray->wall = WEST;
-		else
-			ray->wall = EAST;
+		r->map_step.x = 1;
+		r->co.x = ((int)r->pos.x + 1 - r->pos.x) * r->step.x;
 	}
 	else
 	{
-		map_index->y += ray->step.y;
-		ray->ray.y += ray->unit_step.y;
-		if (ray->step.y == 1)
-			ray->wall = NORTH;
-		else
-			ray->wall = SOUTH;
+		r->map_step.x = -1;
+		r->co.x = (r->pos.x - (int)r->pos.x) * r->step.x;
+	}
+	if (r->direction.y > 0)
+	{
+		r->map_step.y = 1;
+		r->co.y = ((int)r->pos.y + 1 - r->pos.y) * r->step.y;
+	}
+	else
+	{
+		r->map_step.y = -1;
+		r->co.y = (r->pos.y - (int)r->pos.y) * r->step.y;
 	}
 }
 
-static t_ray	ray_init(t_data *data, t_dco ray_dir)
+void	loop_until_hit_wall(t_data *data, t_raycatsing *r)
 {
-	t_ray	ray;
+	t_case	c;
 
-	ray.pos = data->map->pos;
-	ray.unit_step.x = fabs(1 / ray_dir.x);
-	ray.unit_step.y = fabs(1 / ray_dir.y);
-	ray.ray = (t_dco){0, 0};
-	ray.is_door = FALSE;
-	set_ray_step(&ray, ray_dir);
-	return (ray);
+	while (TRUE)
+	{
+		c = get_case(data->map, r->map_i);
+		if (c == DOOR_CLOSE || (c == DOOR_ANIMATION && door_animation(data, r)))
+		{
+			r->is_door = TRUE;
+			r->co_door = r->map_i;
+			break ;
+		}
+		if (c == WALL)
+			break ;
+		if (c == DOOR_OPEN || c == DOOR_ANIMATION)
+		{
+			if (r->is_active)
+				init_door(data, r, TRUE);
+			r->co_door = r->map_i;
+		}
+		ray_update(r);
+	}
+	if (r->wall == WEST || r->wall == EAST)
+	{
+		r->distance = r->co.x - r->step.x;
+		r->pos.y = data->map->pos.y + r->distance * r->direction.y;
+	}
+	else
+	{
+		r->distance = r->co.y - r->step.y;
+		r->pos.x = data->map->pos.x + r->distance * r->direction.x;
+	}
 }
 
-static void	set_ray_step(t_ray *ray, t_dco ray_dir)
+static void	ray_update(t_raycatsing *r)
 {
-	if (ray_dir.x > 0)
+	if (r->co.x < r->co.y)
 	{
-		ray->step.x = 1;
-		ray->ray.x = ((int) ray->pos.x + 1 - ray->pos.x) * ray->unit_step.x;
+		r->map_i.x += r->map_step.x;
+		r->co.x += r->step.x;
+		r->wall = EAST - (r->map_step.x == 1);
 	}
 	else
 	{
-		ray->step.x = -1;
-		ray->ray.x = (ray->pos.x - (int) ray->pos.x) * ray->unit_step.x;
-	}
-	if (ray_dir.y > 0)
-	{
-		ray->step.y = 1;
-		ray->ray.y = ((int) ray->pos.y + 1 - ray->pos.y) * ray->unit_step.y;
-	}
-	else
-	{
-		ray->step.y = -1;
-		ray->ray.y = (ray->pos.y - (int) ray->pos.y) * ray->unit_step.y;
+		r->map_i.y += r->map_step.y;
+		r->co.y += r->step.y;
+		r->wall = SOUTH - (r->map_step.y == 1);
 	}
 }
