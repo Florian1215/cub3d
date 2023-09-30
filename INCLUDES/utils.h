@@ -110,5 +110,7 @@ void		set_hook(t_data *data);
 int			close_mlx(t_data *data);
 void		init_img(t_img *img, char *path, void *mlx_ptr);
 void		dup_img(t_img *img1, t_img *img2);
+void		sleep_until(t_time until);
+t_time		get_timestamp(void);
 
 #endif
