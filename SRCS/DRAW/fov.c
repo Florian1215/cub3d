@@ -12,41 +12,18 @@
 
 #include "cub3d.h"
 
-static void	draw_fov_line(t_data *data);
-
-// TODO fix data race
-
 void	draw_fov(t_data	*data, t_ico offset)
 {
-	pthread_t		t[MAX_THREAD];
 	int				i;
 
-	return ;
-	data->i = 0;
 	i = 0;
 	data->map->omap_menu = offset;
-	while (i < MAX_THREAD)
-		pthread_create(&t[i++], NULL, (void *)draw_fov_line, data);
-	i = 0;
-	while (i < MAX_THREAD)
-		pthread_join(t[i++], NULL);
-}
-
-static void	draw_fov_line(t_data *data)
-{
-	int	i;
-
-	while (TRUE)
+	while (i < WIDTH)
 	{
-		pthread_mutex_lock(&data->mutex_i);
-		i = data->i;
-		data->i++;
-		pthread_mutex_unlock(&data->mutex_i);
-		if (i >= WIDTH)
-			break ;
-		draw_line(data, get_map_dco(data->map, data->map->omap_menu), (t_dco) \
-		{data->fov_line[i].x * data->map->square_size + data->map->omap_menu.x, \
-		data->fov_line[i].y * data->map->square_size + data->map->omap_menu.y}, \
+		draw_line(data, get_map_dco(data->map, offset), (t_dco) \
+		{data->fov_line[i].x * data->map->square_size + offset.x, \
+		data->fov_line[i].y * data->map->square_size + offset.y}, \
 		FOV_COLOR);
+		i++;
 	}
 }

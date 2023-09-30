@@ -31,7 +31,8 @@ HEAD			=	INCLUDES/
 CC				=	cc
 RM				=	rm -rf
 
-FLAGS			=	-Wall -Wextra -Werror -g3 -MMD -MP -O3 -pthread -fsanitize=address
+FLAGS			=	-Wall -Wextra -Werror -g3 -MMD -MP -O3 -pthread
+# -fsanitize=thread
 
 MLX_NAME		=	libmlx.a
 
