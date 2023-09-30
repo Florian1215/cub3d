@@ -84,7 +84,7 @@ static char	*word_cpy(const char *src, int n)
 
 void	**free_n_split(void **split, int i)
 {
-	while (i >= 0)
+	while (split && i >= 0)
 		free(split[i--]);
 	free(split);
 	return (NULL);

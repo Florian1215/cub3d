@@ -23,6 +23,7 @@ void	render(t_data *data)
 	const char	*s[2] = {MSG_CLOSE_DOOR, MSG_OPEN_DOOR};
 	t_ico		offset;
 
+	pthread_mutex_lock(&data->mutex_render);
 	if (data->slide.animation)
 		slide_animation(data);
 	offset = get_minimap_offset(data);
@@ -43,4 +44,5 @@ void	render(t_data *data)
 	else if (data->door.is_scope)
 		mlx_string_put(data->mlx_ptr, data->win_ptr, data->txt_pos.x, \
 			data->txt_pos.y, WHITE, (char *)s[data->door.is_opening]);
+	pthread_mutex_unlock(&data->mutex_render);
 }

@@ -57,25 +57,20 @@ static void	draw_texture(t_data *data, t_raycatsing *r, t_ico lineh, \
 	}
 }
 
-void	load_textures(t_data *data)
+void	load_texture(t_data *data, t_map *m)
 {
 	const int	colors[5] = {NORTH_COLOR, SOUTH_COLOR, WEST_COLOR, EAST_COLOR, \
 							DOOR_CLOSE_COLOR};
-	t_map		*m;
 	t_wall		s;
 
-	m = data->map;
-	while (m)
+	s = NORTH;
+	while (s <= DOOR)
 	{
-		s = NORTH;
-		while (s <= DOOR)
-		{
-			if (m->t[s].path)
-				init_img(&m->t[s].img, m->t[s].path, data->mlx_ptr);
-			m->t[s].color = colors[s];
-			m->t[s].is_texture = m->t[s].path && m->t[s].img.img;
-			s++;
-		}
-		m = m->next;
+		if (m->t[s].path)
+			init_img(&m->t[s].img, m->t[s].path, data->mlx_ptr);
+		m->t[s].color = colors[s];
+		m->t[s].is_texture = m->t[s].path && m->t[s].img.img;
+		s++;
 	}
+	m->is_load_texture = TRUE;
 }

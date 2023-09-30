@@ -28,7 +28,10 @@ t_map	*map_new(void)
 	new->t[DOOR].path = NULL;
 	new->lst = NULL;
 	new->state = PARSING_NO;
+	new->is_load_texture = FALSE;
 	new->next = NULL;
+	new->height = 0;
+	new->width = 0;
 	return (new);
 }
 
@@ -57,7 +60,7 @@ void	map_clear(t_map **map, void *mlx_ptr)
 		tmp = (*map)->next;
 		free_n_split((void **)(*map)->m, (*map)->height - 1);
 		w = NORTH;
-		while (w <= DOOR && mlx_ptr)
+		while (w <= DOOR && mlx_ptr && (*map)->is_load_texture)
 		{
 			if ((*map)->t[w].is_texture)
 				mlx_destroy_image(mlx_ptr, (*map)->t[w].img.img);

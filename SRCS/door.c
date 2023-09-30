@@ -16,8 +16,8 @@ void	init_door(t_data *data, t_raycatsing *r, t_bool is_open_door)
 {
 	double	d;
 
-	if (data->door.is_animation && (data->door.co.x != (int)r->pos.x || \
-			data->door.co.y != (int)r->pos.y))
+	if (data->door.is_animation && data->door.co.x != r->map_i.x && \
+			data->door.co.y != r->map_i.y)
 		return ;
 	if (is_open_door)
 	{
@@ -31,6 +31,8 @@ void	init_door(t_data *data, t_raycatsing *r, t_bool is_open_door)
 	else
 	{
 		data->door.is_scope = r->is_door && r->distance < 2;
+		if (!r->is_door)
+			return ;
 		r->co_door = r->map_i;
 	}
 	data->door.co = r->map_i;
@@ -78,7 +80,7 @@ t_bool	door_animation(t_data *data, t_raycatsing *r)
 	return (data->door.pos > value);
 }
 
-void	stop_animation(t_data *data)
+void	stop_door_animation(t_data *data)
 {
 	t_case	*c;
 

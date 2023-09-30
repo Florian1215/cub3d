@@ -134,6 +134,8 @@ struct s_door
 	int		end;
 };
 
+void		stop_door_animation(t_data *data);
+
 // RAYCASTING -----------------------------------
 struct s_raycatsing
 {
@@ -154,7 +156,7 @@ struct s_raycatsing
 };
 
 void		raycasting(t_data *data);
-t_dco		get_co_ray(t_data *data, t_raycatsing *r);
+void		set_co_ray(t_data *data, t_raycatsing *r);
 
 // MENU -----------------------------------------
 enum e_menus
@@ -230,6 +232,7 @@ struct s_map
 	double			hhitbox;
 	double			square_size;
 	t_texture		t[5];
+	t_bool			is_load_texture;
 	int				color[2];
 	t_bool			is_error_msg;
 	int				fd;
@@ -246,6 +249,7 @@ struct s_data
 	t_slider		lvl;
 	t_menu			menu[BINDS];
 	pthread_mutex_t	mutex_i;
+	pthread_mutex_t	mutex_render;
 	int				i;
 	t_menus			hover;
 	t_bool			hover_animation;

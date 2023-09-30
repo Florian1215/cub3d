@@ -80,17 +80,7 @@ void	loop_until_hit_wall(t_data *data, t_raycatsing *r)
 		}
 		ray_update(r);
 	}
-	if (r->wall == WEST || r->wall == EAST)
-	{
-		r->distance = r->ray.x - r->step.x;
-		r->pos.y = data->map->pos.y + r->distance * r->direction.y;
-	}
-	else
-	{
-		r->distance = r->ray.y - r->step.y;
-		r->pos.x = data->map->pos.x + r->distance * r->direction.x;
-	}
-	r->co = get_co_ray(data, r);
+	set_co_ray(data, r);
 }
 
 static void	ray_update(t_raycatsing *r)
@@ -109,8 +99,18 @@ static void	ray_update(t_raycatsing *r)
 	}
 }
 
-t_dco	get_co_ray(t_data *data, t_raycatsing *r)
+void	set_co_ray(t_data *data, t_raycatsing *r)
 {
-	return ((t_dco){data->map->pos.x + r->distance * r->direction.x, \
-		data->map->pos.y + r->distance * r->direction.y});
+	if (r->wall == WEST || r->wall == EAST)
+	{
+		r->distance = r->ray.x - r->step.x;
+		r->pos.y = data->map->pos.y + r->distance * r->direction.y;
+	}
+	else
+	{
+		r->distance = r->ray.y - r->step.y;
+		r->pos.x = data->map->pos.x + r->distance * r->direction.x;
+	}
+	r->co = (t_dco){data->map->pos.x + r->distance * r->direction.x, \
+		data->map->pos.y + r->distance * r->direction.y};
 }

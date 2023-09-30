@@ -12,7 +12,6 @@
 
 #include "cub3d.h"
 
-void		stop_animation(t_data *data);
 static void	send_rays(t_data *data);
 void		init_raycasting(t_data *data, t_raycatsing *r, t_dco ray_dir, \
 				int i);
@@ -32,7 +31,7 @@ void	raycasting(t_data *data)
 		data->door.pos = animation(data->door.start, data->door.end, \
 			data->door.i);
 		if (data->door.i == 28)
-			stop_animation(data);
+			stop_door_animation(data);
 	}
 	i = 0;
 	while (i < MAX_THREAD)

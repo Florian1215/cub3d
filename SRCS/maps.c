@@ -13,6 +13,7 @@
 #include "cub3d.h"
 
 static void	change_n_map(t_data *data, int n);
+void		load_texture(t_data *data, t_map *m);
 
 t_exit	init_map(t_map *map)
 {
@@ -41,23 +42,15 @@ void	launch_map(t_data *data, t_menus p)
 {
 	if (p >= data->n_map)
 		return ;
+	pthread_mutex_lock(&data->mutex_render);
+	if (data->door.is_animation)
+		stop_door_animation(data);
 	change_n_map(data, p);
 	data->launch_animation = TRUE;
 	data->in_menu = FALSE;
-}
-
-void	change_map(t_data *data)
-{
-	t_map	*tmp;
-
-	if (!data->map->next || data->slide.animation)
-		return ;
-	data->slide.animation = TRUE;
-	dup_img(&data->img, &data->slide.imgs[0]);
-	tmp = data->map;
-	data->map = data->map->next;
-	tmp->next = NULL;
-	map_last(data->map)->next = tmp;
+	if (!data->map->is_load_texture)
+		load_texture(data, data->map);
+	pthread_mutex_unlock(&data->mutex_render);
 }
 
 static void	change_n_map(t_data *data, int n)
@@ -79,4 +72,24 @@ static void	change_n_map(t_data *data, int n)
 	prev->next = tmp->next;
 	tmp->next = data->map;
 	data->map = tmp;
+}
+
+void	change_map(t_data *data)
+{
+	t_map	*tmp;
+
+	if (!data->map->next || data->slide.animation)
+		return ;
+	pthread_mutex_lock(&data->mutex_render);
+	if (data->door.is_animation)
+		stop_door_animation(data);
+	data->slide.animation = TRUE;
+	dup_img(&data->img, &data->slide.imgs[0]);
+	tmp = data->map;
+	data->map = data->map->next;
+	tmp->next = NULL;
+	map_last(data->map)->next = tmp;
+	if (!data->map->is_load_texture)
+		load_texture(data, data->map);
+	pthread_mutex_unlock(&data->mutex_render);
 }
