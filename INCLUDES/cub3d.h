@@ -92,31 +92,26 @@ struct s_draw
 double		animation(double a, double b, int i);
 void		render(t_data *data);
 void		draw_alpha(t_img *img, t_img *alpha, t_ico pos, double ratio);
-
 void		draw_square(t_draw d, t_ico co, int size);
 void		draw_round_square(t_draw d, t_ico co, int size);
 void		draw_rectangle(t_draw d, t_ico co, t_ico size);
 void		draw_round_rectangle(t_draw d, t_ico co, t_ico size);
+void		draw_circle(t_draw d, t_ico co);
 void		draw_qcircle(t_draw d, t_ico co, int q);
-
 void		draw_line(t_data *data, t_dco p1, t_dco p2, int color);
 void		draw_fov(t_data	*data, t_ico offset);
+void		draw_sprites(t_data *data, t_raycatsing *r);
+void		draw_sprites_minimap(t_data	*data, t_ico offset);
 
 // PLAYER ---------------------------------------
 void		set_player_position(t_map *map, int y, int x);
 void		update_direction(t_map *map);
-void		print_player(t_data *data, t_map *map, t_ico offset);
+void		draw_player(t_data *data, t_map *map, t_ico offset);
 double		rotate_degre(double a);
 t_bool		is_look_down(t_data *data);
 t_bool		is_look_up(t_data *data);
 t_bool		is_look_left(t_data *data);
 
-// MATHS ----------------------------------------
-int			ipow(int num, int pow);
-t_bool		is_even(int n);
-t_dco		dco_add(t_dco co1, t_dco co2);
-t_dco		dco_mul(t_dco c, double f);
-t_dco		dco_rotate(t_dco co, double t);
 
 // DOOR -----------------------------------------
 struct s_door
@@ -204,6 +199,9 @@ void		handle_menu(t_data *data);
 struct s_sprite
 {
 	t_dco	co;
+	double	distance;
+	t_bool	is_in_fov;
+	int		x;
 };
 
 // DATA -----------------------------------------
@@ -265,7 +263,6 @@ struct s_data
 	t_img			img;
 	t_img			logo;
 	t_sprite		sprites[5];
-	t_raycatsing	*sprite_raycasting;
 	t_img			sprite_img;
 	t_ico			size_slider;
 	t_door			door;

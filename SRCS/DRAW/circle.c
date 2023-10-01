@@ -14,6 +14,15 @@
 
 static void	set_value_circle(t_bool bool, int *start, int *end, int radius);
 
+void	draw_circle(t_draw d, t_ico co)
+{
+	int	i;
+
+	i = 0;
+	while (i < 4)
+		draw_qcircle(d, co, i++);
+}
+
 void	draw_qcircle(t_draw d, t_ico co, int q)
 {
 	int		sradius;

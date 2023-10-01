@@ -12,6 +12,7 @@
 
 #include "cub3d.h"
 
+void		load_texture(t_data *data);
 static void	send_rays(t_data *data);
 void		init_raycasting(t_data *data, t_raycatsing *r, t_dco ray_dir, \
 				int i);
@@ -26,6 +27,8 @@ void	raycasting(t_data *data)
 	int				i;
 
 	data->i = 0;
+	if (!data->map->is_load_texture)
+		load_texture(data);
 	if (data->door.is_animation)
 	{
 		data->door.pos = animation(data->door.start, data->door.end, \
@@ -88,5 +91,6 @@ static void	draw_raycasting(t_data *data, t_raycatsing *r, int i)
 	else
 		draw_line(data, r->line, (t_dco){r->line.x, r->line.y + \
 			draw_line_height}, data->map->t[w].color);
+	draw_sprites(data, r);
 	data->fov_line[i] = r->co;
 }

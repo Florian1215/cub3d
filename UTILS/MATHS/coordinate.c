@@ -47,10 +47,3 @@ t_case	get_case(t_map *map, t_ico p)
 		return (INVALID_CHAR);
 	return (map->m[p.y][p.x]);
 }
-
-//t_case	get_case(t_map *map, t_dco p)
-//{
-//	if (p.x < 0 || p.x >= map->width || p.y < 0 || p.y >= map->height)
-//		return (INVALID_CHAR);
-//	return (map->m[(int)p.y][(int)p.x]);
-//}

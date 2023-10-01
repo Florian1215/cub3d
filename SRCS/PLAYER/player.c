@@ -21,7 +21,7 @@ void	set_player_position(t_map *map, int y, int x)
 	map->pos.y = y + 0.5;
 }
 
-void	print_player(t_data *data, t_map *map, t_ico offset)
+void	draw_player(t_data *data, t_map *map, t_ico offset)
 {
 	const t_color	color = {PLAYER_COLOR};
 

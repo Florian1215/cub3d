@@ -55,9 +55,21 @@ void		**free_n_split(void **split, int i);
 int			atoi_(char *s);
 char		*get_next_line(int fd);
 t_exit		error_msg(t_bool print, const char *format, ...);
-double		degre_to_radian(double angle);
 enum e_file	get_file_type(char *path);
 int			get_tab_size(char **tab);
+
+// MATHS ----------------------------------------
+double		sqrt_(double num);
+double		dpow(double num, int pow);
+int			ipow(int num, int pow);
+t_bool		is_even(int n);
+double		distance_between_points(t_dco p1, t_dco p2);
+t_dco		dco_add(t_dco co1, t_dco co2);
+t_dco		dco_mul(t_dco c, double f);
+t_dco		dco_rotate(t_dco co, double t);
+double		radian_to_degre(double radian);
+double		degre_to_radian(double angle);
+
 
 // STR ------------------------------------------
 char		*str_str(char *s1, char *s2);

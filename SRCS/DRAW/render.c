@@ -43,6 +43,8 @@ void	render(t_data *data)
 	sleep_until(start_render + FPS);
 }
 
+void	add_sprites_in_field_of_view(t_data *data);
+
 static void	render_view(t_data *data)
 {
 	t_ico		offset;
@@ -51,8 +53,10 @@ static void	render_view(t_data *data)
 	draw_background(data);
 	rotate_player(data);
 	move_player(data);
+	add_sprites_in_field_of_view(data);
 	raycasting(data);
 	print_minimap(data, data->map, offset);
 	draw_fov(data, offset);
-	print_player(data, data->map, offset);
+	draw_sprites_minimap(data, offset);
+	draw_player(data, data->map, offset);
 }

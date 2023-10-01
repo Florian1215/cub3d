@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pow.c                                              :+:      :+:    :+:   */
+/*   sqrt.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fguirama <fguirama@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,28 +12,20 @@
 
 #include "cub3d.h"
 
-double	dpow(double num, int pow)
+double	sqrt_(double num)
 {
-	double	res;
+	const double	tolerance = 0.000001;
+	double			x;
+	double			y;
 
-	res = 1;
-	while (pow > 0)
+	x = num;
+	y = 1;
+	if (num <= 0)
+		return (-1);
+	while (x - y > tolerance)
 	{
-		res *= num;
-		pow--;
+		x = (x + y) / 2;
+		y = num / x;
 	}
-	return (res);
-}
-
-int	ipow(int num, int pow)
-{
-	int	res;
-
-	res = 1;
-	while (pow > 0)
-	{
-		res *= num;
-		pow--;
-	}
-	return (res);
+	return (x);
 }
