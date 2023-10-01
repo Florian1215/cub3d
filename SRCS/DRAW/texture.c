@@ -6,7 +6,7 @@
 /*   By: fguirama <fguirama@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 18:24:00 by fguirama          #+#    #+#             */
-/*   Updated: 2023/08/30 18:24:00 by fguirama         ###   ########lyon.fr   */
+/*   Updated: 2023/10/01 16:13:32 by fguirama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	init_texture(t_data *data, t_raycatsing *r, t_ico lineh)
 		value = 1 - (r->pos.x - (int)r->pos.x);
 	else
 		value = 1 - (r->pos.y - (int)r->pos.y);
-	if ((r->is_door || r->is_open_door) && data->door.is_animation && \
+	if (r->is_door && data->door.is_animation && \
 		data->door.co.x == (int)r->co_door.x && \
 		data->door.co.y == (int)r->co_door.y)
 	{
@@ -57,12 +57,14 @@ static void	draw_texture(t_data *data, t_raycatsing *r, t_ico lineh, \
 	}
 }
 
-void	load_texture(t_data *data, t_map *m)
+void	load_texture(t_data *data)
 {
 	const int	colors[5] = {NORTH_COLOR, SOUTH_COLOR, WEST_COLOR, EAST_COLOR, \
 							DOOR_CLOSE_COLOR};
 	t_wall		s;
+	t_map		*m;
 
+	m = data->map;
 	s = NORTH;
 	while (s <= DOOR)
 	{

@@ -19,7 +19,7 @@ int	main(int ac, char **av)
 	parsing(&data, ac, av);
 	init_data(&data);
 	if (data.map->next)
-		set_menu(&data);
+		render_menu(&data);
 	set_hook(&data);
 	mlx_loop(data.mlx_ptr);
 	return (SUCCESS);

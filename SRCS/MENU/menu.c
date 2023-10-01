@@ -33,10 +33,12 @@ void	handle_menu(t_data *data)
 	}
 }
 
-void	set_menu(t_data *data)
+void	render_menu(t_data *data)
 {
-	pthread_t		t[MAX_THREAD];
+	pthread_t	t[4];
+	t_time		start_render;
 
+	start_render = get_timestamp();
 	data->in_menu = TRUE;
 	draw_rectangle((t_draw){&data->img, BG_MENU, 0}, (t_ico){0, 0}, \
 		(t_ico){WIDTH - 1, HEIGHT - 1});
@@ -45,16 +47,18 @@ void	set_menu(t_data *data)
 	pthread_create(t + 2, NULL, (void *)set_lvl_option, data);
 	pthread_join(t[0], NULL);
 	if (data->menu_animation)
-		set_minimap_animation(data);
+		pthread_create(t + 3, NULL, (void *)set_minimap_animation, data);
 	else
-		set_minimap(data);
+		pthread_create(t + 3, NULL, (void *)set_minimap, data);
 	pthread_join(t[1], NULL);
 	pthread_join(t[2], NULL);
+	pthread_join(t[3], NULL);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img, 0, 0);
 	if (data->logo.img)
 		draw_alpha(&data->img, &data->logo, data->menu[LOGO].pos, RLOGO);
 	if (data->hover_animation)
 		data->hover_animation = FALSE;
+	sleep_until(start_render + FPS);
 }
 
 static void	draw_rounded_squares(t_data *data)

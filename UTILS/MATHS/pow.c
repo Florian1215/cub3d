@@ -12,19 +12,6 @@
 
 #include "cub3d.h"
 
-double	dpow(double num, int pow)
-{
-	double	res;
-
-	res = 1;
-	while (pow > 0)
-	{
-		res *= num;
-		pow--;
-	}
-	return (res);
-}
-
 int	ipow(int num, int pow)
 {
 	int	res;

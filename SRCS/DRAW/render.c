@@ -40,7 +40,7 @@ void	render(t_data *data)
 		mlx_string_put(data->mlx_ptr, data->win_ptr, data->txt_pos.x, \
 			data->txt_pos.y, WHITE, (char *)s[data->door.is_opening]);
 	pthread_mutex_unlock(&data->mutex_render);
-	sleep_until(start_render + 1000 / FPS);
+	sleep_until(start_render + FPS);
 }
 
 static void	render_view(t_data *data)

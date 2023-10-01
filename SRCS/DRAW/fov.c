@@ -17,7 +17,6 @@ void	draw_fov(t_data	*data, t_ico offset)
 	int				i;
 
 	i = 0;
-	data->map->omap_menu = offset;
 	while (i < WIDTH)
 	{
 		draw_line(data, get_map_dco(data->map, offset), (t_dco) \

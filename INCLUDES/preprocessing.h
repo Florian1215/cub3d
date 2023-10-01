@@ -59,7 +59,7 @@
 # define DNORTH					270
 # define DNE					315
 
-# define FPS					30
+# define FPS					25
 # define MAX_THREAD				8
 # define ROTATE_SPEED			2.5
 # define MOVE_SPEED				0.1

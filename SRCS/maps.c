@@ -13,7 +13,7 @@
 #include "cub3d.h"
 
 static void	change_n_map(t_data *data, int n);
-void		load_texture(t_data *data, t_map *m);
+void		load_texture(t_data *data);
 
 t_exit	init_map(t_map *map)
 {
@@ -49,7 +49,7 @@ void	launch_map(t_data *data, t_menus p)
 	data->launch_animation = TRUE;
 	data->in_menu = FALSE;
 	if (!data->map->is_load_texture)
-		load_texture(data, data->map);
+		load_texture(data);
 	pthread_mutex_unlock(&data->mutex_render);
 }
 
@@ -90,6 +90,6 @@ void	change_map(t_data *data)
 	tmp->next = NULL;
 	map_last(data->map)->next = tmp;
 	if (!data->map->is_load_texture)
-		load_texture(data, data->map);
+		load_texture(data);
 	pthread_mutex_unlock(&data->mutex_render);
 }

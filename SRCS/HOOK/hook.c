@@ -34,7 +34,7 @@ static int	hook_loop(t_data *data)
 {
 	if (data->menu_animation || data->hover_animation || \
 			data->fov.animation || data->lvl.animation)
-		set_menu(data);
+		render_menu(data);
 	if (!data->in_menu)
 		render(data);
 	return (SUCCESS);
