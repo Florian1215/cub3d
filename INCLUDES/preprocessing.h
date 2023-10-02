@@ -75,6 +75,7 @@
 # define RSLIDER				0.06
 # define RTITLE					0.15
 # define SIZE_V					5
+# define SIZE_SPRITE			300.f
 
 # define MSG_OPEN_DOOR			"press 'E' to close the door"
 # define MSG_CLOSE_DOOR			"press 'E' to open the door"
