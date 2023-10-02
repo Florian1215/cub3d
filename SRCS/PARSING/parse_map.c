@@ -60,7 +60,9 @@ static t_exit	parse_line_map(t_map *map, char *line, int k)
 			if (map->m[k][i.x] == INVALID_PLAYER)
 				return (error_msg(map->is_error_msg, ERR_TO_MANY_PLAYER));
 			if (map->m[k][i.x] == PLAYER)
-				set_player_position(map, k, i.x);
+				init_player_position(map, k, i.x);
+			if (map->m[k][i.x] == SPRITE)
+				init_sprite(map, k, i.x);
 			i.y++;
 		}
 		else
@@ -76,6 +78,8 @@ static t_case	get_char(t_map *map, char c)
 		return (FLOOR);
 	else if (c == '1')
 		return (WALL);
+	else if (c == '2')
+		return (SPRITE);
 	else if (c == 'D')
 		return (DOOR_CLOSE);
 	else if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
@@ -94,8 +98,7 @@ static t_case	get_char(t_map *map, char c)
 	}
 	else if (c == ' ')
 		return (NOTHING);
-	else
-		return (INVALID_CHAR);
+	return (INVALID_CHAR);
 }
 
 static t_exit	check_close_map(t_map *map, t_ico p)

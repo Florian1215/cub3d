@@ -57,6 +57,7 @@ enum e_case
 	DOOR_ANIMATION,
 	NOTHING,
 	PLAYER,
+	SPRITE,
 	CHECK_FLOOR,
 	CHECK_DOOR,
 };
@@ -78,7 +79,7 @@ int			map_size(t_map *m);
 void		map_clear(t_map **map, void *mlx_ptr);
 t_ico		get_map_ico(t_map *map, t_ico offset);
 t_dco		get_map_dco(t_map *map, t_ico offset);
-void		print_minimap(t_data *data, t_map *map, t_ico offset);
+void		draw_minimap(t_data *data, t_map *map, t_ico offset);
 t_bool		is_valid_pos(t_map *map, t_dco p1, t_dco p2);
 
 // DRAW -----------------------------------------
@@ -99,12 +100,9 @@ void		draw_round_rectangle(t_draw d, t_ico co, t_ico size);
 void		draw_circle(t_draw d, t_ico co);
 void		draw_qcircle(t_draw d, t_ico co, int q);
 void		draw_line(t_data *data, t_dco p1, t_dco p2, int color);
-void		draw_fov(t_data	*data, t_ico offset);
-void		draw_sprites(t_data *data, t_raycatsing *r);
-void		draw_sprites_minimap(t_data	*data, t_ico offset);
 
 // PLAYER ---------------------------------------
-void		set_player_position(t_map *map, int y, int x);
+void		init_player_position(t_map *map, int y, int x);
 void		update_direction(t_map *map);
 void		draw_player(t_data *data, t_map *map, t_ico offset);
 double		rotate_degre(double a);
@@ -133,6 +131,9 @@ struct s_raycatsing
 {
 	t_wall	wall;
 	double	distance;
+	t_bool	is_sprite;
+	double	sprite_distance;
+	int		x_sprite;
 	t_dco	pos;
 	t_dco	direction;
 	t_dco	ray;
@@ -198,11 +199,18 @@ void		handle_menu(t_data *data);
 // SPRIT ----------------------------------------
 struct s_sprite
 {
-	t_dco	co;
-	double	distance;
-	t_bool	is_in_fov;
-	int		x;
+	t_dco		co;
+	double		distance;
+	t_bool		is_in_fov;
+	int			x;
+	t_dco		direction;
+	t_bool		is_collected;
+	t_sprite	*next;
 };
+
+void		init_sprite(t_map *map, int y, int x);
+t_sprite	*sprite_last(t_sprite *m);
+void		sprite_clear(t_sprite **sprite, void *mlx_ptr);
 
 // DATA -----------------------------------------
 struct s_texture
@@ -235,6 +243,7 @@ struct s_map
 	t_parsing_state	state;
 	t_ico			omap_menu;
 	t_ico			start_omap;
+	t_sprite		*s;
 	t_map			*next;
 };
 
@@ -262,7 +271,6 @@ struct s_data
 	t_dco			fov_line[WIDTH];
 	t_img			img;
 	t_img			logo;
-	t_sprite		sprites[5];
 	t_img			sprite_img;
 	t_ico			size_slider;
 	t_door			door;

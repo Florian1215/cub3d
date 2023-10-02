@@ -16,7 +16,6 @@ static void	init_imgs(t_data *data);
 static void	init_menu(t_data *data);
 void		init_fov(t_data *data, int rpan);
 void		init_lvl(t_data *data);
-void		init_sprites(t_data *data);
 
 void	init_data(t_data *data)
 {
@@ -41,7 +40,6 @@ void	init_data(t_data *data)
 	data->v_pos.y = HEIGHT / 2 - SIZE_V / 2;
 	init_imgs(data);
 	init_menu(data);
-	init_sprites(data);
 	pthread_mutex_init(&data->mutex_i, NULL);
 	pthread_mutex_init(&data->mutex_render, NULL);
 }

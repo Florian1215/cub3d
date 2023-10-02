@@ -14,11 +14,12 @@
 
 void		load_texture(t_data *data);
 static void	send_rays(t_data *data);
-void		init_raycasting(t_data *data, t_raycatsing *r, t_dco ray_dir, \
+void		init_rays(t_data *data, t_raycatsing *r, t_dco ray_dir, \
 				int i);
 void		loop_until_hit_wall(t_data *data, t_raycatsing *r);
 void		init_door(t_data *data, t_raycatsing *r, t_bool is_open_door);
 void		init_texture(t_data *data, t_raycatsing *r, t_ico lineh);
+void		add_sprites_in_rays(t_data *data, t_raycatsing *r, int x);
 static void	draw_raycasting(t_data *data, t_raycatsing *r, int i);
 
 void	raycasting(t_data *data)
@@ -61,9 +62,10 @@ static void	send_rays(t_data *data)
 		if (i >= WIDTH)
 			break ;
 		camera_x = 2.f * (float)i / WIDTH - 1;
-		init_raycasting(data, &r, dco_add(data->map->direction, \
-			dco_mul(dco_rotate(data->map->direction, PI2), camera_x)), i);
+		init_rays(data, &r, dco_add(data->map->direction, \
+dco_mul(dco_rotate(data->map->direction, PI2), camera_x)), i);
 		loop_until_hit_wall(data, &r);
+		add_sprites_in_rays(data, &r, i);
 		draw_raycasting(data, &r, i);
 	}
 }
@@ -91,6 +93,7 @@ static void	draw_raycasting(t_data *data, t_raycatsing *r, int i)
 	else
 		draw_line(data, r->line, (t_dco){r->line.x, r->line.y + \
 			draw_line_height}, data->map->t[w].color);
-	draw_sprites(data, r);
+	if (r->is_sprite)
+		draw_rectangle((t_draw){&data->img, 0xFF, 0}, (t_ico){i, HEIGHT / 2}, (t_ico){1,HEIGHT / r->sprite_distance});
 	data->fov_line[i] = r->co;
 }

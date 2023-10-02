@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-void	print_minimap(t_data *data, t_map *map, t_ico offset)
+void	draw_minimap(t_data *data, t_map *map, t_ico offset)
 {
 	const int	colors[5] = {FLOOR_COLOR, WALL_COLOR, DOOR_CLOSE_COLOR, \
 								DOOR_CLOSE_COLOR, DOOR_CLOSE_COLOR};

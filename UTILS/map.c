@@ -27,6 +27,7 @@ t_map	*map_new(void)
 	new->t[EAST].path = NULL;
 	new->t[DOOR].path = NULL;
 	new->lst = NULL;
+	new->s = NULL;
 	new->state = PARSING_NO;
 	new->is_load_texture = FALSE;
 	new->next = NULL;
@@ -59,6 +60,7 @@ void	map_clear(t_map **map, void *mlx_ptr)
 	{
 		tmp = (*map)->next;
 		free_n_split((void **)(*map)->m, (*map)->height - 1);
+		sprite_clear(&(*map)->s, mlx_ptr);
 		w = NORTH;
 		while (w <= DOOR && mlx_ptr && (*map)->is_load_texture)
 		{

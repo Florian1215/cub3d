@@ -18,6 +18,9 @@ t_ico		get_minimap_offset(t_data *data);
 void		draw_background(t_data *data);
 void		rotate_player(t_data *data);
 void		move_player(t_data *data);
+void		add_sprites_in_fov(t_data *data);
+void		draw_fov(t_data	*data, t_ico offset);
+void		draw_sprites_minimap(t_data	*data, t_ico offset);
 
 void	render(t_data *data)
 {
@@ -43,8 +46,6 @@ void	render(t_data *data)
 	sleep_until(start_render + FPS);
 }
 
-void	add_sprites_in_field_of_view(t_data *data);
-
 static void	render_view(t_data *data)
 {
 	t_ico		offset;
@@ -53,9 +54,9 @@ static void	render_view(t_data *data)
 	draw_background(data);
 	rotate_player(data);
 	move_player(data);
-	add_sprites_in_field_of_view(data);
+	add_sprites_in_fov(data);
 	raycasting(data);
-	print_minimap(data, data->map, offset);
+	draw_minimap(data, data->map, offset);
 	draw_fov(data, offset);
 	draw_sprites_minimap(data, offset);
 	draw_player(data, data->map, offset);

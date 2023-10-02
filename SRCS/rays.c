@@ -18,7 +18,7 @@ static void	ray_update(t_raycatsing *ray);
 t_bool		door_animation(t_data *data, t_raycatsing *r);
 void		init_door(t_data *data, t_raycatsing *r, t_bool is_open_door);
 
-void	init_raycasting(t_data *data, t_raycatsing *r, t_dco ray_dir, int i)
+void	init_rays(t_data *data, t_raycatsing *r, t_dco ray_dir, int i)
 {
 	r->pos = data->map->pos;
 	r->step.x = fabs(1 / ray_dir.x);
@@ -28,6 +28,7 @@ void	init_raycasting(t_data *data, t_raycatsing *r, t_dco ray_dir, int i)
 	r->ray = (t_dco){0, 0};
 	r->is_door = FALSE;
 	r->is_open_door = FALSE;
+	r->is_sprite = FALSE;
 	r->co_door = (t_ico){-1, -1};
 	r->map_i = (t_ico){(int)data->map->pos.x, (int)data->map->pos.y};
 	init_step(r);
