@@ -65,7 +65,7 @@ static void	send_rays(t_data *data)
 		init_rays(data, &r, dco_add(data->map->direction, \
 dco_mul(dco_rotate(data->map->direction, PI2), camera_x)), i);
 		loop_until_hit_wall(data, &r);
-		add_sprites_in_rays(data, &r, i);
+//		add_sprites_in_rays(data, &r, i);
 		draw_raycasting(data, &r, i);
 	}
 }
@@ -96,4 +96,5 @@ static void	draw_raycasting(t_data *data, t_raycatsing *r, int i)
 	if (r->is_sprite)
 		draw_rectangle((t_draw){&data->img, 0xFF, 0}, (t_ico){i, HEIGHT / 2}, (t_ico){1,HEIGHT / r->sprite_distance});
 	data->fov_line[i] = r->co;
+	data->sprite_distance[i] = r->distance;
 }

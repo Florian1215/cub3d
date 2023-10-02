@@ -200,6 +200,7 @@ void		handle_menu(t_data *data);
 struct s_sprite
 {
 	t_dco		co;
+	t_dco		rel_pos;
 	double		distance;
 	t_bool		is_in_fov;
 	int			x;
@@ -211,6 +212,18 @@ struct s_sprite
 void		init_sprite(t_map *map, int y, int x);
 t_sprite	*sprite_last(t_sprite *m);
 void		sprite_clear(t_sprite **sprite, void *mlx_ptr);
+
+typedef struct s_draw_param
+{
+	int			color;
+	int			height;
+	int			width;
+	t_ico		screen;
+	t_ico		texture;
+	t_ico		draw_start;
+	t_ico		draw_end;
+	t_img		*sprite;
+}	t_draw_param;
 
 // DATA -----------------------------------------
 struct s_texture
@@ -245,6 +258,8 @@ struct s_map
 	t_ico			start_omap;
 	t_sprite		*s;
 	t_map			*next;
+
+	t_dco			camera;
 };
 
 struct s_data
@@ -269,6 +284,7 @@ struct s_data
 	void			*mlx_ptr;
 	void			*win_ptr;
 	t_dco			fov_line[WIDTH];
+	double			sprite_distance[WIDTH];
 	t_img			img;
 	t_img			logo;
 	t_img			sprite_img;

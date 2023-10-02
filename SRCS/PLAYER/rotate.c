@@ -17,6 +17,7 @@ void	update_direction(t_map *map)
 	map->radian = degre_to_radian(map->degre);
 	map->direction.x = cos(map->radian);
 	map->direction.y = sin(map->radian);
+	map->camera = dco_rotate(map->direction, M_PI_2); // fwfwfwe
 }
 
 void	rotate_player(t_data *data)

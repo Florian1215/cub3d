@@ -13,72 +13,28 @@
 #include "cub3d.h"
 
 // TODO add sprite
+// TODO can collect
 
-double dot_product(t_dco p1, t_dco p2)
+static t_dco		camera_projection(t_data *data, t_sprite *collectible);
+static t_draw_param	get_draw_param(t_data *data, t_dco camera);
+void				draw_sprite(t_data *data, t_draw_param dp, const float dist);
+
+
+void	draw_sprites(t_data *data)
 {
-	return (p1.x * p2.x + p1.y * p2.y);
-}
-
-static t_bool	is_sprite_in_fov(t_data *data, t_sprite *sprite, double hfov)
-{
-	double	toSpriteLength;
-
-	sprite->direction.x = sprite->co.x - data->map->pos.x;
-	sprite->direction.y = sprite->co.y - data->map->pos.y;
-	toSpriteLength = vector_length(sprite->direction);
-	sprite->direction.x /= toSpriteLength;
-	sprite->direction.y /= toSpriteLength;
-//	printf("%f - %f | %f - %f\n", sprite->direction.x, sprite->direction.y, data->map->direction.x, data->map->direction.y);
-	double angle = acos(dot_product(data->map->direction, sprite->direction));
-	angle = radian_to_degre(angle);
-	if (angle > hfov)
-		return (FALSE);
-	return (TRUE);
-}
-
-t_bool	is_equal_angle(t_dco a1, t_dco a2);
-
-void	add_sprites_in_rays(t_data *data, t_raycatsing *r, int x)
-{
-	t_sprite	*s;
+	t_sprite		*s;
+	t_draw_param	draw_param;
+	t_dco			camera;
 
 	s = data->map->s;
 	while (s)
 	{
-		if (!s->is_collected && s->is_in_fov && s->distance < r->distance)
+		s->rel_pos = (t_dco){data->map->pos.x - s->co.x, data->map->pos.y - s->co.y};
+		camera = camera_projection(data, s);
+		if (camera.y > 0)
 		{
-			if (point_belongs_to_line(data->map->pos, r->co, s->co))
-			{
-				r->is_sprite = TRUE;
-				r->sprite_distance = s->distance;
-				s->x = x;
-			}
-		}
-		s = s->next;
-	}
-}
-
-void	add_sprites_in_fov(t_data *data)
-{
-	t_sprite	*s;
-
-	s = data->map->s;
-	while (s)
-	{
-		if (!s->is_collected)
-		{
-			s->is_in_fov = is_sprite_in_fov(data, s, 90.0 / 2);
-			if (s->is_in_fov)
-			{
-//				if (i == 0)
-//					printf("Angle %f | %f\n", s->angle, data->map->degre);
-				s->distance = distance_between_points(\
-data->map->pos, s->co);
-				if (s->distance < 0.2)
-					s->is_collected = TRUE;
-			}
-			else
-				s->x = -1;
+			draw_param = get_draw_param(data, camera);
+			draw_sprite(data, draw_param, camera.y);
 		}
 		s = s->next;
 	}
@@ -106,3 +62,74 @@ void	draw_sprites_minimap(t_data *data, t_ico offset)
 		s = s->next;
 	}
 }
+
+static void	draw_stripe(t_data *data, t_draw_param dp)
+{
+	dp.screen.y = dp.draw_start.y;
+	if (dp.screen.y < 0)
+		dp.screen.y = 0;
+//	printf("%d - %d\n", dp.screen.y, dp.draw_end.y);
+	while (dp.screen.y < dp.draw_end.y && dp.screen.y < HEIGHT)
+	{
+		dp.texture.y = (dp.screen.y - dp.draw_start.y) * dp.sprite->height / dp.height;
+		dp.color = *(int *)(dp.sprite->addr + dp.texture.x * dp.sprite->bit_ratio + dp.texture.y * dp.sprite->line_length);
+		if (!(dp.color & 0xFF000000))
+		{
+			mlx_pixel_put_img(&data->img, dp.screen.x, dp.screen.y, dp.color);
+//			printf("draw srpte\n");
+		}
+		dp.screen.y++;
+	}
+}
+
+void	draw_sprite(t_data *data, t_draw_param dp, const float dist)
+{
+	dp.screen.x = dp.draw_start.x;
+	if (dp.screen.x < 0)
+		dp.screen.x = 0;
+	while (dp.screen.x < dp.draw_end.x && dp.screen.x < WIDTH)
+	{
+		if (dp.screen.x < WIDTH && dp.screen.x >= 0 && data->sprite_distance[dp.screen.x] > dist)
+		{
+			dp.texture.x = (dp.screen.x - dp.draw_start.x) * dp.sprite->width / dp.width;
+			draw_stripe(data, dp);
+		}
+		dp.screen.x++;
+	}
+}
+
+static t_draw_param	get_draw_param(t_data *data, t_dco camera)
+{
+	t_draw_param	dp;
+	int				scale;
+
+	dp.sprite = &data->sprite_img;
+	dp.width = 200.f / camera.y;
+	dp.height = ((double)dp.sprite->height / dp.sprite->width) * 200.f / camera.y;
+	dp.screen.x = (WIDTH / 2.f) * (1 + camera.x / camera.y);
+	dp.draw_start.x = dp.screen.x - dp.width / 2;
+	dp.draw_end.x = dp.screen.x + dp.width / 2;
+	scale = abs((int)(HEIGHT / camera.y / 2));
+	dp.draw_start.y = HEIGHT / 2 + scale - dp.height;
+	dp.draw_end.y = HEIGHT / 2 + scale;
+//	printf("%d %d %d | %d - %d\n", dp.height, dp.sprite->height, dp.sprite->width, dp.draw_start.y, dp.draw_end.y);
+	return (dp);
+}
+
+static t_dco	camera_projection(t_data *data, t_sprite *collectible)
+{
+	t_dco	camera;
+	float	inverse_det;
+
+	inverse_det = -1.f / (
+			data->map->camera.x * data->map->direction.y
+			- data->map->direction.x * data->map->camera.y);
+	camera.x = inverse_det * (
+			data->map->direction.y * collectible->rel_pos.x
+			- data->map->direction.x * collectible->rel_pos.y);
+	camera.y = inverse_det * (
+			-data->map->camera.y * collectible->rel_pos.x
+			+ data->map->camera.x * collectible->rel_pos.y);
+	return (camera);
+}
+

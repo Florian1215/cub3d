@@ -12,6 +12,8 @@
 
 #include "cub3d.h"
 
+// TODO change FOV work
+
 void	draw_fov(t_data	*data, t_ico offset)
 {
 	int				i;
