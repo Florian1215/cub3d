@@ -51,7 +51,7 @@ endif
 all:				mlx $(NAME)
 
 run:				all
-					valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
+					./$(NAME)
 
 norm:
 					norminette $(SRCS) $(HEAD)/*.h | grep -E "(Error|Warning)"
