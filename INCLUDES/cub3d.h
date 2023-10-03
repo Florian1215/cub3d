@@ -131,9 +131,6 @@ struct s_raycatsing
 {
 	t_wall	wall;
 	double	distance;
-	t_bool	is_sprite;
-	double	sprite_distance;
-	int		x_sprite;
 	t_dco	pos;
 	t_dco	direction;
 	t_dco	ray;
@@ -201,29 +198,19 @@ struct s_sprite
 {
 	t_dco		co;
 	t_dco		rel_pos;
-	double		distance;
-	t_bool		is_in_fov;
 	int			x;
-	t_dco		direction;
 	t_bool		is_collected;
+	t_ico		size;
+	t_ico		screen;
+	t_ico		texture;
+	t_ico		start;
+	t_ico		end;
 	t_sprite	*next;
 };
 
 void		init_sprite(t_map *map, int y, int x);
 t_sprite	*sprite_last(t_sprite *m);
 void		sprite_clear(t_sprite **sprite, void *mlx_ptr);
-
-typedef struct s_draw_param
-{
-	int			color;
-	int			height;
-	int			width;
-	t_ico		screen;
-	t_ico		texture;
-	t_ico		draw_start;
-	t_ico		draw_end;
-	t_img		*sprite;
-}	t_draw_param;
 
 // DATA -----------------------------------------
 struct s_texture

@@ -82,3 +82,26 @@ t_ico	get_map_ico(t_map *map, t_ico offset)
 	pos.y = offset.y + (map->pos.y - map->hhitbox) * map->square_size;
 	return (pos);
 }
+
+void	draw_sprites_minimap(t_data *data, t_ico offset)
+{
+	t_sprite	*s;
+	double		d;
+	t_ico		co;
+
+	d = (data->map->hhitbox / 1.5);
+	s = data->map->s;
+	while (s)
+	{
+		if (!s->is_collected)
+		{
+			co.x = (int)((s->co.x - (d / 2)) * \
+			data->map->square_size + offset.x);
+			co.y = (int)((s->co.y - (d / 2)) * \
+			data->map->square_size + offset.y);
+			draw_circle((t_draw){&data->img, SPRITE_COLOR, \
+			(int)(d * data->map->square_size)}, co);
+		}
+		s = s->next;
+	}
+}

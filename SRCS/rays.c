@@ -28,7 +28,6 @@ void	init_rays(t_data *data, t_raycatsing *r, t_dco ray_dir, int i)
 	r->ray = (t_dco){0, 0};
 	r->is_door = FALSE;
 	r->is_open_door = FALSE;
-	r->is_sprite = FALSE;
 	r->co_door = (t_ico){-1, -1};
 	r->map_i = (t_ico){(int)data->map->pos.x, (int)data->map->pos.y};
 	init_step(r);
