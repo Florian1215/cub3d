@@ -76,6 +76,11 @@ static void	init_draw_sprite(t_data *data, t_sprite *s, t_dco fov)
 {
 	int				scale;
 
+	s->y += s->side;
+	if (s->side < 0 && s->y == 0)
+		s->side = 1;
+	else if (s->side > 0 && s->y == 28)
+		s->side = -1;
 	s->size.x = SIZE_SPRITE / fov.y;
 	s->size.y = ((double)data->sprite_img.height / data->sprite_img.width) * \
 SIZE_SPRITE / fov.y;
@@ -93,9 +98,10 @@ static void	draw_line_x(t_data *data, t_sprite *s)
 
 	s->texture.x = (s->screen.x - s->start.x) * data->sprite_img.width / \
 s->size.x;
-	s->screen.y = s->start.y;
+	s->screen.y = s->start.y + s->y;
 	if (s->screen.y < 0)
 		s->screen.y = 0;
+	s->end += s->y;
 	while (s->screen.y < s->end.y && s->screen.y < HEIGHT)
 	{
 		s->texture.y = (s->screen.y - s->start.y) * data->sprite_img.height / \

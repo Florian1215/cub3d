@@ -34,6 +34,8 @@ static t_sprite	*sprite_new(t_ico i)
 		return (NULL);
 	new->next = NULL;
 	new->is_collected = FALSE;
+	new->side = 1;
+	new->y = 0;
 	new->co = (t_dco){i.x + 0.5, i.y + 0.5};
 	return (new);
 }

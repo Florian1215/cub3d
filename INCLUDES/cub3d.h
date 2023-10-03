@@ -198,7 +198,8 @@ struct s_sprite
 {
 	t_dco		co;
 	t_dco		rel_pos;
-	int			x;
+	int			y;
+	int			side;
 	t_bool		is_collected;
 	t_ico		size;
 	t_ico		screen;
