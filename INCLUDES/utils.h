@@ -63,15 +63,11 @@ double		sqrt_(double num);
 double		dpow(double num, int pow);
 int			ipow(int num, int pow);
 t_bool		is_even(int n);
-double		vector_length(t_dco i);
 double		distance_between_points(t_dco p1, t_dco p2);
-t_bool		point_belongs_to_line(t_dco p1, t_dco p2, t_dco p3);
 t_dco		dco_add(t_dco co1, t_dco co2);
 t_dco		dco_mul(t_dco c, double f);
 t_dco		dco_rotate(t_dco co, double t);
-double		radian_to_degre(double radian);
 double		degre_to_radian(double angle);
-
 
 // STR ------------------------------------------
 char		*str_str(char *s1, char *s2);

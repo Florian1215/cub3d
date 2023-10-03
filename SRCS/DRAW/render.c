@@ -46,7 +46,6 @@ void	render(t_data *data)
 	sleep_until(start_render + FPS);
 }
 
-
 static void	render_view(t_data *data)
 {
 	t_ico		offset;

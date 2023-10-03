@@ -40,7 +40,7 @@ void	init_fov(t_data *data, int rpan)
 	data->menu[FOV_BG].size.x = data->menu[FOV_70].size.x * 3 + PADX_MENU * 4;
 	data->menu[FOV_BG].size.y = data->menu[FOV_70].size.y + PADX_MENU * 2;
 	data->fov.animation = FALSE;
-	data->lvl.is_color = FALSE;
+	data->fov.is_color = FALSE;
 	data->fov.i = 0;
 }
 

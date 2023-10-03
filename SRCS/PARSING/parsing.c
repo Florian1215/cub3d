@@ -39,12 +39,17 @@ void	parsing(t_data *data, int ac, char **av)
 
 static t_exit	parse_arguments(t_data *data, int ac, char **av)
 {
+	t_file	t;
+
 	while (*av)
 	{
-		if (get_file_type(*av) == FILE_)
+		t = get_file_type(*av);
+		if (t == FILE_)
 			parse_file(data, *av, ac == 1);
-		else if (get_file_type(*av) == DIRECTORY)
+		else if (t == DIRECTORY)
 			open_dir(data, *av, ac == 1);
+		else if (ac == 1)
+			return (error_msg(TRUE, ERR_MAP_NO_FIL_DIR, *av));
 		av++;
 	}
 	if (!data->map)

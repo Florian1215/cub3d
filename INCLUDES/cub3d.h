@@ -110,7 +110,6 @@ t_bool		is_look_down(t_data *data);
 t_bool		is_look_up(t_data *data);
 t_bool		is_look_left(t_data *data);
 
-
 // DOOR -----------------------------------------
 struct s_door
 {

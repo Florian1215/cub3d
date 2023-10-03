@@ -94,6 +94,7 @@
 # define ERR_MAP_MISS_INFO		"Map: Miss information"
 # define ERR_MAP_NO_CLOSE		"Map: Not close map"
 # define ERR_MAP_INVALID_CHAR	"Invalid char '%c'"
+# define ERR_MAP_NO_FIL_DIR		"cannot access '%s': No such file or directory"
 
 // PATH -----------------------------------------
 # define PATH_MAP_DIR			"./MAPS"

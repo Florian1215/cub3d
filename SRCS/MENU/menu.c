@@ -53,9 +53,9 @@ void	render_menu(t_data *data)
 	pthread_join(t[1], NULL);
 	pthread_join(t[2], NULL);
 	pthread_join(t[3], NULL);
-	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img, 0, 0);
 	if (data->logo.img)
 		draw_alpha(&data->img, &data->logo, data->menu[LOGO].pos, RLOGO);
+	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img, 0, 0);
 	if (data->hover_animation)
 		data->hover_animation = FALSE;
 	sleep_until(start_render + FPS);

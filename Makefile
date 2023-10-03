@@ -10,18 +10,18 @@
 #                                                                              #
 # **************************************************************************** #
 
-# VAR ---------------------------------------------------------------
+# VAR --------------------------------------------------------------------------
 OBJS_DIR		=	.OBJS/
-SRCS			=	SRCS/animation.c SRCS/sprite.c SRCS/door.c SRCS/maps.c SRCS/minimap.c \
-					SRCS/PARSING/open_dir.c SRCS/PARSING/parsing.c SRCS/PARSING/parse_map.c SRCS/PARSING/parse_content.c \
-					SRCS/HOOK/hook.c SRCS/HOOK/key.c SRCS/HOOK/mouse.c \
-					SRCS/MENU/edit_fov.c SRCS/MENU/edit_lvl.c SRCS/MENU/menu_animation.c SRCS/MENU/menu.c \
-					SRCS/PLAYER/player.c SRCS/PLAYER/position.c SRCS/PLAYER/direction.c SRCS/PLAYER/rotate.c \
-					SRCS/DRAW/background.c SRCS/DRAW/color.c SRCS/rays.c SRCS/raycasting.c SRCS/DRAW/texture.c SRCS/DRAW/transparency.c SRCS/DRAW/circle.c SRCS/DRAW/fov.c SRCS/DRAW/line.c SRCS/DRAW/rectangle.c SRCS/DRAW/render.c SRCS/DRAW/square.c \
-					UTILS/error.c UTILS/sprite.c UTILS/time.c UTILS/file.c UTILS/tab.c UTILS/free.c UTILS/get_next_line.c UTILS/init.c UTILS/list.c UTILS/map.c UTILS/mlx.c UTILS/split.c \
-					UTILS/MATHS/atoi.c UTILS/MATHS/angle.c UTILS/MATHS/compute.c UTILS/MATHS/coordinate.c UTILS/MATHS/pow.c UTILS/MATHS/sqrt.c \
-					UTILS/STR/str_join.c UTILS/STR/str_end_with.c UTILS/STR/str_dup.c UTILS/STR/str_len.c UTILS/STR/str_str.c \
-					main.c
+SRCS			=	main.c																																																		\
+					SRCS/animation.c SRCS/door.c SRCS/init.c SRCS/maps.c SRCS/minimap.c SRCS/raycasting.c SRCS/rays.c SRCS/sprite.c																								\
+						SRCS/DRAW/background.c SRCS/DRAW/circle.c SRCS/DRAW/color.c SRCS/DRAW/fov.c SRCS/DRAW/line.c SRCS/DRAW/rectangle.c SRCS/DRAW/render.c SRCS/DRAW/square.c SRCS/DRAW/texture.c SRCS/DRAW/transparency.c	\
+						SRCS/HOOK/hook.c SRCS/HOOK/key.c SRCS/HOOK/mouse.c																																						\
+						SRCS/MENU/edit_fov.c SRCS/MENU/edit_lvl.c SRCS/MENU/menu_animation.c SRCS/MENU/menu.c																													\
+						SRCS/PARSING/open_dir.c SRCS/PARSING/parse_content.c SRCS/PARSING/parse_map.c SRCS/PARSING/parsing.c																									\
+						SRCS/PLAYER/direction.c SRCS/PLAYER/player.c SRCS/PLAYER/position.c SRCS/PLAYER/rotate.c																												\
+					UTILS/error.c UTILS/file.c UTILS/free.c UTILS/get_next_line.c UTILS/list.c UTILS/map.c UTILS/mlx.c UTILS/split.c UTILS/sprite.c  UTILS/tab.c UTILS/time.c													\
+						UTILS/MATHS/atoi.c UTILS/MATHS/compute.c UTILS/MATHS/coordinate.c UTILS/MATHS/pow.c UTILS/MATHS/sqrt.c																									\
+						UTILS/STR/str_dup.c UTILS/STR/str_end_with.c UTILS/STR/str_join.c UTILS/STR/str_len.c UTILS/STR/str_str.c
 OBJS			=	$(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
 DEP				=	$(addprefix $(OBJS_DIR), $(SRCS:.c=.d))
 
@@ -31,7 +31,7 @@ HEAD			=	INCLUDES/
 CC				=	cc
 RM				=	rm -rf
 
-FLAGS			=	-Wall -Wextra -Werror -g3 -MMD -MP -O3 -pthread# -fsanitize=thread
+FLAGS			=	-Wall -Wextra -Werror -MMD -MP -O3 -pthread
 
 MLX_NAME		=	libmlx.a
 
@@ -47,11 +47,11 @@ MLX_DIR			=	mlx/mac/
 MLX_FLAGS		=	-framework OpenGL -framework AppKit
 endif
 
-# RULES -------------------------------------------------------------
+# RULES ------------------------------------------------------------------------
 all:				mlx $(NAME)
 
 run:				all
-					./$(NAME) ./MAPS/map_small.cub
+					valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
 
 norm:
 					norminette $(SRCS) $(HEAD)/*.h | grep -E "(Error|Warning)"

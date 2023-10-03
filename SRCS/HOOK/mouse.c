@@ -65,7 +65,7 @@ int	mouse_event_motion(int x, int y, t_data *data)
 	}
 	else if (data->mouse_press)
 	{
-		data->map->degre += ((x - data->mouse_cursor) * 0.2) * -1;
+		data->map->degre += ((x - data->mouse_cursor) * 0.1) * -1;
 		update_direction(data);
 		data->mouse_cursor = x;
 	}
@@ -79,7 +79,7 @@ static void	mouse_event_menu(t_data *data, t_ico co, int button)
 	if (button == LEFT_CLICK)
 	{
 		click = select_binds(data, co);
-		if (click >= POS_1 && click <= POS_4)
+		if (click >= POS_1 && click <= POS_4 && !data->menu_animation)
 			launch_map(data, click);
 		else if (click >= FOV_70 && click <= FOV_110 && data->fov.s != click)
 			select_slider(data, &data->fov, click);
