@@ -64,8 +64,8 @@ void	set_fov_option(t_data *data)
 
 static void	set_fov_animation(t_data *data)
 {
-	int		*i;
-	t_ico	p;
+	int			*i;
+	t_ico		p;
 
 	i = &data->fov.i;
 	p.x = animation(data->fov.prev_x, data->menu[data->fov.s].pos.x, *i);

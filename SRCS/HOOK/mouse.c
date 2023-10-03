@@ -66,7 +66,7 @@ int	mouse_event_motion(int x, int y, t_data *data)
 	else if (data->mouse_press)
 	{
 		data->map->degre += ((x - data->mouse_cursor) * 0.2) * -1;
-		update_direction(data->map);
+		update_direction(data);
 		data->mouse_cursor = x;
 	}
 	return (SUCCESS);
@@ -105,4 +105,6 @@ static void	select_slider(t_data *data, t_slider *s, t_menus click)
 		else
 			s->prev_color.color = s->c;
 	}
+	else
+		set_fov(data);
 }

@@ -12,12 +12,13 @@
 
 #include "cub3d.h"
 
-void	update_direction(t_map *map)
+void	update_direction(t_data *data)
 {
-	map->radian = degre_to_radian(map->degre);
-	map->direction.x = cos(map->radian);
-	map->direction.y = sin(map->radian);
-	map->camera = dco_rotate(map->direction, M_PI_2); // fwfwfwe
+	data->map->radian = degre_to_radian(data->map->degre);
+	data->map->direction.x = cos(data->map->radian);
+	data->map->direction.y = sin(data->map->radian);
+	data->map->fov = dco_rotate(data->map->direction, \
+degre_to_radian(data->fov_value.x));
 }
 
 void	rotate_player(t_data *data)
@@ -29,7 +30,7 @@ void	rotate_player(t_data *data)
 		if (data->keypress[KP_O])
 			data->map->degre += ROTATE_SPEED;
 		data->map->degre = rotate_degre(data->map->degre);
-		update_direction(data->map);
+		update_direction(data);
 	}
 }
 

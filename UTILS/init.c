@@ -40,6 +40,7 @@ void	init_data(t_data *data)
 	data->v_pos.y = HEIGHT / 2 - SIZE_V / 2;
 	init_imgs(data);
 	init_menu(data);
+	set_fov(data);
 	pthread_mutex_init(&data->mutex_i, NULL);
 	pthread_mutex_init(&data->mutex_render, NULL);
 }

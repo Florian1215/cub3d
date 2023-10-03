@@ -13,17 +13,16 @@
 #include "cub3d.h"
 
 // TODO add sprite
-// TODO can collect
 
-static void			init_projection(t_data *data, t_sprite *s, t_dco *camera);
+static void			init_projection(t_data *data, t_sprite *s, t_dco *fov);
 static t_draw_param	get_draw_param(t_data *data, t_dco camera);
-void				draw_sprite(t_data *data, t_draw_param dp, const float dist);
+void				draw_sprite(t_data *data, t_draw_param dp, const double dist);
 static void			draw_stripe(t_data *data, t_draw_param dp);
 
 
 void	draw_sprites(t_data *data)
 {
-	t_dco			camera;
+	t_dco			fov;
 	t_sprite		*s;
 	t_draw_param	draw_param;
 
@@ -32,17 +31,18 @@ void	draw_sprites(t_data *data)
 	{
 		if (!s->is_collected)
 		{
-			if (distance_between_points(data->map->pos, s->co) < data->map->hhitbox)
+			if (distance_between_points(data->map->pos, s->co) < \
+					data->map->hhitbox)
 				s->is_collected = TRUE;
 			else
 			{
 				s->rel_pos.x = data->map->pos.x - s->co.x;
 				s->rel_pos.y = data->map->pos.y - s->co.y;
-				init_projection(data, s, &camera);
-				if (camera.y > 0)
+				init_projection(data, s, &fov);
+				if (fov.y > 0)
 				{
-					draw_param = get_draw_param(data, camera);
-					draw_sprite(data, draw_param, camera.y);
+					draw_param = get_draw_param(data, fov);
+					draw_sprite(data, draw_param, fov.y);
 				}
 			}
 
@@ -51,19 +51,14 @@ void	draw_sprites(t_data *data)
 	}
 }
 
-static void	init_projection(t_data *data, t_sprite *s, t_dco *camera)
+static void	init_projection(t_data *data, t_sprite *s, t_dco *fov)
 {
-	float	inverse_det;
+	double	inverse_det;
 
-	inverse_det = -1.f / (
-			data->map->camera.x * data->map->direction.y
-			- data->map->direction.x * data->map->camera.y);
-	camera->x = inverse_det * (
-			data->map->direction.y * s->rel_pos.x
-			- data->map->direction.x * s->rel_pos.y);
-	camera->y = inverse_det * (
-			-data->map->camera.y * s->rel_pos.x
-			+ data->map->camera.x * s->rel_pos.y);
+
+	inverse_det = -1 / (data->map->fov.x * data->map->direction.y - data->map->direction.x * data->map->fov.y);
+	fov->x = inverse_det * (data->map->direction.y * s->rel_pos.x - data->map->direction.x * s->rel_pos.y);
+	fov->y = inverse_det * (-data->map->fov.y * s->rel_pos.x + data->map->fov.x * s->rel_pos.y);
 }
 
 static t_draw_param	get_draw_param(t_data *data, t_dco camera)
@@ -83,7 +78,7 @@ static t_draw_param	get_draw_param(t_data *data, t_dco camera)
 	return (dp);
 }
 
-void	draw_sprite(t_data *data, t_draw_param dp, const float dist)
+void	draw_sprite(t_data *data, t_draw_param dp, const double dist)
 {
 	dp.screen.x = dp.draw_start.x;
 	if (dp.screen.x < 0)

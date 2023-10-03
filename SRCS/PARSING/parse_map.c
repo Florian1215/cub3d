@@ -37,7 +37,6 @@ t_exit	parse_map(t_map *map)
 	lst_clear(&map->lst);
 	if (map->degre == NO_PLAYER)
 		return (error_msg(map->is_error_msg, ERR_NO_PLAYER));
-	update_direction(map);
 	if (check_close_map(map, map->start_pos) == ERROR)
 		return (error_msg(map->is_error_msg, ERR_MAP_NO_CLOSE));
 	clean_map(map);

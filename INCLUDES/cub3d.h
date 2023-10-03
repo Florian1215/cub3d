@@ -103,7 +103,7 @@ void		draw_line(t_data *data, t_dco p1, t_dco p2, int color);
 
 // PLAYER ---------------------------------------
 void		init_player_position(t_map *map, int y, int x);
-void		update_direction(t_map *map);
+void		update_direction(t_data *dat);
 void		draw_player(t_data *data, t_map *map, t_ico offset);
 double		rotate_degre(double a);
 t_bool		is_look_down(t_data *data);
@@ -258,12 +258,12 @@ struct s_map
 	t_ico			start_omap;
 	t_sprite		*s;
 	t_map			*next;
-
-	t_dco			camera;
+	t_dco			fov;
 };
 
 struct s_data
 {
+	t_dco			fov_value;
 	t_slider		fov;
 	t_slider		lvl;
 	t_menu			menu[BINDS];
@@ -295,5 +295,6 @@ struct s_data
 };
 
 void		init_data(t_data *data);
+void		set_fov(t_data *data);
 
 #endif

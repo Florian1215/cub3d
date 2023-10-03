@@ -27,6 +27,7 @@ void	raycasting(t_data *data)
 	pthread_t		t[MAX_THREAD];
 	int				i;
 
+	update_direction(data);
 	data->i = 0;
 	if (!data->map->is_load_texture)
 		load_texture(data);
@@ -51,7 +52,7 @@ static void	send_rays(t_data *data)
 {
 	int				i;
 	t_raycatsing	r;
-	float			camera_x;
+	double			camera_x;
 
 	while (TRUE)
 	{
@@ -61,9 +62,9 @@ static void	send_rays(t_data *data)
 		pthread_mutex_unlock(&data->mutex_i);
 		if (i >= WIDTH)
 			break ;
-		camera_x = 2.f * (float)i / WIDTH - 1;
+		camera_x = data->fov_value.y * (float)i / WIDTH - 1;
 		init_rays(data, &r, dco_add(data->map->direction, \
-dco_mul(dco_rotate(data->map->direction, PI2), camera_x)), i);
+dco_mul(data->map->fov, camera_x)), i);
 		loop_until_hit_wall(data, &r);
 //		add_sprites_in_rays(data, &r, i);
 		draw_raycasting(data, &r, i);
