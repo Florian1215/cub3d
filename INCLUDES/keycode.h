@@ -64,6 +64,8 @@ enum e_keycode
 	W = 13,
 	S = 1,
 	D = 2,
+	E = 65505,
+	SHIFT = 65505,
 	ESQ = 53,
 	TAB = 48,
 	LEFT_KEY = 123,
