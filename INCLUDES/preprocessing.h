@@ -6,7 +6,7 @@
 /*   By: fguirama <fguirama@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 17:58:00 by fguirama          #+#    #+#             */
-/*   Updated: 2023/07/25 17:58:00 by fguirama         ###   ########lyon.fr   */
+/*   Updated: 2024/08/29 17:09:17 by fguirama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,13 @@
 // DEFINE ---------------------------------------
 # define TITLE					"cub3d"
 # define EXT					".cub"
-# define WIDTH					2400
-# define HEIGHT					1440
-# define HHEIGHT				720
+# define SIZE                   100
+# define WIDTH					2400 * SIZE / 100
+# define HEIGHT					1440 * SIZE / 100
+# define HHEIGHT				HEIGHT / 2
 
-# define MINIMAP_SIZE			600
-# define MINIMAP_OFFSET			40
+# define MINIMAP_SIZE			6 * SIZE
+# define MINIMAP_OFFSET			0.4 * SIZE
 
 # define DEAST					0
 # define DES					45
@@ -65,17 +66,17 @@
 # define MOVE_SPEED				0.07
 # define KEYPRESS				7
 # define BINDS					15
-# define PADX_MENU				12
-# define PADY_FOV				20
-# define MENU_RADIUS			24
-# define PADY_LVL				340
-# define WIDTH_EDIT				230
-# define HEIGHT_EDIT			120
-# define RLOGO					0.2
-# define RSLIDER				0.06
-# define RTITLE					0.15
-# define SIZE_V					5
-# define SIZE_SPRITE			300.f
+# define PADX_MENU				12 * SIZE / 100
+# define PADY_FOV				20 * SIZE / 100
+# define MENU_RADIUS			24 * SIZE / 100
+# define PADY_LVL				340 * SIZE / 100
+# define WIDTH_EDIT				230 * SIZE / 100
+# define HEIGHT_EDIT			120 * SIZE / 100
+# define RLOGO					0.2 * SIZE / 100
+# define RSLIDER				0.06 * SIZE / 100
+# define RTITLE					0.15 * SIZE / 100
+# define SIZE_V					5 * SIZE / 100
+# define SIZE_SPRITE			300.f * SIZE / 100
 
 # define MSG_OPEN_DOOR			"press 'E' to close the door"
 # define MSG_CLOSE_DOOR			"press 'E' to open the door"
