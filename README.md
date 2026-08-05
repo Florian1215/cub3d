@@ -87,9 +87,7 @@ The map must be closed and contain exactly one player.
 
 In the menu, you can select a map with the number keys or by clicking it, and choose FOV and level options with the sliders.
 
-## Screenshots and demos
-
-### Images
+## Screenshots
 
 ![Screenshot 1](.git-medias/img1.png)
 
