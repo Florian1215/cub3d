@@ -12,6 +12,7 @@
 
 # VAR --------------------------------------------------------------------------
 OBJS_DIR		=	.OBJS/
+SIZE			?=	60
 SRCS			=	main.c																																																		\
 					SRCS/animation.c SRCS/door.c SRCS/init.c SRCS/maps.c SRCS/minimap.c SRCS/raycasting.c SRCS/rays.c SRCS/sprite.c																								\
 						SRCS/DRAW/background.c SRCS/DRAW/circle.c SRCS/DRAW/color.c SRCS/DRAW/fov.c SRCS/DRAW/line.c SRCS/DRAW/rectangle.c SRCS/DRAW/render.c SRCS/DRAW/square.c SRCS/DRAW/texture.c SRCS/DRAW/transparency.c	\
@@ -31,7 +32,7 @@ HEAD			=	INCLUDES/
 CC				=	cc
 RM				=	rm -rf
 
-FLAGS			=	-Wall -Wextra -Werror -MMD -MP -O3 -pthread
+FLAGS			=	-Wall -Wextra -Werror -MMD -MP -O3 -pthread -DSIZE=$(SIZE)
 
 MLX_NAME		=	libmlx.a
 

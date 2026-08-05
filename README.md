@@ -32,10 +32,13 @@ Other useful targets:
 
 ```bash
 make run
+make SIZE=80
 make clean
 make fclean
 make re
 ```
+
+`SIZE` controls the window scale as a percentage of the base resolution. The default is `60`, and you can override it when building, for example `make SIZE=80`.
 
 ## Usage
 

@@ -43,7 +43,9 @@
 // DEFINE ---------------------------------------
 # define TITLE					"cub3d"
 # define EXT					".cub"
-# define SIZE                   60
+# ifndef SIZE
+#  define SIZE					60
+# endif
 # define WIDTH					2400 * SIZE / 100
 # define HEIGHT					1440 * SIZE / 100
 # define HHEIGHT				HEIGHT / 2
