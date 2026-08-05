@@ -20,6 +20,11 @@ void	draw_line(t_data *data, t_dco p1, t_dco p2, int color)
 	delta.x = p2.x - p1.x;
 	delta.y = p2.y - p1.y;
 	max = fmax(fabs(delta.x), fabs(delta.y));
+	if (max == 0)
+	{
+		mlx_pixel_put_img(&data->img, (int)p1.x, (int)p1.y, color);
+		return ;
+	}
 	delta.x /= max;
 	delta.y /= max;
 	while (((int)(p1.x - p2.x) || (int)(p1.y - p2.y)))

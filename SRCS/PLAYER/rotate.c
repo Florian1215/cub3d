@@ -17,8 +17,8 @@ void	update_direction(t_data *data)
 	data->map->radian = degre_to_radian(data->map->degre);
 	data->map->direction.x = cos(data->map->radian);
 	data->map->direction.y = sin(data->map->radian);
-	data->map->fov = dco_rotate(data->map->direction, \
-degre_to_radian(data->fov_value.x));
+data->map->fov = dco_mul(dco_rotate(data->map->direction, PI2), \
+	data->fov_value.y);
 }
 
 void	rotate_player(t_data *data)

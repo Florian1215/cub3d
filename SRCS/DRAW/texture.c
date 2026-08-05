@@ -45,6 +45,8 @@ static void	draw_texture(t_data *data, t_raycatsing *r, t_ico lineh, \
 	t_img	*t;
 	t_ico	ct;
 
+	if (lineh.x <= 0 || lineh.y <= 0)
+		return ;
 	t = &data->map->t[r->wall * !r->is_door + DOOR * r->is_door].img;
 	i = 0;
 	while (i < lineh.x)

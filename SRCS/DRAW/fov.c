@@ -30,8 +30,7 @@ void	draw_fov(t_data	*data, t_ico offset)
 void	set_fov(t_data *data)
 {
 	const double	fovs[3] = {105, 90, 75};
-	const double	cameras[3] = {1.6f, 2.0f, 3.0f};
 
 	data->fov_value.x = fovs[data->fov.s - FOV_70];
-	data->fov_value.y = cameras[data->fov.s - FOV_70];
+	data->fov_value.y = tan(degre_to_radian(data->fov_value.x) / 2.0);
 }

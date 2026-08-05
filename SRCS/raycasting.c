@@ -61,7 +61,7 @@ static void	send_rays(t_data *data)
 		pthread_mutex_unlock(&data->mutex_i);
 		if (i >= WIDTH)
 			break ;
-		camera_x = data->fov_value.y * (float)i / WIDTH - 1;
+		camera_x = (2.0 * i / (double)(WIDTH - 1)) - 1.0;
 		init_rays(data, &r, dco_add(data->map->direction, \
 dco_mul(data->map->fov, camera_x)), i);
 		loop_until_hit_wall(data, &r);
@@ -71,17 +71,19 @@ dco_mul(data->map->fov, camera_x)), i);
 
 static void	draw_raycasting(t_data *data, t_raycatsing *r, int i)
 {
-	int		line_height;
+	double	line_height;
 	int		draw_line_height;
 	t_wall	w;
 
 	line_height = HEIGHT / r->distance;
+	if (line_height < 1.0)
+		line_height = 1.0;
 	if (r->is_active && !r->is_open_door)
 		init_door(data, r, FALSE);
 	if (line_height > HEIGHT)
 		draw_line_height = HEIGHT;
 	else
-		draw_line_height = line_height;
+		draw_line_height = (int)line_height;
 	r->line = (t_dco){i, HHEIGHT - draw_line_height / 2};
 	if (r->is_door)
 		w = DOOR;

@@ -82,7 +82,7 @@ static void	init_draw_sprite(t_data *data, t_sprite *s, t_dco fov)
 	s->size.x = SIZE_SPRITE / fov.y;
 	s->size.y = ((double)data->sprite_img.height / data->sprite_img.width) * \
 SIZE_SPRITE / fov.y;
-	s->screen.x = (WIDTH / data->fov_value.y) * (1 + fov.x / fov.y);
+	s->screen.x = (WIDTH / 2.0) * (1 + fov.x / fov.y);
 	s->start.x = s->screen.x - s->size.x / 2;
 	s->end.x = s->screen.x + s->size.x / 2;
 	scale = abs((int)(HEIGHT / fov.y / 3));
