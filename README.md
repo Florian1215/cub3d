@@ -2,7 +2,7 @@
 
 `cub3D` is a 3D raycasting engine built in C with MiniLibX. It renders a first-person maze from a 2D map, handles textured walls, sprites, doors, a minimap, and an in-game menu to switch maps and gameplay options.
 
-![Demo 1](./.img/video.gif)
+![Demo 1](.git-medias/video.gif)
 
 ## Features
 
@@ -91,15 +91,11 @@ In the menu, you can select a map with the number keys or by clicking it, and ch
 
 ### Images
 
-![Screenshot 1](./.img/img1.png)
+![Screenshot 1](.git-medias/img1.png)
 
-![Screenshot 2](./.img/img2.png)
+![Screenshot 2](.git-medias/img2.png)
 
-![Screenshot 3](./.img/img3.png)
-
-### GIF demos
-
-![Demo 2](./.img/video2.gif)
+![Screenshot 3](.git-medias/img3.png)
 
 
 ## Project structure
